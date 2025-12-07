@@ -1,0 +1,146 @@
+const masterService = require('../services/masterService');
+
+exports.createMaster = async (req, res) => {
+  try {
+    const materialData = {
+      materialFlow: req.body.materialFlow,
+      class: req.body.class,
+      category: req.body.category,
+      materialName: req.body.materialName,
+      hsnCode: req.body.hsnCode || '',
+      supplierName: req.body.supplierName || '',
+      supplierCode: req.body.supplierCode || '',
+      cgst: req.body.cgst || '',
+      igst: req.body.igst || '',
+      sgst: req.body.sgst || '',
+      costPerItem: req.body.costPerItem || '',
+      createdBy: req.user ? req.user.uid : null
+    };
+
+    const master = await masterService.create(materialData);
+
+    res.status(201).json({
+      message: 'Material master created successfully',
+      master
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getAllMasters = async (req, res) => {
+  try {
+    const masters = await masterService.getAll();
+    res.status(200).json({
+      message: 'Material masters retrieved successfully',
+      masters
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getMasterById = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(400).json({ message: 'Master ID is required' });
+    }
+
+    const master = await masterService.getById(req.params.id);
+
+    if (!master) {
+      return res.status(404).json({ message: 'Material master not found' });
+    }
+
+    res.status(200).json({
+      message: 'Material master retrieved successfully',
+      master
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.updateMaster = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(400).json({ message: 'Master ID is required' });
+    }
+
+    await masterService.update(req.params.id, req.body);
+
+    res.status(200).json({
+      message: 'Material master updated successfully'
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.deleteMaster = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(400).json({ message: 'Master ID is required' });
+    }
+
+    await masterService.delete(req.params.id);
+
+    res.status(200).json({
+      message: 'Material master deleted successfully'
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.searchMasters = async (req, res) => {
+  try {
+    const filters = {};
+    if (req.query.materialFlow) filters.materialFlow = req.query.materialFlow;
+    if (req.query.class) filters.class = req.query.class;
+    if (req.query.category) filters.category = req.query.category;
+
+    const masters = await masterService.search(filters);
+
+    res.status(200).json({
+      message: 'Material masters retrieved successfully',
+      masters
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.generateMaterialCode = async (req, res) => {
+  try {
+    const materialClass = req.params.class;
+
+    if (!materialClass || !['A', 'B', 'C', 'D', 'F'].includes(materialClass)) {
+      return res.status(400).json({
+        message: 'Invalid class. Must be A, B, C, D, or F'
+      });
+    }
+
+    const materialCode = await masterService.generateMaterialCode(materialClass);
+
+    res.status(200).json({ materialCode });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.archiveMaster = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      return res.status(400).json({ message: 'Master ID is required' });
+    }
+
+    await masterService.archive(req.params.id);
+
+    res.status(200).json({
+      message: 'Material archived successfully'
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

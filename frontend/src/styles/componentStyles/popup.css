@@ -1,0 +1,250 @@
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Popup Container */
+.popup-container {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Close Button */
+.popup-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Popup Header */
+.popup-header {
+  text-align: left;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.popup-icon {
+  margin-bottom: 0.75rem;
+}
+
+.popup-icon.info {
+  color: #2563eb;
+}
+
+.popup-icon.warning {
+  color: #f59e0b;
+}
+
+.popup-icon.danger {
+  color: #ef4444;
+}
+
+.popup-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Popup Content */
+.popup-content {
+  margin-bottom: 1.5rem;
+}
+
+.popup-message {
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0 0 1rem 0;
+}
+
+/* Popup Actions */
+.popup-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.popup-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.popup-btn-cancel {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.popup-btn-cancel:hover {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.popup-btn-confirm {
+  color: white;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.popup-btn-confirm.info {
+  background: #2563eb;
+}
+
+.popup-btn-confirm.info:hover {
+  background: #1d4ed8;
+}
+
+.popup-btn-confirm.warning {
+  background: #f59e0b;
+}
+
+.popup-btn-confirm.warning:hover {
+  background: #d97706;
+}
+
+.popup-btn-confirm.danger {
+  background: #ef4444;
+}
+
+.popup-btn-confirm.danger:hover {
+  background: #dc2626;
+}
+
+.popup-btn:active {
+  transform: scale(0.98);
+}
+
+/* Form styles inside popup */
+.popup-content .form-group {
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+.popup-content .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #0f172a;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.popup-content .form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.popup-content .form-input:focus {
+  outline: none;
+  border-color: #7469B6;
+  box-shadow: 0 0 0 3px rgba(116, 105, 182, 0.1);
+}
+
+/* User info in popup */
+.popup-user-info {
+  background: #f8fafc;
+  padding: 0.875rem 1rem;
+  border-radius: 8px;
+  margin: 0;
+  text-align: center;
+}
+
+.popup-user-name {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 1.05rem;
+}
+
+.popup-user-id {
+  color: #64748b;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .popup-container {
+    padding: 1.5rem;
+    max-width: 95%;
+  }
+
+  .popup-title {
+    font-size: 1.25rem;
+  }
+
+  .popup-actions {
+    flex-direction: column;
+  }
+
+  .popup-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
