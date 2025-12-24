@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
-import { Warehouse } from 'lucide-react';
+import Navbar from '../../components/Navbar';
 import '../../styles/pageStyles/Stock/Master.css';
 
 const Master = ({ isAdmin = false }) => {
   const navigate = useNavigate();
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
   const masterOptions = [
     {
@@ -49,45 +51,34 @@ const Master = ({ isAdmin = false }) => {
   ];
 
   return (
-    <div className="master-container">
-      <Sidebar isAdmin={isAdmin} />
+    <div className="master-wrapper">
+      <Sidebar isAdmin={isAdmin} isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
+      <Navbar 
+        title="Master" 
+        onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} 
+        showCompanyName={sidebarExpanded}
+      />
 
-      <div className="main-content">
-        <div className="content-wrapper">
-          <div className="master-header-top">
-            <div className="master-warehouse-icon">
-              <Warehouse size={24} />
-            </div>
-            <button className="back-btn" onClick={() => navigate('/stock')}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-              </svg>
-              Back to Stock
-            </button>
-            <div style={{ width: '48px' }}></div>
-          </div>
-
-          <div className="master-options-grid">
-            {masterOptions.map((option, index) => (
-              <div
-                key={index}
-                className="master-option-card"
-                onClick={() => navigate(option.path)}
-                style={{ '--card-color': option.color }}
-              >
-                <div className="option-icon">{option.icon}</div>
-                <h3 className="option-title">{option.title}</h3>
-                <p className="option-description">{option.description}</p>
-                <div className="option-arrow">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </div>
+      <div className="master-content">
+        <div className="master-options-grid">
+          {masterOptions.map((option, index) => (
+            <div
+              key={index}
+              className="master-option-card"
+              onClick={() => navigate(option.path)}
+              style={{ '--card-color': option.color }}
+            >
+              <div className="option-icon">{option.icon}</div>
+              <h3 className="option-title">{option.title}</h3>
+              <p className="option-description">{option.description}</p>
+              <div className="option-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

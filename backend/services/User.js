@@ -73,14 +73,26 @@ class UserService {
         });
       });
 
+      // Fetch last login activity for each user
+      const loginActivityService = require('./loginActivityService');
+      const usersWithActivity = await Promise.all(
+        users.map(async (user) => {
+          const lastLogin = await loginActivityService.getLastLogin(user.userId);
+          return {
+            ...user,
+            lastLogin: lastLogin?.timestamp || null
+          };
+        })
+      );
+
       // Sort by createdAt descending
-      users.sort((a, b) => {
+      usersWithActivity.sort((a, b) => {
         const dateA = a.createdAt?.toDate?.() || new Date(a.createdAt || 0);
         const dateB = b.createdAt?.toDate?.() || new Date(b.createdAt || 0);
         return dateB - dateA;
       });
 
-      return users;
+      return usersWithActivity;
     } catch (error) {
       console.error('Error getting all users:', error);
       throw error;

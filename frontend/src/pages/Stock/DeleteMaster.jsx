@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar';
 import '../../styles/pageStyles/Stock/DeleteMaster.css';
 import { useNavigate } from 'react-router-dom';
-import { ArchiveRestore, IndianRupee, Warehouse } from 'lucide-react';
+import { Archive, IndianRupee, Warehouse } from 'lucide-react';
 
 const DeleteMaster = () => {
   const navigate = useNavigate();
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -87,28 +89,19 @@ const DeleteMaster = () => {
 
   return (
     <div className="dm-wrapper">
-      <Sidebar />
-      <div className="dm-content">
+      <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
+      <Navbar 
+        title="Delete Material Master" 
+        onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} 
+        showCompanyName={sidebarExpanded}
+        rightContent={
+          <button className="dm-archive-icon-btn" onClick={() => navigate('/stock/archived-master')} title="View Archived Materials">
+            <Archive size={24} />
+          </button>
+        }
+      />
+      <div className="dm-content page-with-navbar">
         <div className="dm-container">
-          <div className="dm-header">
-            <div className="dm-header-top">
-              <div className="dm-warehouse-icon">
-                <Warehouse size={24} />
-              </div>
-              <button className="dm-back-btn" onClick={() => navigate('/stock/master')}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="19" y1="12" x2="5" y2="12"></line>
-                  <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back
-              </button>
-              <h1 className="dm-title">Delete Material Master</h1>
-              <button className="dm-archive-icon-btn" onClick={() => navigate('/stock/archived-master')} title="View Archived Materials">
-                <ArchiveRestore size={24} />
-              </button>
-            </div>
-          </div>
-
           <div className="dm-main-panel">
             <div className="dm-filter-bar">
               <div className="dm-search-box">

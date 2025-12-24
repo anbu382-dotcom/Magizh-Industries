@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Edit2, User, ShieldCheck, Trash2, Eye, EyeOff } from 'lucide-react';
+import { User, ShieldCheck, Trash2, Eye, EyeOff, UserRoundPen } from 'lucide-react';
 import Popup from './popup';
 import '../styles/componentStyles/UserManagement.css';
 
@@ -33,7 +33,6 @@ const UserManagement = () => {
         throw new Error('No authentication token found');
       }
 
-      console.log('Fetching users...');
       const response = await fetch('http://localhost:5000/api/auth/users', {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -41,15 +40,12 @@ const UserManagement = () => {
         }
       });
 
-      console.log('Response status:', response.status);
-
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || `Failed to fetch users: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log('Fetched users:', data);
 
       // Filter out admin users - only show regular employees
       const employeeUsers = (data.users || []).filter(user => user.role !== 'admin');
@@ -73,7 +69,6 @@ const UserManagement = () => {
         throw new Error('No authentication token found');
       }
 
-      console.log('Fetching requests...');
       const response = await fetch('http://localhost:5000/api/auth/pending-requests', {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -87,7 +82,6 @@ const UserManagement = () => {
       }
 
       const data = await response.json();
-      console.log('Fetched requests:', data);
 
       setRequests(data.requests || []);
       setRequestsLoading(false);
@@ -436,13 +430,13 @@ const UserManagement = () => {
                         </span>
                       </td>
                       <td>
-                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                        <div className="action-buttons-container">
                           <button
-                            className="action-btn-edit"
+                            className="action-btn-change-password"
                             onClick={() => handleEditClick(user)}
                             title="Change Password"
                           >
-                            <Edit2 size={18} />
+                            <UserRoundPen size={18} />
                           </button>
                           <button
                             className="action-btn-delete"

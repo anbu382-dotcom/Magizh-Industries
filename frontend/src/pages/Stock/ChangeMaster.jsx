@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar';
 import '../../styles/pageStyles/Stock/ChangeMaster.css';
 import { useNavigate } from 'react-router-dom';
 import { IndianRupee, Warehouse } from 'lucide-react';
@@ -12,6 +13,7 @@ const ChangeMaster = () => {
   const [filterType, setFilterType] = useState('all');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [formData, setFormData] = useState({
     materialFlow: '',
     class: '',
@@ -24,6 +26,7 @@ const ChangeMaster = () => {
     igst: '',
     sgst: '',
     costPerItem: '',
+    unit: '',
     materialCode: ''
   });
 
@@ -88,6 +91,7 @@ const ChangeMaster = () => {
       igst: material.igst || '',
       sgst: material.sgst || '',
       costPerItem: material.costPerItem || '',
+      unit: material.unit || '',
       materialCode: material.materialCode || ''
     });
     setIsEditModalOpen(true);
@@ -198,6 +202,7 @@ const ChangeMaster = () => {
       igst: '',
       sgst: '',
       costPerItem: '',
+      unit: '',
       materialCode: ''
     });
 
@@ -250,26 +255,10 @@ const ChangeMaster = () => {
 
   return (
     <div className="cm-wrapper">
-      <Sidebar />
-      <div className="cm-content">
+      <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
+      <Navbar title="Change Material Master" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
+      <div className="cm-content page-with-navbar">
         <div className="cm-container">
-          <div className="cm-header">
-            <div className="cm-header-top">
-              <div className="cm-warehouse-icon">
-                <Warehouse size={24} />
-              </div>
-              <button className="cm-back-btn" onClick={() => navigate('/stock/master')}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="19" y1="12" x2="5" y2="12"></line>
-                  <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back
-              </button>
-              <h1 className="cm-title">Change Material Master</h1>
-              <div style={{ width: '48px' }}></div>
-            </div>
-          </div>
-
           <div className="cm-main-panel">
             <div className="cm-filter-bar">
               <div className="cm-search-box">
@@ -545,6 +534,20 @@ const ChangeMaster = () => {
                             placeholder="Enter cost"
                           />
                         </div>
+                      </div>
+
+                      <div className="cm-form-group">
+                        <label>Unit</label>
+                        <select
+                          name="unit"
+                          value={formData.unit}
+                          onChange={handleInputChange}
+                        >
+                          <option value="" disabled hidden>Select unit</option>
+                          <option value="EA">EA (Each)</option>
+                          <option value="KG">KG (Kilogram)</option>
+                          <option value="M">M (Meter)</option>
+                        </select>
                       </div>
                     </div>
                   </div>

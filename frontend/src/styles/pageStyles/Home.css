@@ -11,20 +11,26 @@
   display: flex;
   min-height: 100vh;
   background: linear-gradient(135deg, var(--bg-light) 0%, #fff 100%);
+  position: relative;
 }
 
 /* Main Content Area */
 .home-container .main-content {
   flex: 1;
-  margin-left: 70px;
-  padding: 2rem;
+  margin-left: 0;
+  padding: 0;
   transition: margin-left 0.3s ease;
   overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .home-container .content-wrapper {
   max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 5rem 2.5rem 2.5rem 2.5rem;
   animation: fadeIn 0.6s ease;
 }
 
@@ -57,8 +63,8 @@
 }
 
 .management-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 48px rgba(116, 105, 182, 0.18);
+  box-shadow: 0 12px 48px rgba(116, 105, 182, 0.25);
+  border-color: var(--primary-purple);
 }
 
 .card-icon-large {
@@ -133,8 +139,7 @@
 
 .management-btn:hover {
   border-color: var(--primary-light);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(116, 105, 182, 0.25);
+  box-shadow: 0 8px 24px rgba(116, 105, 182, 0.3);
 }
 
 .management-btn > * {
@@ -562,254 +567,6 @@
   letter-spacing: 0.5px;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .home-container .main-content {
-    margin-left: 70px;
-  }
-
-  .management-card {
-    padding: 40px;
-    max-width: 800px;
-  }
-}
-
-@media (max-width: 768px) {
-  .home-container .main-content {
-    margin-left: 0;
-    padding: 0;
-  }
-
-  .content-wrapper {
-    padding: 1rem;
-  }
-
-  .welcome-header {
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 16px;
-  }
-
-  .management-card {
-    padding: 30px 20px;
-  }
-
-  .card-icon-large {
-    width: 80px;
-    height: 80px;
-  }
-
-  .card-icon-large svg {
-    width: 48px;
-    height: 48px;
-  }
-
-  .card-title-large {
-    font-size: 24px;
-  }
-
-  .card-description-large {
-    font-size: 14px;
-  }
-
-  .card-buttons {
-    flex-direction: column;
-  }
-
-  .management-btn {
-    min-width: 100%;
-  }
-
-  .tab-title {
-    font-size: 22px;
-  }
-
-  .requests-list,
-  .users-list {
-    max-height: 400px;
-  }
-
-  .request-item-simple {
-    padding: 16px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .request-info-simple h4 {
-    font-size: 16px;
-  }
-
-  .request-info-simple p {
-    font-size: 13px;
-  }
-
-  .request-actions-simple {
-    width: 100%;
-    justify-content: flex-end;
-  }
-
-  .approve-btn-simple,
-  .decline-btn-simple {
-    width: 44px;
-    height: 44px;
-  }
-
-  .request-item,
-  .user-item-inline {
-    padding: 12px;
-  }
-
-  .request-header,
-  .user-info-inline h4 {
-    font-size: 14px;
-  }
-
-  .request-details {
-    padding: 10px;
-  }
-
-  .detail-row {
-    font-size: 13px;
-  }
-
-  .request-actions {
-    flex-direction: column;
-  }
-
-  .approve-btn-inline,
-  .decline-btn-inline {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-container .main-content {
-    padding: 0;
-  }
-
-  .content-wrapper {
-    max-width: 100%;
-    padding: 0.75rem;
-  }
-
-  .welcome-header {
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-    border-radius: 12px;
-  }
-
-  .management-card {
-    padding: 20px 15px;
-    border-radius: 12px;
-  }
-
-  .card-icon-large {
-    width: 60px;
-    height: 60px;
-  }
-
-  .card-icon-large svg {
-    width: 36px;
-    height: 36px;
-  }
-
-  .card-title-large {
-    font-size: 20px;
-  }
-
-  .card-description-large {
-    font-size: 13px;
-  }
-
-  .management-btn {
-    padding: 18px 20px;
-    font-size: 14px;
-  }
-
-  .btn-title {
-    font-size: 16px;
-  }
-
-  .btn-subtitle {
-    font-size: 12px;
-  }
-
-  .back-btn-inline {
-    font-size: 13px;
-    padding: 8px 16px;
-  }
-
-  .tab-title {
-    font-size: 20px;
-  }
-
-  .requests-list,
-  .users-list {
-    max-height: 350px;
-  }
-
-  .request-item-simple {
-    padding: 14px;
-  }
-
-  .request-info-simple h4 {
-    font-size: 15px;
-  }
-
-  .request-info-simple p {
-    font-size: 12px;
-  }
-
-  .approve-btn-simple,
-  .decline-btn-simple {
-    width: 40px;
-    height: 40px;
-  }
-
-  .approve-btn-simple svg,
-  .decline-btn-simple svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .request-avatar,
-  .user-avatar-inline {
-    width: 40px;
-    height: 40px;
-  }
-
-  .request-avatar svg,
-  .user-avatar-inline svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .request-info h4,
-  .user-info-inline h4 {
-    font-size: 14px;
-  }
-
-  .request-info p,
-  .user-details-inline {
-    font-size: 12px;
-  }
-
-  .detail-row {
-    font-size: 12px;
-  }
-
-  .approve-btn-inline,
-  .decline-btn-inline {
-    padding: 8px 12px;
-    font-size: 13px;
-  }
-
-  .status-badge-inline {
-    font-size: 10px;
-    padding: 4px 10px;
-  }
-}
-
 /* Animations */
 @keyframes slideUp {
   from {
@@ -841,8 +598,8 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 3rem;
-  padding: 2rem;
+  margin: 0 0 2rem 0;
+  padding: 2rem 2.5rem;
   background: white;
   border-radius: 24px;
   box-shadow: 0 8px 32px rgba(116, 105, 182, 0.12);
@@ -856,24 +613,26 @@
 }
 
 .greeting-title {
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   font-weight: 800;
   color: var(--primary-purple);
   margin: 0 0 0.5rem 0;
   font-family: 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.2;
 }
 
 .greeting-subtitle {
   font-size: 1.125rem;
   color: #666;
   margin: 0;
+  font-weight: 400;
 }
 
 .user-badge {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.75rem;
   background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-light) 100%);
   border-radius: 16px;
   color: white;
@@ -893,7 +652,7 @@
 .badge-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .badge-label {
@@ -931,8 +690,8 @@
 }
 
 .dashboard-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 48px rgba(116, 105, 182, 0.2);
+  box-shadow: 0 16px 48px rgba(116, 105, 182, 0.3);
+  border-color: var(--primary-purple);
 }
 
 .card-icon {
@@ -1031,40 +790,281 @@
   color: var(--primary-purple);
 }
 
-/* Responsive for Employee Welcome */
-@media (max-width: 768px) {
+/* ===========================
+   RESPONSIVE MEDIA QUERIES
+   =========================== */
+
+/* Large Tablets and Small Desktops (1024px - 1200px) */
+@media screen and (max-width: 1200px) {
   .home-container .content-wrapper {
-    padding-top: 0 !important;
+    padding: 1rem 2rem 2rem 2rem;
+  }
+
+  .management-card {
+    padding: 40px;
+  }
+
+  .card-icon-large {
+    width: 90px;
+    height: 90px;
+  }
+
+  .card-title-large {
+    font-size: 28px;
+  }
+
+  .management-btn {
+    min-width: 250px;
+    padding: 20px 24px;
+  }
+}
+
+/* Tablet Landscape (900px - 1024px) */
+@media screen and (max-width: 1024px) {
+  .home-container .main-content {
+    margin-left: 0;
+  }
+
+  .home-container .content-wrapper {
+    padding: 1rem 1.5rem 2rem 3rem;
   }
 
   .welcome-header {
-    flex-direction: column;
-    gap: 1.5rem;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    padding: 1.25rem;
-    border-radius: 16px;
+    margin-left: 3.5rem;
+  }
+
+  .management-card {
+    padding: 35px 30px;
+  }
+
+  .card-icon-large {
+    width: 80px;
+    height: 80px;
+  }
+
+  .card-title-large {
+    font-size: 26px;
+  }
+
+  .card-description-large {
+    font-size: 15px;
+  }
+
+  .management-btn {
+    min-width: 220px;
+    padding: 18px 20px;
+    gap: 12px;
+  }
+
+  .btn-title {
+    font-size: 16px;
+  }
+
+  .btn-subtitle {
+    font-size: 13px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
   }
 
   .greeting-title {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
 
   .greeting-subtitle {
     font-size: 1rem;
   }
+}
+
+/* Tablet Portrait (768px - 900px) */
+@media screen and (max-width: 900px) {
+  .home-container .main-content {
+    margin-left: 0;
+  }
+
+  .home-container .content-wrapper {
+    padding: 4rem 1.25rem 1.5rem 1.25rem;
+  }
+
+  .welcome-header {
+    margin-left: 0;
+  }
+
+  .management-card {
+    padding: 30px 25px;
+    max-width: 100%;
+    border-radius: 20px;
+  }
+
+  .card-icon-large {
+    width: 70px;
+    height: 70px;
+  }
+
+  .card-title-large {
+    font-size: 24px;
+  }
+
+  .card-description-large {
+    font-size: 14px;
+  }
+
+  .card-buttons {
+    gap: 15px;
+  }
+
+  .management-btn {
+    min-width: 100%;
+    padding: 18px 20px;
+  }
+
+  .tab-title {
+    font-size: 24px;
+  }
+
+  .welcome-header {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.75rem 2rem;
+  }
 
   .user-badge {
-    width: 100%;
-    padding: 0.875rem 1.25rem;
+    align-self: flex-start;
+  }
+
+  .greeting-title {
+    font-size: 1.85rem;
   }
 
   .dashboard-cards {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 
   .dashboard-card {
     padding: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .card-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .requests-list,
+  .users-list {
+    max-height: 400px;
+  }
+}
+
+/* Mobile Landscape (576px - 767px) */
+@media screen and (max-width: 767px) {
+  .home-container .content-wrapper {
+    padding: 0.75rem 1rem 1.25rem 1rem;
+  }
+
+  .welcome-header {
+    margin-left: 4rem;
+  }
+
+  .management-card {
+    padding: 25px 20px;
+    border-radius: 16px;
+  }
+
+  .card-icon-large {
+    width: 60px;
+    height: 60px;
+  }
+
+  .card-icon-large svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .card-title-large {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .card-description-large {
+    font-size: 13px;
+  }
+
+  .card-buttons {
+    gap: 12px;
+  }
+
+  .management-btn {
+    padding: 16px 18px;
+    border-radius: 12px;
+    gap: 10px;
+  }
+
+  .management-btn svg:first-child {
+    width: 20px;
+    height: 20px;
+  }
+
+  .btn-title {
+    font-size: 15px;
+  }
+
+  .btn-subtitle {
+    font-size: 12px;
+  }
+
+  .arrow-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .back-btn-inline {
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .tab-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  .welcome-header {
+    padding: 1.5rem 1.5rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+  }
+
+  .greeting-title {
+    font-size: 1.65rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .greeting-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .user-badge {
+    padding: 0.875rem 1.5rem;
+    gap: 0.875rem;
+  }
+
+  .badge-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .badge-value {
+    font-size: 1.125rem;
+  }
+
+  .dashboard-card {
+    padding: 1.25rem;
+    border-radius: 16px;
+    gap: 1rem;
   }
 
   .card-icon {
@@ -1072,60 +1072,434 @@
     height: 56px;
   }
 
+  .card-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
   .card-title {
     font-size: 1.125rem;
   }
 
-  .profile-details {
-    grid-template-columns: 1fr;
+  .card-description {
+    font-size: 0.875rem;
   }
 
-  .um-container {
-    margin-top: 0;
+  .request-item-simple {
+    padding: 12px;
+    border-radius: 10px;
+    gap: 10px;
+  }
+
+  .request-info-simple h4 {
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+
+  .request-info-simple p {
+    font-size: 12px;
+  }
+
+  .approve-btn-simple,
+  .decline-btn-simple {
+    width: 38px;
+    height: 38px;
+  }
+
+  .approve-btn-simple svg,
+  .decline-btn-simple svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .info-card {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .info-card h3 {
+    font-size: 1.35rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .profile-details {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .detail-value {
+    font-size: 1rem;
   }
 }
 
-@media (max-width: 480px) {
+/* Mobile Portrait (375px - 575px) */
+@media screen and (max-width: 575px) {
   .home-container .content-wrapper {
-    padding-top: 0 !important;
+    padding: 4.5rem 0.5rem 1rem 0.5rem;
   }
 
   .welcome-header {
-    padding: 1rem;
-    margin-bottom: 0.875rem;
-    border-radius: 12px;
+    margin-left: 0;
+    margin-bottom: 1.25rem;
+  }
+
+  .management-card {
+    padding: 20px 15px;
+    border-radius: 14px;
+    gap: 20px;
+  }
+
+  .card-icon-large {
+    width: 55px;
+    height: 55px;
+    border-radius: 16px;
+  }
+
+  .card-icon-large svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .card-title-large {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .card-description-large {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .card-buttons {
+    gap: 10px;
+  }
+
+  .management-btn {
+    padding: 14px 16px;
+    border-radius: 10px;
+    gap: 8px;
+  }
+
+  .management-btn svg:first-child {
+    width: 18px;
+    height: 18px;
+  }
+
+  .btn-title {
+    font-size: 14px;
+  }
+
+  .btn-subtitle {
+    font-size: 11px;
+  }
+
+  .arrow-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .back-btn-inline {
+    padding: 7px 14px;
+    font-size: 12px;
+    border-radius: 8px;
+    gap: 6px;
+  }
+
+  .back-btn-inline svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .tab-title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .welcome-header {
+    padding: 1.25rem 1.25rem;
+    border-radius: 16px;
+    margin-bottom: 1.25rem;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .greeting-title {
     font-size: 1.5rem;
+    margin-bottom: 0.35rem;
   }
 
   .greeting-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 
   .user-badge {
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1.25rem;
+    gap: 0.75rem;
+    border-radius: 12px;
   }
 
   .badge-icon {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+
+  .badge-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .badge-label {
+    font-size: 0.7rem;
   }
 
   .badge-value {
     font-size: 1rem;
   }
 
+  .dashboard-cards {
+    gap: 1rem;
+  }
+
+  .dashboard-card {
+    padding: 1rem;
+    border-radius: 14px;
+    gap: 0.875rem;
+  }
+
+  .card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+  }
+
+  .card-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .card-description {
+    font-size: 0.8rem;
+  }
+
+  .requests-list,
+  .users-list {
+    max-height: 280px;
+    gap: 8px;
+  }
+
+  .request-item-simple {
+    padding: 8px;
+    border-radius: 8px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .request-info-simple {
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .request-info-simple h4 {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+
+  .request-info-simple p {
+    font-size: 10px;
+  }
+
+  .request-actions-simple {
+    gap: 5px;
+  }
+
+  .approve-btn-simple,
+  .decline-btn-simple {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+  }
+
+  .approve-btn-simple svg,
+  .decline-btn-simple svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .user-item-inline {
+    padding: 8px;
+    border-radius: 8px;
+    gap: 6px;
+  }
+
+  .user-avatar-inline {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+
+  .user-avatar-inline svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .user-info-inline h4 {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+
+  .user-details-inline {
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  .status-badge-inline {
+    padding: 3px 8px;
+    font-size: 9px;
+  }
+
   .info-card {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    border-radius: 14px;
   }
 
   .info-card h3 {
     font-size: 1.25rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.875rem;
   }
 
-  .um-container {
-    margin-top: 0;
+  .profile-details {
+    gap: 0.875rem;
+  }
+
+  .detail-label {
+    font-size: 0.75rem;
+  }
+
+  .detail-value {
+    font-size: 0.95rem;
+  }
+
+  .no-data {
+    padding: 40px 15px;
+    gap: 12px;
+  }
+
+  .no-data svg {
+    width: 50px;
+    height: 50px;
+  }
+
+  .no-data p {
+    font-size: 14px;
+  }
+}
+
+/* Extra Small Mobile (320px - 374px) */
+@media screen and (max-width: 374px) {
+  .home-container .content-wrapper {
+    padding: 4.5rem 0.5rem 0.875rem 0.5rem;
+  }
+
+  .welcome-header {
+    margin-left: 0;
+  }
+
+  .management-card {
+    padding: 18px 12px;
+    gap: 18px;
+  }
+
+  .card-icon-large {
+    width: 50px;
+    height: 50px;
+  }
+
+  .card-icon-large svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .card-title-large {
+    font-size: 18px;
+  }
+
+  .card-description-large {
+    font-size: 11px;
+  }
+
+  .management-btn {
+    padding: 12px 14px;
+    min-width: 100%;
+  }
+
+  .btn-title {
+    font-size: 13px;
+  }
+
+  .btn-subtitle {
+    font-size: 10px;
+  }
+
+  .greeting-title {
+    font-size: 1.35rem;
+  }
+
+  .greeting-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .welcome-header {
+    padding: 1rem;
+  }
+
+  .user-badge {
+    padding: 0.65rem 1rem;
+  }
+
+  .badge-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .badge-value {
+    font-size: 0.95rem;
+  }
+
+  .card-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .card-title {
+    font-size: 0.95rem;
+  }
+
+  .card-description {
+    font-size: 0.75rem;
+  }
+
+  .request-info-simple {
+    min-width: 150px;
+  }
+
+  .request-info-simple h4 {
+    font-size: 14px;
+  }
+
+  .request-info-simple p {
+    font-size: 11px;
+  }
+
+  .approve-btn-simple,
+  .decline-btn-simple {
+    width: 38px;
+    height: 38px;
   }
 }

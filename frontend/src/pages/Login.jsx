@@ -29,6 +29,7 @@ const AuthPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    const startTime = Date.now();
 
     if(isLogin) {
         // Login API logic
@@ -51,22 +52,37 @@ const AuthPage = () => {
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
 
-            console.log('Login successful:', data.user);
-            navigate('/home');
+            // Ensure loader shows for at least 3 seconds
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = Math.max(0, 3000 - elapsedTime);
+            
+            setTimeout(() => {
+              navigate('/home');
+            }, remainingTime);
           } else {
-            setIsLoading(false);
-            alert(data.message || 'Invalid credentials. Please try again.');
+            // Ensure loader shows for at least 3 seconds
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = Math.max(0, 3000 - elapsedTime);
+            
+            setTimeout(() => {
+              setIsLoading(false);
+              alert(data.message || 'Invalid credentials. Please try again.');
+            }, remainingTime);
           }
         } catch (error) {
-          setIsLoading(false);
-          console.error('Login error:', error);
-          alert('Login failed. Please check your connection and try again.');
+          // Ensure loader shows for at least 3 seconds
+          const elapsedTime = Date.now() - startTime;
+          const remainingTime = Math.max(0, 3000 - elapsedTime);
+          
+          setTimeout(() => {
+            setIsLoading(false);
+            console.error('Login error:', error);
+            alert('Login failed. Please check your connection and try again.');
+          }, remainingTime);
         }
     } else {
         // Registration API logic
         try {
-          console.log('Submitting registration:', regData);
-
           const response = await fetch('http://localhost:5000/api/auth/register-request', {
             method: 'POST',
             headers: {
@@ -76,44 +92,61 @@ const AuthPage = () => {
           });
 
           const data = await response.json();
-          console.log('Server response:', data);
 
           if (response.ok) {
-            setIsLoading(false);
-            setShowSuccess(true);
-            setRegData({
-              firstName: '',
-              lastName: '',
-              email: '',
-              fatherName: '',
-              dob: ''
-            });
-
+            // Ensure loader shows for at least 3 seconds
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = Math.max(0, 3000 - elapsedTime);
+            
             setTimeout(() => {
-              setShowSuccess(false);
-              setIsLogin(true);
-            }, 4000);
-          } else {
-            setIsLoading(false);
-            console.error('Registration failed:', data);
+              setIsLoading(false);
+              setShowSuccess(true);
+              setRegData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                fatherName: '',
+                dob: ''
+              });
 
-            // Handle specific error cases
-            if (data.status === 'already_requested') {
-              alert('⚠️ Request Already Submitted\n\n' + data.message);
-            } else if (data.status === 'already_exists') {
-              alert('⚠️ Account Already Exists\n\n' + data.message);
-              // Optionally switch to login view
-              setTimeout(() => setIsLogin(true), 2000);
-            } else if (data.status === 'rejected') {
-              alert('❌ Previous Request Rejected\n\n' + data.message);
-            } else {
-              alert(data.message || 'Failed to send registration request. Please try again.');
-            }
+              setTimeout(() => {
+                setShowSuccess(false);
+                setIsLogin(true);
+              }, 4000);
+            }, remainingTime);
+          } else {
+            // Ensure loader shows for at least 3 seconds
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = Math.max(0, 3000 - elapsedTime);
+            
+            setTimeout(() => {
+              setIsLoading(false);
+              console.error('Registration failed:', data);
+
+              // Handle specific error cases
+              if (data.status === 'already_requested') {
+                alert('⚠️ Request Already Submitted\n\n' + data.message);
+              } else if (data.status === 'already_exists') {
+                alert('⚠️ Account Already Exists\n\n' + data.message);
+                // Optionally switch to login view
+                setTimeout(() => setIsLogin(true), 2000);
+              } else if (data.status === 'rejected') {
+                alert('❌ Previous Request Rejected\n\n' + data.message);
+              } else {
+                alert(data.message || 'Failed to send registration request. Please try again.');
+              }
+            }, remainingTime);
           }
         } catch (error) {
-          setIsLoading(false);
-          console.error('Registration error:', error);
-          alert('Failed to send registration request. Please check your connection and try again.');
+          // Ensure loader shows for at least 3 seconds
+          const elapsedTime = Date.now() - startTime;
+          const remainingTime = Math.max(0, 3000 - elapsedTime);
+          
+          setTimeout(() => {
+            setIsLoading(false);
+            console.error('Registration error:', error);
+            alert('Failed to send registration request. Please check your connection and try again.');
+          }, remainingTime);
         }
     }
   };

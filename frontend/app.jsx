@@ -12,6 +12,8 @@ import Entry from './src/pages/Stock/Entry.jsx';
 import EntryStock from './src/pages/Stock/EntryStock.jsx';
 import Report from './src/pages/Stock/Report.jsx';
 import Dispatch from './src/pages/Stock/Dispatch.jsx';
+import LogTable from './src/pages/Stock/LogTable.jsx';
+import FinalData from './src/pages/Stock/FinalData.jsx';
 
 // Helper function to decode JWT and get user role
 const getUserRole = () => {
@@ -149,6 +151,22 @@ function App() {
           element={
             <ProtectedRoute>
               <Dispatch isAdmin={isAdmin} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/stock/log"
+          element={
+            <ProtectedRoute>
+              <LogTable isAdmin={isAdmin} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/stock/final-data"
+          element={
+            <ProtectedRoute>
+              <FinalData isAdmin={isAdmin} />
             </ProtectedRoute>
           }
         />

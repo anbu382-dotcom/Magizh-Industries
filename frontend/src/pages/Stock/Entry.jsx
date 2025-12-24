@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar';
 import '../../styles/pageStyles/Stock/DeleteMaster.css';
 import { useNavigate } from 'react-router-dom';
 import { IndianRupee, Warehouse } from 'lucide-react';
@@ -12,6 +13,11 @@ const Entry = () => {
   const [filterType, setFilterType] = useState('all');
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
+
+  const handleMenuClick = () => {
+    setSidebarExpanded(!sidebarExpanded);
+  };
 
   useEffect(() => {
     fetchMaterials();
@@ -66,33 +72,16 @@ const Entry = () => {
 
   const handleConfirmSelect = async () => {
     // TODO: Implement entry logic here
-    console.log('Selected material for entry:', selectedMaterial);
     alert('Material selected for entry. Entry form will be implemented next.');
     handleCloseModal();
   };
 
   return (
     <div className="dm-wrapper">
-      <Sidebar />
-      <div className="dm-content">
+      <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
+      <Navbar title="Material Entry" onMenuClick={handleMenuClick} />
+      <div className="dm-content page-with-navbar">
         <div className="dm-container">
-          <div className="dm-header">
-            <div className="dm-header-top">
-              <div className="dm-warehouse-icon">
-                <Warehouse size={24} />
-              </div>
-              <button className="dm-back-btn" onClick={() => navigate('/stock')}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="19" y1="12" x2="5" y2="12"></line>
-                  <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back
-              </button>
-              <h1 className="dm-title">Stock Entry</h1>
-              <div style={{ width: '48px' }}></div>
-            </div>
-          </div>
-
           <div className="dm-main-panel">
             <div className="dm-filter-bar">
               <div className="dm-search-box">
@@ -148,7 +137,7 @@ const Entry = () => {
             ) : (
               <div className="dm-grid">
                 {filteredMaterials.map((material) => (
-                  <div key={material.id} className="dm-card">
+                  <div key={material.id} className="dm-card entry-card">
                     <div className="dm-card-header">
                       <span className="dm-code-badge">{material.materialCode || 'N/A'}</span>
                       <span className={`dm-flow-badge dm-flow-${material.materialFlow?.toLowerCase()}`}>

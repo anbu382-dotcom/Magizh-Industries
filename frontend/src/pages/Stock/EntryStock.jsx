@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar';
 import '../../styles/pageStyles/Stock/EntryStock.css';
 
 const EntryStock = () => {
@@ -10,27 +11,73 @@ const EntryStock = () => {
 
   const [formData, setFormData] = useState({
     quantity: '',
-    unit: '',
     entryType: ''
   });
 
   const [errors, setErrors] = useState({
     quantity: false,
-    unit: false,
     entryType: false
   });
 
   const [showRequiredError, setShowRequiredError] = useState(false);
+  const [showInsufficientStockError, setShowInsufficientStockError] = useState(false);
+  const [currentBalance, setCurrentBalance] = useState(0);
+  const [loadingBalance, setLoadingBalance] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
   // Store the original decimal value when switching between units
   const [originalQuantity, setOriginalQuantity] = useState('');
+
+  const handleMenuClick = () => {
+    setSidebarExpanded(!sidebarExpanded);
+  };
 
   // Redirect if no material data
   useEffect(() => {
     if (!material) {
       navigate('/stock/entry');
+    } else {
+      fetchCurrentBalance();
     }
   }, [material, navigate]);
+
+  const fetchCurrentBalance = async () => {
+    if (!material) return;
+    
+    setLoadingBalance(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/api/stock/entries', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const entries = data.data || [];
+        
+        // Calculate balance for this material
+        let balance = 0;
+        entries.forEach(entry => {
+          if (entry.materialCode === material.materialCode) {
+            if (entry.entryType === 'Credit') {
+              balance += parseFloat(entry.quantity || 0);
+            } else if (entry.entryType === 'Debit') {
+              balance -= parseFloat(entry.quantity || 0);
+            }
+          }
+        });
+        
+        setCurrentBalance(balance);
+      }
+    } catch (error) {
+      console.error('Error fetching current balance:', error);
+    } finally {
+      setLoadingBalance(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,7 +97,7 @@ const EntryStock = () => {
       setOriginalQuantity(value);
 
       // If unit is EA, round to integer
-      if (formData.unit === 'EA' && value !== '') {
+      if (material.unit === 'EA' && value !== '') {
         const roundedValue = Math.round(parseFloat(value)).toString();
         setFormData(prev => ({
           ...prev,
@@ -61,38 +108,6 @@ const EntryStock = () => {
           ...prev,
           quantity: value
         }));
-      }
-    } else if (name === 'unit') {
-      // Handle unit change
-      if (value === 'EA') {
-        // When switching to EA, round the quantity to integer
-        if (formData.quantity !== '') {
-          const roundedValue = Math.round(parseFloat(formData.quantity)).toString();
-          setFormData(prev => ({
-            ...prev,
-            unit: value,
-            quantity: roundedValue
-          }));
-        } else {
-          setFormData(prev => ({
-            ...prev,
-            unit: value
-          }));
-        }
-      } else {
-        // When switching from EA to KG/M, restore original decimal value
-        if (originalQuantity !== '' && formData.unit === 'EA') {
-          setFormData(prev => ({
-            ...prev,
-            unit: value,
-            quantity: originalQuantity
-          }));
-        } else {
-          setFormData(prev => ({
-            ...prev,
-            unit: value
-          }));
-        }
       }
     } else {
       setFormData(prev => ({
@@ -106,23 +121,47 @@ const EntryStock = () => {
       ...prev,
       [name]: false
     }));
+
+    // Check for insufficient stock when entryType is Debit or quantity changes
+    if (name === 'entryType' && value === 'Debit') {
+      const qty = parseFloat(formData.quantity) || 0;
+      if (qty > currentBalance) {
+        setShowInsufficientStockError(true);
+      } else {
+        setShowInsufficientStockError(false);
+      }
+    } else if (name === 'quantity' && formData.entryType === 'Debit') {
+      const qty = parseFloat(value) || 0;
+      if (qty > currentBalance) {
+        setShowInsufficientStockError(true);
+      } else {
+        setShowInsufficientStockError(false);
+      }
+    } else if (name === 'entryType' && value !== 'Debit') {
+      setShowInsufficientStockError(false);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check if required fields are empty
-    if (!formData.quantity || !formData.unit || !formData.entryType) {
+    if (!formData.quantity || !formData.entryType) {
       setShowRequiredError(true);
       setErrors({
         quantity: !formData.quantity,
-        unit: !formData.unit,
         entryType: !formData.entryType
       });
       return;
     }
 
     setShowRequiredError(false);
+
+    // Check for insufficient stock on Debit
+    if (formData.entryType === 'Debit' && parseFloat(formData.quantity) > currentBalance) {
+      setShowInsufficientStockError(true);
+      return;
+    }
 
     // Prepare entry data
     const entryData = {
@@ -131,7 +170,7 @@ const EntryStock = () => {
       supplierCode: material.supplierCode,
       materialFlow: material.materialFlow,
       quantity: parseFloat(formData.quantity),
-      unit: formData.unit,
+      unit: material.unit,
       entryType: formData.entryType,
       timestamp: new Date().toISOString()
     };
@@ -170,24 +209,10 @@ const EntryStock = () => {
 
   return (
     <div className="es-wrapper">
-      <Sidebar />
-      <div className="es-content">
+      <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
+      <Navbar title="Stock Entry" onMenuClick={handleMenuClick} />
+      <div className="es-content page-with-navbar">
         <div className="es-container">
-          <div className="es-header">
-            <div className="es-header-top">
-              <button className="es-back-btn" onClick={handleCancel}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="19" y1="12" x2="5" y2="12"></line>
-                  <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back
-              </button>
-              <h1 className="es-title">Stock Entry</h1>
-              <div style={{ width: '48px' }}></div>
-            </div>
-            <p className="es-subtitle">Add stock entry for selected material</p>
-          </div>
-
           <div className="es-main-panel">
             <form onSubmit={handleSubmit} className="es-form">
               <div className="es-form-section">
@@ -243,7 +268,7 @@ const EntryStock = () => {
 
                 <div className="es-form-row">
                   <div className="es-form-group">
-                    <label htmlFor="quantity">Quantity <span className="es-required">*</span></label>
+                    <label htmlFor="quantity">Quantity ({material.unit === 'EA' ? 'EA (Each)' : material.unit === 'KG' ? 'KG (Kilogram)' : material.unit === 'M' ? 'M (Meter)' : 'units'}) <span className="es-required">*</span></label>
                     <input
                       type="text"
                       id="quantity"
@@ -257,37 +282,20 @@ const EntryStock = () => {
                   </div>
 
                   <div className="es-form-group">
-                    <label htmlFor="unit">Unit <span className="es-required">*</span></label>
+                    <label htmlFor="entryType">Entry Type <span className="es-required">*</span></label>
                     <select
-                      id="unit"
-                      name="unit"
-                      value={formData.unit}
+                      id="entryType"
+                      name="entryType"
+                      value={formData.entryType}
                       onChange={handleChange}
                       required
-                      className={`${errors.unit ? 'es-error-input' : ''}`}
+                      className={`${errors.entryType ? 'es-error-input' : ''}`}
                     >
-                      <option value="" disabled hidden>Select unit</option>
-                      <option value="EA">EA (Each)</option>
-                      <option value="KG">KG (Kilogram)</option>
-                      <option value="M">M (Meter)</option>
+                      <option value="" disabled hidden>Select entry type</option>
+                      <option value="Credit">Credit (Stock In)</option>
+                      <option value="Debit">Debit (Stock Out)</option>
                     </select>
                   </div>
-                </div>
-
-                <div className="es-form-group">
-                  <label htmlFor="entryType">Entry Type <span className="es-required">*</span></label>
-                  <select
-                    id="entryType"
-                    name="entryType"
-                    value={formData.entryType}
-                    onChange={handleChange}
-                    required
-                    className={`${errors.entryType ? 'es-error-input' : ''}`}
-                  >
-                    <option value="" disabled hidden>Select entry type</option>
-                    <option value="Credit">Credit (Stock In)</option>
-                    <option value="Debit">Debit (Stock Out)</option>
-                  </select>
                 </div>
               </div>
 
@@ -302,10 +310,20 @@ const EntryStock = () => {
                     <span>Please fill in all required fields</span>
                   </div>
                 )}
+                {showInsufficientStockError && (
+                  <div className="es-error-message" style={{ background: 'linear-gradient(135deg, #fee2e2, #fecaca)', color: '#991b1b' }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="15" y1="9" x2="9" y2="15"></line>
+                      <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    <span>Insufficient stock! Current balance: {currentBalance.toFixed(2)} {material.unit || 'units'}. Cannot debit {formData.quantity}.</span>
+                  </div>
+                )}
                 <button type="button" className="es-cancel-btn" onClick={handleCancel}>
                   Cancel
                 </button>
-                <button type="submit" className="es-submit-btn">
+                <button type="submit" className="es-submit-btn" disabled={showInsufficientStockError}>
                   Create Entry
                 </button>
               </div>

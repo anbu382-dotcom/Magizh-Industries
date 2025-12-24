@@ -15,8 +15,8 @@
 
 .es-content {
   flex: 1;
-  margin-left: 70px;
-  padding: 2rem;
+  margin-left: 0;
+  padding: 5rem 2rem 2rem 2rem;
   transition: margin-left 0.3s ease;
   overflow-y: auto;
 }
@@ -47,9 +47,7 @@
 .es-header-top {
   position: relative;
   margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
 }
 
 .es-back-btn {
@@ -305,20 +303,38 @@
   box-shadow: 0 6px 20px rgba(116, 105, 182, 0.4);
 }
 
+.es-submit-btn:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.es-submit-btn:disabled:hover {
+  background: #d1d5db;
+  transform: none;
+  box-shadow: none;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .es-content {
-    margin-left: 0;
+    padding: 5rem 1.5rem 1.5rem 1.5rem;
+  }
+
+  .es-container {
+    max-width: 100%;
   }
 }
 
 @media (max-width: 768px) {
-  .es-container {
-    padding: 0;
+  .es-content {
+    padding: 4rem 1rem 1rem 1rem;
   }
 
-  .es-content {
+  .es-main-panel {
     padding: 1.5rem;
+    border-radius: 16px;
   }
 
   .es-title {
@@ -329,34 +345,160 @@
     font-size: 0.9rem;
   }
 
-  .es-form-row {
-    grid-template-columns: 1fr;
+  .es-form-section h3 {
+    font-size: 1rem;
   }
 
-  .es-main-panel {
-    padding: 1.5rem;
+  .es-form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .es-form-group label {
+    font-size: 14px;
+  }
+
+  .es-form-group input,
+  .es-form-group select {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  .es-form-group select {
+    padding-right: 36px;
+    background-position: right 10px center;
+    background-size: 16px;
   }
 
   .es-form-actions {
     flex-direction: column;
   }
+
+  .es-error-message {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .es-cancel-btn,
+  .es-submit-btn {
+    width: 100%;
+    padding: 12px 20px;
+  }
+
+  .es-back-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 575px) {
   .es-content {
-    padding: 1rem;
+    padding: 4.5rem 0.75rem 0.75rem 0.75rem;
   }
 
   .es-main-panel {
     padding: 1.25rem;
-    border-radius: 16px;
+    border-radius: 14px;
   }
 
   .es-title {
     font-size: 1.75rem;
   }
 
-  .es-form {
-    gap: 1.5rem;
+  .es-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .es-form-section {
+    gap: 1rem;
+  }
+
+  .es-form-section h3 {
+    font-size: 0.95rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .es-form-row {
+    gap: 0.875rem;
+  }
+
+  .es-form-group label {
+    font-size: 13px;
+  }
+
+  .es-form-group input,
+  .es-form-group select {
+    padding: 9px 12px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .es-form-group select {
+    padding-right: 32px;
+    background-position: right 8px center;
+    background-size: 14px;
+  }
+
+  .es-error-message {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .es-cancel-btn,
+  .es-submit-btn {
+    padding: 11px 18px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .es-back-btn {
+    padding: 9px 14px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 374px) {
+  .es-content {
+    padding: 4.5rem 0.5rem 0.5rem 0.5rem;
+  }
+
+  .es-main-panel {
+    padding: 1rem;
+  }
+
+  .es-title {
+    font-size: 1.5rem;
+  }
+
+  .es-form-section h3 {
+    font-size: 0.9rem;
+  }
+
+  .es-form-group label {
+    font-size: 12px;
+  }
+
+  .es-form-group input,
+  .es-form-group select {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .es-form-group select {
+    padding-right: 30px;
+    background-position: right 6px center;
+    background-size: 12px;
+  }
+
+  .es-error-message {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+
+  .es-cancel-btn,
+  .es-submit-btn {
+    padding: 10px 16px;
+    font-size: 13px;
   }
 }

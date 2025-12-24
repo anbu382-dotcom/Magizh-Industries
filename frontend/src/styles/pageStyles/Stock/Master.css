@@ -6,71 +6,33 @@
   --bg-light: #FFF7F1;
 }
 
-/* Master Container */
-.master-container {
+/* Master Wrapper */
+.master-wrapper {
   display: flex;
   min-height: 100vh;
   background: linear-gradient(135deg, var(--bg-light) 0%, #fff 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Master Content Area */
-.master-container .main-content {
+.master-content {
   flex: 1;
-  margin-left: 70px;
-  padding: 2rem;
+  margin-left: 0;
+  padding: 6rem 2rem 2rem;
   transition: margin-left 0.3s ease;
-  overflow-y: auto;
-}
-
-.master-container .content-wrapper {
-  max-width: 1000px;
-  margin: 0 auto;
-  animation: fadeIn 0.6s ease;
-}
-
-.master-header-top {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 2rem;
-  position: relative;
-}
-
-.master-warehouse-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: var(--primary-purple);
-  border-radius: 12px;
-  color: white;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(116, 105, 182, 0.25);
 }
 
-.back-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background: white;
-  border: 2px solid rgba(116, 105, 182, 0.2);
-  border-radius: 12px;
-  color: var(--primary-purple);
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: fit-content;
-  flex: 1;
-}
-
-.back-btn:hover {
-  background: var(--primary-purple);
-  color: white;
-  border-color: var(--primary-purple);
-  transform: translateX(-4px);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Master Options Grid */
@@ -78,6 +40,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  max-width: 1200px;
+  animation: fadeIn 0.6s ease;
 }
 
 .master-option-card {
@@ -167,151 +131,6 @@
   transform: translateX(0);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .master-container .main-content {
-    margin-left: 70px;
-  }
-
-  .master-options-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .master-container .main-content {
-    margin-left: 0;
-    padding: 0;
-  }
-
-  .content-wrapper {
-    padding: 0 1rem;
-  }
-
-  .master-header-top {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(135deg, var(--bg-light) 0%, #fff 100%);
-    padding: 12px 16px;
-    z-index: 999;
-    height: 72px;
-    box-shadow: 0 2px 8px rgba(116, 105, 182, 0.1);
-    margin-bottom: 0;
-  }
-
-  .master-warehouse-icon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .master-warehouse-icon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .back-btn {
-    margin-bottom: 0;
-    padding: 10px 16px;
-    font-size: 14px;
-    flex: 1;
-  }
-
-  .content-wrapper {
-    padding-top: 88px !important;
-  }
-
-  .master-options-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding-bottom: 1rem;
-  }
-
-  .master-option-card {
-    min-height: 160px;
-    padding: 24px 20px;
-  }
-
-  .option-icon {
-    width: 64px;
-    height: 64px;
-  }
-
-  .option-title {
-    font-size: 18px;
-  }
-
-  .option-description {
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
-  .master-container .main-content {
-    padding: 0;
-  }
-
-  .content-wrapper {
-    max-width: 100%;
-    padding: 0 0.75rem;
-  }
-
-  .master-header-top {
-    padding: 10px 12px;
-    height: 64px;
-  }
-
-  .master-warehouse-icon {
-    width: 44px;
-    height: 44px;
-  }
-
-  .master-warehouse-icon svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .back-btn {
-    font-size: 13px;
-    padding: 8px 12px;
-    margin-bottom: 0;
-  }
-
-  .content-wrapper {
-    padding-top: 80px !important;
-  }
-
-  .master-options-grid {
-    gap: 12px;
-    padding-bottom: 0.75rem;
-  }
-
-  .master-option-card {
-    min-height: 140px;
-    padding: 20px 18px;
-  }
-
-  .option-icon {
-    width: 56px;
-    height: 56px;
-    margin-bottom: 14px;
-  }
-
-  .option-icon svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .option-title {
-    font-size: 17px;
-  }
-
-  .option-description {
-    font-size: 12px;
-  }
-}
-
 /* Animation */
 @keyframes fadeIn {
   from {
@@ -321,5 +140,139 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ===========================
+   RESPONSIVE MEDIA QUERIES
+   =========================== */
+
+/* Mobile Landscape (768px and below) */
+@media (max-width: 768px) {
+  .master-content {
+    margin-left: 0;
+    padding: 5rem 10px 0.5rem 10px;
+    box-sizing: border-box;
+  }
+    margin-bottom: 1.75rem;
+  }
+
+  .master-options-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .master-option-card {
+    padding: 28px 20px;
+    min-height: 200px;
+  }
+
+  .option-icon {
+    width: 72px;
+    height: 72px;
+  }
+
+  .option-title {
+    font-size: 20px;
+  }
+
+  .option-description {
+    font-size: 14px;
+  }
+}
+
+/* Mobile Portrait (575px and below) */
+@media (max-width: 575px) {
+  .master-content {
+    padding: 5rem 5px 0.5rem 5px;
+    box-sizing: border-box;
+  }
+
+  .master-options-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+    width: 100%;
+    justify-items: center;
+  }
+
+  .master-option-card {
+    padding: 20px 16px;
+    min-height: 160px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .option-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+  }
+
+  .option-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .option-title {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .option-description {
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+}
+
+/* Extra Small Mobile (374px and below) */
+@media (max-width: 374px) {
+  .master-content {
+    padding: 5rem 5px 0.5rem 5px;
+    box-sizing: border-box;
+  }
+
+  .master-options-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+    width: 100%;
+    justify-items: center;
+  }
+
+  .master-option-card {
+    padding: 18px 14px;
+    min-height: 150px;
+    border-radius: 11px;
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .option-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 11px;
+    margin-bottom: 12px;
+  }
+
+  .option-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .option-title {
+    font-size: 17px;
+    margin-bottom: 7px;
+  }
+
+  .option-description {
+    font-size: 12px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .option-arrow svg {
+    width: 20px;
+    height: 20px;
   }
 }

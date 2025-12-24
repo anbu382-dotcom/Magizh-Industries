@@ -11,6 +11,7 @@ const MasterSchema = {
   igst: '',
   sgst: '',
   costPerItem: '',
+  unit: '',
   status: 'active',
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),

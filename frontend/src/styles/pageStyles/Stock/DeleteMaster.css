@@ -17,16 +17,21 @@
 
 .dm-wrapper {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   background: linear-gradient(135deg, #f8f9ff 0%, #fff5f7 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
 }
 
 .dm-content {
   flex: 1;
-  margin-left: 70px;
-  padding: 2rem;
+  margin-left: 0;
+  padding: 5rem 1rem 0.5rem 1rem;
   transition: margin-left 0.3s ease;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .dm-container {
@@ -34,6 +39,10 @@
   margin: 0 auto;
   width: 100%;
   animation: dm-fadeIn 0.6s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 @keyframes dm-fadeIn {
@@ -50,6 +59,8 @@
 /* Header Section */
 .dm-header {
   margin-bottom: 2rem;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .dm-header-top {
@@ -57,7 +68,7 @@
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
 }
 
 .dm-warehouse-icon {
@@ -106,14 +117,7 @@
   text-transform: capitalize;
   line-height: 1;
   text-align: center;
-  padding: 0 150px;
-  flex: 1;
-}
-
-@media (max-width: 768px) {
-  .dm-title {
-    display: none;
-  }
+  display: inline-block;
 }
 
 .dm-subtitle {
@@ -128,17 +132,23 @@
 .dm-main-panel {
   background: white;
   border-radius: 20px;
-  padding: 2.5rem;
+  padding: 2rem;
   box-shadow: 0 8px 32px rgba(116, 105, 182, 0.12);
+  border: 1px solid rgba(116, 105, 182, 0.15);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 /* Filter Bar */
 .dm-filter-bar {
   display: flex;
   gap: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   align-items: center;
   flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .dm-search-box {
@@ -165,13 +175,6 @@
   font-family: 'Segoe UI', system-ui, sans-serif;
   transition: all 0.3s ease;
   background: #fafafa;
-}
-
-@media (max-width: 768px) {
-  .dm-search-box input {
-    font-size: 14px;
-    padding: 12px 14px 12px 44px;
-  }
 }
 
 .dm-search-box input:focus {
@@ -217,8 +220,12 @@
 .dm-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 1.75rem;
-  margin-top: 2rem;
+  gap: 1.5rem;
+  row-gap: 2rem;
+  overflow-y: auto;
+  padding-right: 8px;
+  padding-bottom: 1rem;
+  flex: 1;
 }
 
 /* Card Styles */
@@ -234,7 +241,9 @@
   box-shadow: 0 4px 16px rgba(116, 105, 182, 0.08);
   position: relative;
   height: fit-content;
-  max-height: 350px;
+  min-height: 400px;
+  max-height: 450px;
+  overflow: hidden;
 }
 
 .dm-card::before {
@@ -243,8 +252,14 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, #10b981, #34d399);
+  height: 5px;
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  border-radius: 16px 16px 0 0;
+}
+
+/* Green line for Entry page cards */
+.entry-card::before {
+  background: linear-gradient(90deg, #10b981, #059669);
 }
 
 .dm-card-header {
@@ -296,6 +311,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  overflow-y: auto;
   min-height: 0;
 }
 
@@ -591,120 +607,6 @@
   box-shadow: 0 6px 20px rgba(220, 53, 69, 0.35);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .dm-content {
-    margin-left: 70px;
-    padding: 1.5rem;
-  }
-
-  .dm-title {
-    font-size: 2rem;
-    padding: 0 100px;
-  }
-
-  .dm-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .dm-content {
-    margin-left: 0;
-    padding: 0;
-  }
-
-  .dm-container {
-    padding: 0 1rem;
-  }
-
-  .dm-header-top {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(135deg, var(--bg-light) 0%, #fff 100%);
-    padding: 12px 16px;
-    z-index: 999;
-    height: 72px;
-    box-shadow: 0 2px 8px rgba(116, 105, 182, 0.1);
-    margin-bottom: 0;
-  }
-
-  .dm-warehouse-icon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .dm-warehouse-icon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .dm-back-btn {
-    padding: 10px 16px;
-    font-size: 14px;
-    flex: 1;
-  }
-
-  .dm-title {
-    display: none;
-  }
-
-  .dm-subtitle {
-    font-size: 0.95rem;
-  }
-
-  .dm-container {
-    padding-top: 88px !important;
-  }
-
-  .dm-main-panel {
-    padding: 1.5rem;
-    margin-top: 0;
-  }
-
-  .dm-filter-bar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .dm-search-box {
-    min-width: 100%;
-  }
-
-  .dm-filter-options {
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  .dm-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-
-  .dm-modal {
-    max-width: 95%;
-    border-radius: 16px;
-  }
-
-  .dm-modal-actions {
-    flex-direction: column-reverse;
-    gap: 12px;
-  }
-
-  .dm-modal-actions button {
-    width: 100%;
-  }
-
-  .dm-archive-icon-btn {
-    width: 48px;
-    height: 48px;
-  }
-}
-
 /* Archive Icon Button */
 .dm-archive-icon-btn {
   display: flex;
@@ -718,7 +620,9 @@
   color: var(--primary-purple);
   cursor: pointer;
   transition: all 0.3s ease;
-  flex-shrink: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .dm-archive-icon-btn:hover {
@@ -929,96 +833,292 @@
   color: #999;
   font-style: italic;
 }
+/* ===========================
+   RESPONSIVE MEDIA QUERIES
+   =========================== */
 
-/* Responsive adjustments for archive modal */
+/* Mobile Landscape (768px and below) */
 @media (max-width: 768px) {
-  .dm-archive-modal {
-    width: 95vw;
-    height: 95vh;
-    border-radius: 16px;
-  }
-
-  .dm-archive-header {
-    padding: 1.5rem;
-  }
-
-  .dm-archive-filter-bar {
-    padding: 1rem 1.5rem;
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .dm-archive-content {
-    padding: 1.5rem;
-  }
-
-  .dm-archive-card-footer {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .dm-restore-btn,
-  .dm-permanent-delete-btn {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
   .dm-content {
-    padding: 0;
+    margin-left: 0;
+    padding: 0.5rem 10px 0.5rem 10px;
+    box-sizing: border-box;
   }
 
   .dm-container {
-    padding: 0 0.75rem;
+    max-width: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dm-header {
+    margin-bottom: 0.75rem;
+    padding: 0.75rem 0;
   }
 
   .dm-header-top {
-    padding: 10px 12px;
-    height: 64px;
+    gap: 6px;
+    margin-bottom: 0.5rem;
   }
 
   .dm-warehouse-icon {
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
   }
 
   .dm-warehouse-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 
   .dm-back-btn {
-    padding: 8px 12px;
-    font-size: 13px;
+    padding: 8px 14px;
+    font-size: 12px;
+    border-radius: 9px;
+    gap: 5px;
   }
 
-  .dm-archive-icon-btn {
-    width: 44px;
-    height: 44px;
+  .dm-back-btn svg {
+    width: 14px;
+    height: 14px;
   }
 
-  .dm-container {
-    padding-top: 80px !important;
+  .dm-title {
+    font-size: 1.25rem;
+    padding: 0;
+    line-height: 1.2;
+  }
+
+  .dm-subtitle {
+    font-size: 0.8125rem;
+    margin-top: 0.25rem;
   }
 
   .dm-main-panel {
-    padding: 1rem;
-    border-radius: 12px;
+    padding: 12px 10px;
+    border-radius: 16px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .dm-filter-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .dm-search-box {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .dm-search-box input {
+    padding: 11px 14px 11px 2.75rem;
+    font-size: 13px;
+    height: 44px;
+  }
+
+  .dm-search-box svg {
+    left: 0.875rem;
+    width: 16px;
+    height: 16px;
+  }
+
+  .dm-filter-tabs {
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px;
+  }
+
+  .dm-tab {
+    padding: 8px 16px;
+    font-size: 13px;
+    flex: 1;
+    text-align: center;
+  }
+
+  .dm-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
   }
 
   .dm-card {
-    padding: 1.25rem;
+    padding: 1rem;
+    border-radius: 14px;
+    max-height: none;
   }
 
-  .dm-modal {
-    max-width: 100%;
-    max-height: 90vh;
-    border-radius: 12px;
+  .dm-card-header {
+    padding-bottom: 0.75rem;
   }
 
-  .dm-archive-modal {
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
+  .dm-code-badge {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .dm-type-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .dm-card-title {
+    font-size: 1.125rem;
+  }
+
+  .dm-info-item {
+    font-size: 13px;
+  }
+
+  .dm-delete-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile Portrait (575px and below) */
+@media (max-width: 575px) {
+  .dm-content {
+    padding: 4rem 5px 0.5rem 5px;
+    box-sizing: border-box;
+  }
+
+  .dm-header {
+    margin-bottom: 0.625rem;
+    padding: 0.625rem 0;
+  }
+
+  .dm-title {
+    font-size: 1.125rem;
+  }
+
+  .dm-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .dm-main-panel {
+    padding: 10px 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .dm-search-box input {
+    padding: 10px 13px 10px 2.5rem;
+    font-size: 12px;
+    height: 42px;
+  }
+
+  .dm-tab {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+
+  .dm-grid {
+    gap: 0.875rem;
+  }
+
+  .dm-card {
+    padding: 0.875rem;
+  }
+
+  .dm-code-badge {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .dm-type-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .dm-card-title {
+    font-size: 1rem;
+  }
+
+  .dm-info-item {
+    font-size: 12px;
+  }
+
+  .dm-delete-btn {
+    padding: 9px 16px;
+    font-size: 12px;
+  }
+}
+
+/* Extra Small Mobile (374px and below) */
+@media (max-width: 374px) {
+  .dm-content {
+    padding: 0.5rem 5px 0.5rem 5px;
+    box-sizing: border-box;
+  }
+
+  .dm-header {
+    padding: 0.5rem 0;
+  }
+
+  .dm-title {
+    font-size: 1rem;
+  }
+
+  .dm-subtitle {
+    font-size: 0.6875rem;
+  }
+
+  .dm-main-panel {
+    padding: 8px 6px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .dm-search-box input {
+    padding: 9px 12px 9px 2.25rem;
+    font-size: 11px;
+    height: 40px;
+  }
+
+  .dm-search-box svg {
+    left: 0.75rem;
+    width: 14px;
+    height: 14px;
+  }
+
+  .dm-tab {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .dm-grid {
+    gap: 0.75rem;
+  }
+
+  .dm-card {
+    padding: 0.75rem;
+  }
+
+  .dm-code-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .dm-type-badge {
+    font-size: 9px;
+    padding: 3px 7px;
+  }
+
+  .dm-card-title {
+    font-size: 0.9375rem;
+  }
+
+  .dm-info-item {
+    font-size: 11px;
+  }
+
+  .dm-delete-btn {
+    padding: 8px 14px;
+    font-size: 11px;
   }
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
 import UserManagement from '../components/UserManagement';
 import { Users } from 'lucide-react';
 import '../styles/pageStyles/Home.css';
@@ -7,6 +8,7 @@ import '../styles/pageStyles/Home.css';
 const Home = ({ isAdmin: isAdminProp = false }) => {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
@@ -31,9 +33,10 @@ const Home = ({ isAdmin: isAdminProp = false }) => {
 
   return (
     <div className="home-container">
-      <Sidebar isAdmin={isAdmin} />
+      <Sidebar isAdmin={isAdmin} isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
+      <Navbar title="Welcome To Magizh Industries !" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
 
-      <div className="main-content">
+      <div className="main-content page-with-navbar">
         <div className="content-wrapper">
           <div className="welcome-header">
             <div className="greeting-section">

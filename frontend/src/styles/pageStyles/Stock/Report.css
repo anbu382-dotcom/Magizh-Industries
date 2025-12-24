@@ -16,8 +16,8 @@
 /* Stock Content Area */
 .stock-container .main-content {
   flex: 1;
-  margin-left: 70px;
-  padding: 2rem;
+  margin-left: 0;
+  padding: 5rem 2rem 2rem;
   transition: margin-left 0.3s ease;
   overflow-y: auto;
 }
@@ -155,69 +155,43 @@
     opacity: 1;
   }
 }
+/* ===========================
+   RESPONSIVE MEDIA QUERIES
+   =========================== */
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .stock-container .main-content {
-    margin-left: 70px;
-  }
-
-  .stock-modules-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
+/* Mobile (768px and below) */
 @media (max-width: 768px) {
   .stock-container .main-content {
     margin-left: 0;
-    padding: 1rem;
+    padding: 1rem 0.5rem 1rem 0.5rem;
   }
 
-  .stock-header .page-title {
-    font-size: 1.75rem;
-  }
-
-  .stock-header .page-subtitle {
-    font-size: 1rem;
-  }
-
-  .stock-modules-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stock-module-card {
-    padding: 24px 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .stock-container .main-content {
-    padding: 0.75rem;
-  }
-
-  .content-wrapper {
+  .stock-container .content-wrapper {
     max-width: 100%;
   }
 
   .stock-header {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .stock-header .page-title {
     font-size: 1.5rem;
-  }
-
-  .stock-header .page-subtitle {
-    font-size: 0.9rem;
+    text-align: center;
+    width: 100%;
   }
 
   .stock-modules-grid {
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .stock-module-card {
-    padding: 20px 18px;
-    min-height: 120px;
+    padding: 20px 16px;
+    min-height: 150px;
   }
 
   .module-icon {
@@ -232,10 +206,76 @@
   }
 
   .module-title {
-    font-size: 17px;
+    font-size: 18px;
   }
 
   .module-description {
     font-size: 13px;
+  }
+}
+
+@media (max-width: 575px) {
+  .stock-container .main-content {
+    padding: 0.875rem 0.5rem 0.875rem 0.5rem;
+  }
+
+  .stock-header .page-title {
+    font-size: 1.375rem;
+  }
+
+  .stock-module-card {
+    padding: 18px 14px;
+    min-height: 140px;
+  }
+
+  .module-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .module-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .module-title {
+    font-size: 17px;
+  }
+
+  .module-description {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 374px) {
+  .stock-container .main-content {
+    padding: 0.75rem 0.5rem 0.75rem 0.5rem;
+  }
+
+  .stock-header .page-title {
+    font-size: 1.25rem;
+  }
+
+  .stock-module-card {
+    padding: 16px 12px;
+    min-height: 130px;
+  }
+
+  .module-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .module-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .module-title {
+    font-size: 16px;
+  }
+
+  .module-description {
+    font-size: 11px;
   }
 }

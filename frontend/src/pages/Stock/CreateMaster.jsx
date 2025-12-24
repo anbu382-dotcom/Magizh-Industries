@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar';
 import '../../styles/pageStyles/Stock/CreateMaster.css';
 
 const CreateMaster = () => {
   const navigate = useNavigate();
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [formData, setFormData] = useState({
     materialFlow: '',
     class: '',
@@ -16,7 +18,8 @@ const CreateMaster = () => {
     cgst: '',
     igst: '',
     sgst: '',
-    costPerItem: ''
+    costPerItem: '',
+    unit: ''
   });
 
   const [gstError, setGstError] = useState({
@@ -236,7 +239,8 @@ const CreateMaster = () => {
       cgst: '',
       igst: '',
       sgst: '',
-      costPerItem: ''
+      costPerItem: '',
+      unit: ''
     });
 
     // Reset error states
@@ -262,19 +266,12 @@ const CreateMaster = () => {
 
   return (
     <div className="stock-container">
-      <Sidebar />
-      <div className="main-content">
+      <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
+      <Navbar title="Create Material" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
+      <div className="main-content page-with-navbar">
         <div className="content-wrapper">
           <div className="stock-header">
-            <button className="back-btn" onClick={() => navigate('/stock/master')}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-              </svg>
-              Back
-            </button>
             <div className="header-text">
-              <h1 className="page-title">Create Material</h1>
             </div>
           </div>
           
@@ -470,6 +467,21 @@ const CreateMaster = () => {
                     onChange={handleChange}
                     placeholder="Enter cost per item"
                   />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="unit">Unit</label>
+                  <select
+                    id="unit"
+                    name="unit"
+                    value={formData.unit}
+                    onChange={handleChange}
+                  >
+                    <option value="" disabled hidden>Select unit</option>
+                    <option value="EA">EA (Each)</option>
+                    <option value="KG">KG (Kilogram)</option>
+                    <option value="M">M (Meter)</option>
+                  </select>
                 </div>
               </div>
 

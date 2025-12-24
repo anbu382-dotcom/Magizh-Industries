@@ -294,28 +294,301 @@
   opacity: 0.9;
 }
 
-/* Mobile */
-@media (max-width: 768px) {
+/* ===========================
+   RESPONSIVE MEDIA QUERIES
+   =========================== */
+
+/* Tablet View - iPad and similar (768px - 1024px) */
+@media screen and (max-width: 1024px) {
+  .auth-card {
+    max-width: 750px;
+    min-height: 550px;
+  }
+
+  .visual-side {
+    padding: 30px;
+  }
+
+  .visual-content h2 {
+    font-size: 2rem;
+  }
+
+  .visual-content p {
+    font-size: 1rem;
+  }
+
+  .form-side {
+    padding: 40px 35px;
+  }
+
+  .form-header h3 {
+    font-size: 1.75rem;
+  }
+}
+
+/* Tablet Portrait - iPad Portrait (768px - 900px) */
+@media screen and (max-width: 900px) {
   .auth-card {
     flex-direction: column;
+    max-width: 500px;
     min-height: auto;
   }
 
   .visual-side {
     width: 100%;
+    padding: 40px 30px;
+    min-height: 250px;
+  }
+
+  .visual-content h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .visual-content p {
+    font-size: 0.95rem;
+  }
+
+  .form-side {
+    width: 100%;
+    padding: 40px 30px;
+  }
+
+  .form-header h3 {
+    font-size: 1.75rem;
+    margin-bottom: 8px;
+  }
+
+  .form-header p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile Landscape (576px - 767px) */
+@media screen and (max-width: 767px) {
+  .auth-container {
+    padding: 15px;
+  }
+
+  .auth-card {
+    max-width: 100%;
+    border-radius: 15px;
+  }
+
+  .visual-side {
     padding: 30px 20px;
+    min-height: 200px;
   }
 
   .visual-content h2 {
     font-size: 1.75rem;
   }
 
+  .visual-content p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
   .form-side {
-    width: 100%;
-    padding: 30px 20px;
+    padding: 30px 25px;
   }
 
   .form-header h3 {
     font-size: 1.5rem;
+  }
+
+  .form-header p {
+    font-size: 0.875rem;
+  }
+
+  .auth-input {
+    padding: 11px 45px 11px 45px;
+    font-size: 0.95rem;
+    height: 46px;
+  }
+
+  .input-icon {
+    left: 14px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .password-toggle {
+    right: 10px;
+    padding: 6px;
+  }
+
+  .submit-btn {
+    padding: 13px;
+    font-size: 0.95rem;
+  }
+
+  .input-group {
+    margin-bottom: 18px;
+  }
+
+  .success-message {
+    padding: 14px 18px;
+    gap: 10px;
+  }
+
+  .success-message svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .success-message-content h4 {
+    font-size: 0.95rem;
+  }
+
+  .success-message-content p {
+    font-size: 0.8rem;
+  }
+}
+
+/* Mobile Portrait (320px - 575px) */
+@media screen and (max-width: 575px) {
+  .auth-container {
+    padding: 10px;
+  }
+
+  .auth-card {
+    border-radius: 12px;
+  }
+
+  .visual-side {
+    padding: 25px 15px;
+    min-height: 180px;
+  }
+
+  .visual-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+
+  .visual-content p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .form-side {
+    padding: 25px 20px;
+  }
+
+  .form-header {
+    margin-bottom: 25px;
+  }
+
+  .form-header h3 {
+    font-size: 1.35rem;
+    margin-bottom: 6px;
+  }
+
+  .form-header p {
+    font-size: 0.8rem;
+  }
+
+  .input-group label {
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+  }
+
+  .auth-input {
+    padding: 10px 42px 10px 42px;
+    font-size: 0.9rem;
+    height: 44px;
+    border-radius: 8px;
+  }
+
+  .input-icon {
+    left: 12px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .password-toggle {
+    right: 8px;
+    padding: 5px;
+  }
+
+  .password-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .submit-btn {
+    padding: 12px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+
+  .input-group {
+    margin-bottom: 16px;
+  }
+
+  .toggle-container {
+    margin-top: 18px;
+    font-size: 0.85rem;
+  }
+
+  .success-message {
+    padding: 12px 15px;
+    gap: 8px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+  }
+
+  .success-message svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .success-message-content h4 {
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+  }
+
+  .success-message-content p {
+    font-size: 0.75rem;
+  }
+}
+
+/* Extra Small Mobile (320px - 374px) */
+@media screen and (max-width: 374px) {
+  .auth-container {
+    padding: 8px;
+  }
+
+  .visual-side {
+    padding: 20px 12px;
+    min-height: 160px;
+  }
+
+  .visual-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .visual-content p {
+    font-size: 0.8rem;
+  }
+
+  .form-side {
+    padding: 20px 15px;
+  }
+
+  .form-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .auth-input {
+    padding: 9px 40px 9px 40px;
+    font-size: 0.85rem;
+    height: 42px;
+  }
+
+  .submit-btn {
+    padding: 11px;
+    font-size: 0.85rem;
   }
 }

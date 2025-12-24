@@ -227,24 +227,5 @@
   font-size: 0.85rem;
   margin-top: 0.25rem;
 }
-
-/* Responsive */
-@media (max-width: 640px) {
-  .popup-container {
-    padding: 1.5rem;
-    max-width: 95%;
-  }
-
-  .popup-title {
-    font-size: 1.25rem;
-  }
-
-  .popup-actions {
-    flex-direction: column;
-  }
-
-  .popup-btn {
-    width: 100%;
-    justify-content: center;
   }
 }

@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar';
 import '../../styles/pageStyles/Stock/ArchivedMaster.css';
 import { Undo2, Trash2 } from 'lucide-react';
 
 const ArchivedMaster = () => {
   const navigate = useNavigate();
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [archivedMaterials, setArchivedMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -107,24 +109,14 @@ const ArchivedMaster = () => {
 
   return (
     <div className="am-wrapper">
-      <Sidebar />
-      <div className="am-content">
+      <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
+      <Navbar 
+        title="Archived Materials" 
+        onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} 
+        showCompanyName={sidebarExpanded}
+      />
+      <div className="am-content page-with-navbar">
         <div className="am-container">
-          <div className="am-header">
-            <div className="am-header-top">
-              <button className="am-back-btn" onClick={() => navigate('/stock/delete-master')}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="19" y1="12" x2="5" y2="12"></line>
-                  <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back
-              </button>
-              <div className="am-header-content">
-                <h1 className="am-title">Archived Materials</h1>
-              </div>
-            </div>
-          </div>
-
           <div className="am-main-panel">
             <div className="am-filter-bar">
               <div className="am-search-box">

@@ -1,9 +1,12 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
 import '../styles/pageStyles/Stock.css';
 
 const Stock = ({ isAdmin = false }) => {
   const navigate = useNavigate();
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
   const masterModules = [
     {
@@ -66,14 +69,11 @@ const Stock = ({ isAdmin = false }) => {
 
   return (
     <div className="stock-container">
-      <Sidebar isAdmin={isAdmin} />
+      <Sidebar isAdmin={isAdmin} isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
+      <Navbar title="Stock Management" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
 
-      <div className="main-content">
+      <div className="main-content page-with-navbar">
         <div className="content-wrapper">
-          <div className="stock-header">
-            <h1 className="page-title">Stock Management</h1>
-          </div>
-
           {/* Master Modules Section */}
           <div className="master-section">
             {/* Master Card */}
