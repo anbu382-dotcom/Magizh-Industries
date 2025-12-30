@@ -4,11 +4,14 @@ import { Dropdown } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import { MaterialMasterStatus } from '../../components/popup';
 import '../../styles/pageStyles/Stock/CreateMaster.css';
 
 const CreateMaster = () => {
   const navigate = useNavigate();
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [generatedMaterialCode, setGeneratedMaterialCode] = useState('');
   const [formData, setFormData] = useState({
     materialFlow: '',
     class: '',
@@ -215,7 +218,16 @@ const CreateMaster = () => {
         if (response.ok) {
           setShowGstError(false);
           setShowRequiredError(false);
-          alert('Material Master created successfully!');
+          
+          // Set the generated material code and show popup
+          setGeneratedMaterialCode(data.materialCode || data.master?.materialCode || '');
+          setShowSuccessPopup(true);
+          
+          // Auto-hide popup after 3 seconds
+          setTimeout(() => {
+            setShowSuccessPopup(false);
+          }, 3000);
+          
           handleReset();
         } else {
           alert(data.message || 'Failed to create material master');
@@ -500,6 +512,8 @@ const CreateMaster = () => {
           </div>
         </div>
       </div>
+      
+      {showSuccessPopup && <MaterialMasterStatus materialCode={generatedMaterialCode} />}
     </div>
   );
 };

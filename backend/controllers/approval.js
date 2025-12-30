@@ -114,7 +114,7 @@ exports.rejectUser = async (req, res) => {
 
     // Update request status to rejected
     await RegistrationService.updateRequestStatus(requestId, 'rejected', {
-      processedBy: req.user ? req.user.uid : null,
+      processedBy: req.user ? req.user.userId : null,
       rejectionReason: reason || 'No reason provided'
     });
 

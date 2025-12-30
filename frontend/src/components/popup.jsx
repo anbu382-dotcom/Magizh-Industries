@@ -64,46 +64,15 @@ const Popup = ({
   );
 };
 
-//Master Creation popup component
-const MaterialCreated = () => {
-  return (
-    <div className="material-created-overlay">
-      <div className="material-created-container">
-        
-        {/* Animated Material Icon */}
-        <div className="material-loader">
-          <div className="cube">
-            <div className="side front"></div>
-            <div className="side top"></div>
-            <div className="side right"></div>
-          </div>
-          
-          {/* Success Checkmark Circle */}
-          <div className="success-ring">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" style={{ width: '24px', height: '24px', color: 'white' }}>
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-          </div>
-        </div>
-
-        {/* Status Text */}
-        <div className="material-status-text">
-          <h2>Material Master Created Successfully!</h2>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 // Stock Entry popup component
-const StockEntryStatus = () => {
+const StockEntryStatus = ()=> {
   return (
     <div className="stock-overlay">
       <div className="stock-card">
         
         {/* Status Text */}
         <div className="stock-status-text">
-          <h2 className="stock-title">Stock Entry Created Successfully!</h2>
+          <h2 className="stock-title">Stock Entered !</h2>
         </div>
 
         {/* Progress Bar */}
@@ -115,5 +84,25 @@ const StockEntryStatus = () => {
   );
 };
 
-export { MaterialCreated, StockEntryStatus };
+// Material Master popup component
+const MaterialMasterStatus = ({ materialCode }) => {
+  return (
+    <div className="stock-overlay">
+      <div className="stock-card">
+        
+        {/* Status Text */}
+        <div className="stock-status-text">
+          <h2 className="stock-title">Material Master Created {materialCode}</h2>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="stock-progress-container">
+          <div className="stock-progress-bar"></div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export { StockEntryStatus, MaterialMasterStatus };
 export default Popup;

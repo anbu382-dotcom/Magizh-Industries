@@ -21,6 +21,10 @@ const UserManagement = () => {
   const [requestsLoading, setRequestsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [passwordChangeLoading, setPasswordChangeLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [approveLoading, setApproveLoading] = useState(false);
+  const [rejectLoading, setRejectLoading] = useState(false);
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
@@ -146,7 +150,7 @@ const UserManagement = () => {
   };
 
   // Password Change: Step 2 - Show confirmation popup
-  const handlePasswordFormSubmit = () => {
+  const handlePasswordFormSubmit = async () => {
     if (passwords.new !== passwords.confirm) {
       alert("Passwords do not match!");
       return;
@@ -157,9 +161,34 @@ const UserManagement = () => {
       return;
     }
 
-    // Close form and show confirmation
-    setIsPasswordFormPopupOpen(false);
-    setIsPasswordConfirmPopupOpen(true);
+    setPasswordChangeLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/api/auth/admin/change-password', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: selectedUser.userId,
+          newPassword: passwords.new
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to change password');
+      }
+
+      alert('Password changed successfully!');
+      setPasswordChangeLoading(false);
+      closePasswordFormPopup();
+    } catch (err) {
+      alert('Error changing password: ' + err.message);
+      setPasswordChangeLoading(false);
+      closePasswordFormPopup();
+    }
   };
 
   const closePasswordConfirmPopup = () => {
@@ -212,6 +241,7 @@ const UserManagement = () => {
   const handleConfirmDelete = async () => {
     if (!selectedUser) return;
 
+    setDeleteLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`http://localhost:5000/api/auth/user/${selectedUser.userId}`, {
@@ -228,11 +258,13 @@ const UserManagement = () => {
       }
 
       alert('User deleted successfully!');
+      setDeleteLoading(false);
       closeDeletePopup();
       // Refresh the user list
       fetchUsers();
     } catch (err) {
       alert('Error deleting user: ' + err.message);
+      setDeleteLoading(false);
       closeDeletePopup();
     }
   };
@@ -251,6 +283,7 @@ const UserManagement = () => {
   const handleConfirmApprove = async () => {
     if (!selectedRequest) return;
 
+    setApproveLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`http://localhost:5000/api/auth/approve/${selectedRequest.id}`, {
@@ -267,11 +300,13 @@ const UserManagement = () => {
       }
 
       alert('User approved successfully!');
+      setApproveLoading(false);
       closeApprovePopup();
       fetchRequests();
       fetchUsers();
     } catch (err) {
       alert('Error approving request: ' + err.message);
+      setApproveLoading(false);
       closeApprovePopup();
     }
   };
@@ -290,6 +325,7 @@ const UserManagement = () => {
   const handleConfirmReject = async () => {
     if (!selectedRequest) return;
 
+    setRejectLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`http://localhost:5000/api/auth/decline/${selectedRequest.id}`, {
@@ -307,10 +343,12 @@ const UserManagement = () => {
       }
 
       alert('Request rejected successfully!');
+      setRejectLoading(false);
       closeRejectPopup();
       fetchRequests();
     } catch (err) {
       alert('Error rejecting request: ' + err.message);
+      setRejectLoading(false);
       closeRejectPopup();
     }
   };
@@ -533,7 +571,7 @@ const UserManagement = () => {
         onConfirm={handlePasswordFormSubmit}
         type="warning"
         confirmText="Update Password"
-        cancelText="Cancel"
+        isLoading={passwordChangeLoading}
       >
         <div className="password-change-container">
           <div className="password-user-card">
@@ -605,16 +643,6 @@ const UserManagement = () => {
         </div>
       </Popup>
 
-      {/* Step 2: Password Change Confirmation Popup */}
-      <Popup
-        isOpen={isPasswordConfirmPopupOpen}
-        onClose={closePasswordConfirmPopup}
-        onConfirm={handleConfirmPasswordSave}
-        type="warning"
-        confirmText="Yes, Change Password"
-        cancelText="Cancel"
-      />
-
       {/* Delete Confirmation Popup */}
       <Popup
         isOpen={isDeletePopupOpen}
@@ -623,6 +651,7 @@ const UserManagement = () => {
         type="danger"
         confirmText="Yes, Delete"
         cancelText="Cancel"
+        isLoading={deleteLoading}
       >
         <div className="delete-user-container">
           <div className="delete-user-card">
@@ -653,11 +682,10 @@ const UserManagement = () => {
         isOpen={isApprovePopupOpen}
         onClose={closeApprovePopup}
         onConfirm={handleConfirmApprove}
-        title="Approve Registration"
         message="Are you sure you want to approve this registration request? User credentials will be sent via email."
         type="warning"
         confirmText="Yes, Approve"
-        cancelText="Cancel"
+        isLoading={approveLoading}
       >
         <div className="popup-user-info">
           <div className="popup-user-name">{selectedRequest?.firstName} {selectedRequest?.lastName}</div>
@@ -670,11 +698,10 @@ const UserManagement = () => {
         isOpen={isRejectPopupOpen}
         onClose={closeRejectPopup}
         onConfirm={handleConfirmReject}
-        title="Reject Registration"
         message="Are you sure you want to reject this registration request?"
         type="danger"
         confirmText="Yes, Reject"
-        cancelText="Cancel"
+        isLoading={rejectLoading}
       >
         <div className="popup-user-info">
           <div className="popup-user-name">{selectedRequest?.firstName} {selectedRequest?.lastName}</div>
