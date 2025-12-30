@@ -4,7 +4,7 @@ import { Dropdown } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
-import { MaterialMasterStatus } from '../../components/popup';
+import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/CreateMaster.css';
 
 const CreateMaster = () => {
@@ -513,7 +513,7 @@ const CreateMaster = () => {
         </div>
       </div>
       
-      {showSuccessPopup && <MaterialMasterStatus materialCode={generatedMaterialCode} />}
+      {showSuccessPopup && <StatusMessage message={`Material Master Created ${generatedMaterialCode}`} />}
     </div>
   );
 };

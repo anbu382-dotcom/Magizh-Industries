@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/DeleteMaster.css';
 import { useNavigate } from 'react-router-dom';
 import { Archive, IndianRupee, Warehouse } from 'lucide-react';
@@ -14,6 +15,7 @@ const DeleteMaster = () => {
   const [filterType, setFilterType] = useState('all');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [showArchiveSuccess, setShowArchiveSuccess] = useState(false);
 
   useEffect(() => {
     fetchMaterials();
@@ -74,9 +76,13 @@ const DeleteMaster = () => {
       });
 
       if (response.ok) {
-        alert('Material archived successfully!');
         handleCloseModal();
-        fetchMaterials();
+        
+        setShowArchiveSuccess(true);
+        setTimeout(() => {
+          setShowArchiveSuccess(false);
+          fetchMaterials();
+        }, 2000);
       } else {
         const error = await response.json();
         alert(`Error: ${error.message || 'Failed to archive material'}`);
@@ -260,6 +266,8 @@ const DeleteMaster = () => {
           )}
         </div>
       </div>
+      
+      {showArchiveSuccess && <StatusMessage message="Material Master Archived" />}
     </div>
   );
 };

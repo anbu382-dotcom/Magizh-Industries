@@ -4,7 +4,7 @@ import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import { Dropdown } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
-import { StockEntryStatus } from '../../components/popup';
+import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/EntryStock.css';
 
 const EntryStock = () => {
@@ -371,7 +371,7 @@ const EntryStock = () => {
         </div>
       </div>
       
-      {showSuccessPopup && <StockEntryStatus />}
+      {showSuccessPopup && <StatusMessage message="Stock Entry Created" />}
     </div>
   );
 };

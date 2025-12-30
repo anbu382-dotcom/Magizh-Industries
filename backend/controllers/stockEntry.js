@@ -2,10 +2,6 @@ const stockEntryService = require('../services/stockEntryService');
 
 const createStockEntry = async (req, res) => {
   try {
-    console.log('Create stock entry request received');
-    console.log('Request body:', req.body);
-    console.log('User:', req.user);
-
     // Validate required fields
     if (!req.body.materialCode || !req.body.materialName || !req.body.quantity || !req.body.unit || !req.body.entryType) {
       return res.status(400).json({
@@ -26,11 +22,7 @@ const createStockEntry = async (req, res) => {
       createdBy: req.user?.email || 'system'
     };
 
-    console.log('Entry data prepared:', entryData);
-
     const newEntry = await stockEntryService.create(entryData);
-
-    console.log('Stock entry created successfully:', newEntry.id);
 
     res.status(201).json({
       success: true,

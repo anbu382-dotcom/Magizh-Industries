@@ -826,6 +826,48 @@
   animation: cm-error-icon-shake 0.5s ease-in-out;
 }
 
+.cm-no-changes-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border: 2px solid #dc2626;
+  border-radius: 10px;
+  color: #dc2626;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: auto;
+  animation: cm-no-changes-slide-in 0.4s ease-out, cm-no-changes-pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+}
+
+.cm-no-changes-message svg {
+  flex-shrink: 0;
+  color: #dc2626;
+  animation: cm-error-icon-shake 0.5s ease-in-out;
+}
+
+@keyframes cm-no-changes-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cm-no-changes-pulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
+  }
+}
+
 @keyframes cm-gst-error-slide-in {
   from {
     opacity: 0;

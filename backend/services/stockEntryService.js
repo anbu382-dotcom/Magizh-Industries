@@ -7,16 +7,13 @@ class StockEntryService {
 
   async create(entryData) {
     try {
-      console.log('StockEntryService: Creating entry with data:', entryData);
       const entryRef = this.collection.doc();
       const entry = {
         ...entryData,
         createdAt: new Date().toISOString(),
         id: entryRef.id
       };
-      console.log('StockEntryService: Setting document with ID:', entryRef.id);
       await entryRef.set(entry);
-      console.log('StockEntryService: Document created successfully');
       return entry;
     } catch (error) {
       console.error('StockEntryService: Error creating entry:', error);

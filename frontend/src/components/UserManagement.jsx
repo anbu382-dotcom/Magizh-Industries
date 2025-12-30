@@ -6,7 +6,6 @@ import '../styles/componentStyles/UserManagement.css';
 const UserManagement = () => {
   const [activeTab, setActiveTab] = useState('list');
   const [isPasswordFormPopupOpen, setIsPasswordFormPopupOpen] = useState(false);
-  const [isPasswordConfirmPopupOpen, setIsPasswordConfirmPopupOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
@@ -192,38 +191,9 @@ const UserManagement = () => {
   };
 
   const closePasswordConfirmPopup = () => {
-    setIsPasswordConfirmPopupOpen(false);
+    setIsPasswordFormPopupOpen(false);
     setPasswords({ new: '', confirm: '' });
     setSelectedUser(null);
-  };
-
-  // Password Change: Step 3 - Actually save password
-  const handleConfirmPasswordSave = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/auth/admin/change-password', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userId: selectedUser.userId,
-          newPassword: passwords.new
-        })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to change password');
-      }
-
-      alert('Password changed successfully!');
-      closePasswordConfirmPopup();
-    } catch (err) {
-      alert('Error changing password: ' + err.message);
-      closePasswordConfirmPopup();
-    }
   };
 
   // Delete: Show delete popup

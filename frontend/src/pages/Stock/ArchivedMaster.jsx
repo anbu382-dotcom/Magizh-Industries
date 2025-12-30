@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import Popup from '../../components/popup';
+import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/ArchivedMaster.css';
 import { Undo2, Trash2 } from 'lucide-react';
 
 const ArchivedMaster = () => {
-  const navigate = useNavigate();
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [archivedMaterials, setArchivedMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
+  const [isRestorePopupOpen, setIsRestorePopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [showRestoreSuccess, setShowRestoreSuccess] = useState(false);
+  const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
 
   useEffect(() => {
     fetchArchivedMaterials();
@@ -42,13 +47,16 @@ const ArchivedMaster = () => {
   };
 
   const handleRestoreMaterial = async (archive) => {
-    if (!window.confirm(`Restore "${archive.materialName}" to active inventory?`)) {
-      return;
-    }
+    setSelectedMaterial(archive);
+    setIsRestorePopupOpen(true);
+  };
+
+  const confirmRestoreMaterial = async () => {
+    if (!selectedMaterial) return;
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/archive/${archive.id}/restore`, {
+      const response = await fetch(`http://localhost:5000/api/archive/${selectedMaterial.id}/restore`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -57,8 +65,14 @@ const ArchivedMaster = () => {
       });
 
       if (response.ok) {
-        alert('Material restored successfully!');
-        fetchArchivedMaterials();
+        setIsRestorePopupOpen(false);
+        setSelectedMaterial(null);
+        
+        setShowRestoreSuccess(true);
+        setTimeout(() => {
+          setShowRestoreSuccess(false);
+          fetchArchivedMaterials();
+        }, 2000);
       } else {
         const error = await response.json();
         alert(`Error: ${error.message || 'Failed to restore material'}`);
@@ -70,13 +84,16 @@ const ArchivedMaster = () => {
   };
 
   const handlePermanentDelete = async (archive) => {
-    if (!window.confirm(`PERMANENTLY DELETE "${archive.materialName}"?\n\nThis action CANNOT be undone!`)) {
-      return;
-    }
+    setSelectedMaterial(archive);
+    setIsDeletePopupOpen(true);
+  };
+
+  const confirmPermanentDelete = async () => {
+    if (!selectedMaterial) return;
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/archive/${archive.id}/permanent`, {
+      const response = await fetch(`http://localhost:5000/api/archive/${selectedMaterial.id}/permanent`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -85,8 +102,14 @@ const ArchivedMaster = () => {
       });
 
       if (response.ok) {
-        alert('Material permanently deleted!');
-        fetchArchivedMaterials();
+        setIsDeletePopupOpen(false);
+        setSelectedMaterial(null);
+        
+        setShowDeleteSuccess(true);
+        setTimeout(() => {
+          setShowDeleteSuccess(false);
+          fetchArchivedMaterials();
+        }, 2000);
       } else {
         const error = await response.json();
         alert(`Error: ${error.message || 'Failed to delete material'}`);
@@ -226,6 +249,65 @@ const ArchivedMaster = () => {
           </div>
         </div>
       </div>
+
+      {/* Restore Confirmation Popup */}
+      <Popup
+        isOpen={isRestorePopupOpen}
+        onClose={() => setIsRestorePopupOpen(false)}
+        onConfirm={confirmRestoreMaterial}
+        message="Are you sure you want to restore this material to active inventory?"
+        type="warning"
+        confirmText="Yes, Restore"
+        cancelText="Cancel"
+      >
+        <div className="am-popup-material-info">
+          <div className="am-popup-info-row">
+            <span className="am-popup-label">Material Code:</span>
+            <span className="am-popup-value">{selectedMaterial?.materialCode}</span>
+          </div>
+          <div className="am-popup-info-row">
+            <span className="am-popup-label">Material Flow:</span>
+            <span className={`am-popup-flow-badge am-popup-flow-${selectedMaterial?.materialFlow?.toLowerCase()}`}>
+              {selectedMaterial?.materialFlow}
+            </span>
+          </div>
+          <div className="am-popup-info-row">
+            <span className="am-popup-label">Material Name:</span>
+            <span className="am-popup-value">{selectedMaterial?.materialName}</span>
+          </div>
+        </div>
+      </Popup>
+
+      {/* Permanent Delete Confirmation Popup */}
+      <Popup
+        isOpen={isDeletePopupOpen}
+        onClose={() => setIsDeletePopupOpen(false)}
+        onConfirm={confirmPermanentDelete}
+        message="PERMANENTLY DELETE this material? This action CANNOT be undone!"
+        type="danger"
+        confirmText="Yes, Delete"
+        cancelText="Cancel"
+      >
+        <div className="am-popup-material-info">
+          <div className="am-popup-info-row">
+            <span className="am-popup-label">Material Code:</span>
+            <span className="am-popup-value">{selectedMaterial?.materialCode}</span>
+          </div>
+          <div className="am-popup-info-row">
+            <span className="am-popup-label">Material Flow:</span>
+            <span className={`am-popup-flow-badge am-popup-flow-${selectedMaterial?.materialFlow?.toLowerCase()}`}>
+              {selectedMaterial?.materialFlow}
+            </span>
+          </div>
+          <div className="am-popup-info-row">
+            <span className="am-popup-label">Material Name:</span>
+            <span className="am-popup-value">{selectedMaterial?.materialName}</span>
+          </div>
+        </div>
+      </Popup>
+      
+      {showRestoreSuccess && <StatusMessage message="Material Master Restored" />}
+      {showDeleteSuccess && <StatusMessage message="Material Master Deleted" />}
     </div>
   );
 };

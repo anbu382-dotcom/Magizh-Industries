@@ -858,3 +858,116 @@
     height: 16px;
   }
 }
+
+/* ===========================
+   POPUP MATERIAL INFO STYLES
+   =========================== */
+
+.am-popup-material-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+  margin-top: 0.5rem;
+}
+
+.am-popup-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid var(--primary-purple);
+}
+
+.am-popup-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6b7280;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.am-popup-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  text-align: right;
+  max-width: 60%;
+  word-break: break-word;
+}
+
+.am-popup-flow-badge {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.am-popup-flow-bom {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1e40af;
+}
+
+.am-popup-flow-fin {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+}
+
+/* Mobile Responsive Popup Styles */
+@media (max-width: 768px) {
+  .am-popup-material-info {
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+  }
+
+  .am-popup-info-row {
+    padding: 0.75rem 0.875rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .am-popup-label {
+    font-size: 0.875rem;
+  }
+
+  .am-popup-value {
+    font-size: 0.9375rem;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .am-popup-flow-badge {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+}
+
+@media (max-width: 575px) {
+  .am-popup-material-info {
+    gap: 0.625rem;
+    padding: 0.625rem 0;
+  }
+
+  .am-popup-info-row {
+    padding: 0.625rem 0.75rem;
+  }
+
+  .am-popup-label {
+    font-size: 0.8125rem;
+  }
+
+  .am-popup-value {
+    font-size: 0.875rem;
+  }
+
+  .am-popup-flow-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+}

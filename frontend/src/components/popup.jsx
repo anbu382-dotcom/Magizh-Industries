@@ -64,18 +64,14 @@ const Popup = ({
   );
 };
 
-// Stock Entry popup component
-const StockEntryStatus = ()=> {
+// Reusable Status Message popup component
+const StatusMessage = ({ message }) => {
   return (
     <div className="stock-overlay">
       <div className="stock-card">
-        
-        {/* Status Text */}
         <div className="stock-status-text">
-          <h2 className="stock-title">Stock Entered !</h2>
+          <h2 className="stock-title">{message}</h2>
         </div>
-
-        {/* Progress Bar */}
         <div className="stock-progress-container">
           <div className="stock-progress-bar"></div>
         </div>
@@ -84,25 +80,5 @@ const StockEntryStatus = ()=> {
   );
 };
 
-// Material Master popup component
-const MaterialMasterStatus = ({ materialCode }) => {
-  return (
-    <div className="stock-overlay">
-      <div className="stock-card">
-        
-        {/* Status Text */}
-        <div className="stock-status-text">
-          <h2 className="stock-title">Material Master Created {materialCode}</h2>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="stock-progress-container">
-          <div className="stock-progress-bar"></div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export { StockEntryStatus, MaterialMasterStatus };
+export { StatusMessage };
 export default Popup;

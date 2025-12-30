@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/ChangeMaster.css';
-import { useNavigate } from 'react-router-dom';
 import { IndianRupee, Warehouse } from 'lucide-react';
 import { Dropdown } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 
 const ChangeMaster = () => {
-  const navigate = useNavigate();
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -41,6 +40,8 @@ const ChangeMaster = () => {
   const [hsnError, setHsnError] = useState(false);
   const [supplierCodeError, setSupplierCodeError] = useState(false);
   const [showGstError, setShowGstError] = useState(false);
+  const [showNoChanges, setShowNoChanges] = useState(false);
+  const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
 
   useEffect(() => {
     fetchMaterials();
@@ -222,6 +223,20 @@ const ChangeMaster = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if any changes were made
+    const hasChanges = Object.keys(formData).some(key => {
+      if (key === 'materialCode') return false; // Skip materialCode comparison
+      return formData[key] !== (selectedMaterial[key] || '');
+    });
+
+    if (!hasChanges) {
+      setShowNoChanges(true);
+      setTimeout(() => {
+        setShowNoChanges(false);
+      }, 2000);
+      return;
+    }
+
     // Check if any GST value exceeds 28
     if (gstError.cgst || gstError.sgst || gstError.igst) {
       setShowGstError(true);
@@ -242,7 +257,13 @@ const ChangeMaster = () => {
       });
 
       if (response.ok) {
-        alert('Material updated successfully!');
+        setShowUpdateSuccess(true);
+        
+        // Auto-hide popup after 2 seconds
+        setTimeout(() => {
+          setShowUpdateSuccess(false);
+        }, 2000);
+        
         handleCloseModal();
         fetchMaterials();
       } else {
@@ -554,6 +575,16 @@ const ChangeMaster = () => {
                   </div>
 
                   <div className="cm-form-actions">
+                    {showNoChanges && (
+                      <div className="cm-no-changes-message">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <line x1="12" y1="8" x2="12" y2="12"></line>
+                          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <span>No Changes</span>
+                      </div>
+                    )}
                     {showGstError && (gstError.cgst || gstError.sgst || gstError.igst) && (
                       <div className="cm-gst-error-message">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -577,6 +608,8 @@ const ChangeMaster = () => {
           )}
         </div>
       </div>
+      
+      {showUpdateSuccess && <StatusMessage message="Material Master Updated" />}
     </div>
   );
 };

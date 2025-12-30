@@ -15,7 +15,7 @@ exports.createMaster = async (req, res) => {
       sgst: req.body.sgst || '',
       costPerItem: req.body.costPerItem || '',
       unit: req.body.unit || 'EA',
-      createdBy: req.user ? req.user.uid : null
+      createdBy: req.user ? req.user.userId : null
     };
 
     const master = await masterService.create(materialData);
