@@ -9,6 +9,8 @@ runConfig:
 env:
   - variable: NODE_ENV
     value: production
+  - variable: PORT
+    value: "8080"
   - variable: JWT_SECRET
     availability:
       - BUILD
@@ -26,3 +28,5 @@ env:
     availability:
       - RUNTIME
     secret: ADMIN_EMAIL
+  - variable: FIREBASE_API_KEY
+    value: "AIzaSyAbWpU6xHo9yI25NjvdtCKN5o3BgEr3pCA"
