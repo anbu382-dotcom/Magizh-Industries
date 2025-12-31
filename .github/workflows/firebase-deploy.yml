@@ -35,7 +35,6 @@ jobs:
         working-directory: ./backend
         run: |
           cat << EOF > .env
-          PORT=${{ secrets.PORT }}
           NODE_ENV=production
           JWT_SECRET=${{ secrets.JWT_SECRET }}
           EMAIL_SERVICE=${{ secrets.EMAIL_SERVICE }}
