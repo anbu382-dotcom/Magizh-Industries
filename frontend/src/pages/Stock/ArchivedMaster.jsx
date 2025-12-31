@@ -3,6 +3,7 @@ import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import Popup from '../../components/popup';
 import { StatusMessage } from '../../components/popup';
+import { API_BASE_URL } from '../../config/api';
 import '../../styles/pageStyles/Stock/ArchivedMaster.css';
 import { Undo2, Trash2 } from 'lucide-react';
 
@@ -25,8 +26,8 @@ const ArchivedMaster = () => {
   const fetchArchivedMaterials = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/archive', {
+      const token = sessionStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/archive`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -55,8 +56,8 @@ const ArchivedMaster = () => {
     if (!selectedMaterial) return;
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/archive/${selectedMaterial.id}/restore`, {
+      const token = sessionStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/archive/${selectedMaterial.id}/restore`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -92,8 +93,8 @@ const ArchivedMaster = () => {
     if (!selectedMaterial) return;
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/archive/${selectedMaterial.id}/permanent`, {
+      const token = sessionStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/archive/${selectedMaterial.id}/permanent`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

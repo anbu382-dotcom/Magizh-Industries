@@ -18,7 +18,7 @@ import FinalData from './src/pages/Stock/FinalData.jsx';
 // Helper function to decode JWT and get user role
 const getUserRole = () => {
   try {
-    const user = localStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
     if (user) {
       const parsedUser = JSON.parse(user);
       return parsedUser.role || 'employee';
@@ -32,7 +32,7 @@ const getUserRole = () => {
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const userRole = getUserRole();
 
   if (!token || !userRole) {

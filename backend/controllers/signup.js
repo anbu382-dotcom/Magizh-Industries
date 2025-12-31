@@ -52,7 +52,7 @@ exports.registerRequest = async (req, res) => {
         if (existingUser) {
           return res.status(409).json({
             status: 'already_exists',
-            message: `An account with this email already exists and is active. Your User ID is ${existingUser.userId}. Please use the login page to access your account.`,
+            message: `An account with this email already exists and is active. Your User ID is ${existingUser.userId}.`,
             email: email,
             userId: existingUser.userId
           });
@@ -62,7 +62,7 @@ exports.registerRequest = async (req, res) => {
       if (requestStatus === 'rejected') {
         return res.status(409).json({
           status: 'rejected',
-          message: 'Your previous registration request was rejected. Please contact the administrator for more information or submit a new request with updated information.',
+          message: 'Your previous registration request was rejected.',
           email: email
         });
       }
@@ -95,7 +95,7 @@ exports.registerRequest = async (req, res) => {
     }
 
     res.status(201).json({
-      message: 'Registration request submitted successfully. You will receive your credentials via email once approved.',
+      message: 'Registration request submitted successfully.',
       requestId: newRequest.id
     });
 

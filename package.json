@@ -1,0 +1,30 @@
+{
+  "name": "magizh-industries",
+  "version": "1.0.0",
+  "description": "Magizh Industries Employee Management System",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "functions"
+  ],
+  "scripts": {
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../functions && npm install",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build:frontend": "cd frontend && npm run build",
+    "start": "cd backend && npm start"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "firebase",
+    "express",
+    "react",
+    "employee-management"
+  ],
+  "author": "Magizh Industries",
+  "license": "ISC"
+}

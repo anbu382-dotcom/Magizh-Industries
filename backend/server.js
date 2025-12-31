@@ -2,8 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const { exec } = require('child_process');
-
-// Load environment variables FIRST before importing anything that uses them
 dotenv.config();
 
 // Import Routes

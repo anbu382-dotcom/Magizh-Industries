@@ -5,6 +5,7 @@ import 'rsuite/dist/rsuite.min.css';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import { StatusMessage } from '../../components/popup';
+import { API_BASE_URL } from '../../config/api';
 import '../../styles/pageStyles/Stock/CreateMaster.css';
 
 const CreateMaster = () => {
@@ -197,14 +198,14 @@ const CreateMaster = () => {
     
     const submitData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         
         if (!token) {
           alert('Please login to continue');
           return;
         }
 
-        const response = await fetch('http://localhost:5000/api/master/create', {
+        const response = await fetch(`${API_BASE_URL}/api/master/create`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,

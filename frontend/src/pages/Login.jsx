@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import DatePicker from '../components/datepicker';
 import Loader from '../components/loader';
+import { API_BASE_URL } from '../config/api';
 import '../styles/pageStyles/login.css';
 
 const AuthPage = () => {
@@ -11,6 +12,7 @@ const AuthPage = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   // Form Data States
   const [loginData, setLoginData] = useState({ userId: '', password: '' });
@@ -34,7 +36,7 @@ const AuthPage = () => {
     if(isLogin) {
         // Login API logic
         try {
-          const response = await fetch('http://localhost:5000/api/auth/login', {
+          const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -48,9 +50,9 @@ const AuthPage = () => {
           const data = await response.json();
 
           if (response.ok) {
-            // Store JWT token in localStorage
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            // Store JWT token in sessionStorage
+            sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem('user', JSON.stringify(data.user));
 
             // Ensure loader shows for at least 3 seconds
             const elapsedTime = Date.now() - startTime;
@@ -66,7 +68,8 @@ const AuthPage = () => {
             
             setTimeout(() => {
               setIsLoading(false);
-              alert(data.message || 'Invalid credentials. Please try again.');
+              setStatusMessage(data.message || 'Invalid credentials. Please try again.');
+              setTimeout(() => setStatusMessage(null), 4000);
             }, remainingTime);
           }
         } catch (error) {
@@ -77,13 +80,14 @@ const AuthPage = () => {
           setTimeout(() => {
             setIsLoading(false);
             console.error('Login error:', error);
-            alert('Login failed. Please check your connection and try again.');
+            setStatusMessage('Login failed. Please check your connection and try again.');
+            setTimeout(() => setStatusMessage(null), 4000);
           }, remainingTime);
         }
     } else {
         // Registration API logic
         try {
-          const response = await fetch('http://localhost:5000/api/auth/register-request', {
+          const response = await fetch(`${API_BASE_URL}/api/auth/register-request`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -125,15 +129,13 @@ const AuthPage = () => {
 
               // Handle specific error cases
               if (data.status === 'already_requested') {
-                alert('⚠️ Request Already Submitted\n\n' + data.message);
+                setErrorMessage('Pending On Approve');
               } else if (data.status === 'already_exists') {
-                alert('⚠️ Account Already Exists\n\n' + data.message);
-                // Optionally switch to login view
-                setTimeout(() => setIsLogin(true), 2000);
+                setErrorMessage('Already Exist');
               } else if (data.status === 'rejected') {
-                alert('❌ Previous Request Rejected\n\n' + data.message);
+                setErrorMessage('Mail Rejected');
               } else {
-                alert(data.message || 'Failed to send registration request. Please try again.');
+                setErrorMessage(data.message || 'Registration request failed');
               }
             }, remainingTime);
           }
@@ -145,7 +147,7 @@ const AuthPage = () => {
           setTimeout(() => {
             setIsLoading(false);
             console.error('Registration error:', error);
-            alert('Failed to send registration request. Please check your connection and try again.');
+            setErrorMessage('Network error. Please try again.');
           }, remainingTime);
         }
     }
@@ -315,6 +317,12 @@ const AuthPage = () => {
                   </div>
                 </div>
 
+                {errorMessage && (
+                  <div style={{ color: 'red', textAlign: 'center', marginBottom: '10px', fontSize: '14px' }}>
+                    {errorMessage}
+                  </div>
+                )}
+
                 <button type="submit" className="submit-btn request-btn">Send Request</button>
               </>
             )}
@@ -323,7 +331,7 @@ const AuthPage = () => {
 
           <div className="toggle-container">
             {isLogin ? "New Employee?" : "Already have an ID?"}
-            <button className="toggle-btn" onClick={() => setIsLogin(!isLogin)}>
+            <button className="toggle-btn" onClick={() => { setIsLogin(!isLogin); setErrorMessage(null); }}>
               {isLogin ? "Register Here" : "Login Here"}
             </button>
           </div>

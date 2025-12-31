@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import { API_BASE_URL } from '../../config/api';
 import '../../styles/pageStyles/Stock/DeleteMaster.css';
 import { useNavigate } from 'react-router-dom';
 import { IndianRupee, Warehouse } from 'lucide-react';
@@ -24,8 +25,8 @@ const Entry = () => {
 
   const fetchMaterials = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/master', {
+      const token = sessionStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/master`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

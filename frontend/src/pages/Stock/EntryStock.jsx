@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar';
 import { Dropdown } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 import { StatusMessage } from '../../components/popup';
+import { API_BASE_URL } from '../../config/api';
 import '../../styles/pageStyles/Stock/EntryStock.css';
 
 const EntryStock = () => {
@@ -50,8 +51,8 @@ const EntryStock = () => {
     
     setLoadingBalance(true);
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/stock/entries', {
+      const token = sessionStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/stock/entries`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -188,14 +189,14 @@ const EntryStock = () => {
     console.log('Submitting entry data:', entryData);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       
       if (!token) {
         alert('Authentication token not found. Please log in again.');
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/stock/entry', {
+      const response = await fetch(`${API_BASE_URL}/api/stock/entry`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

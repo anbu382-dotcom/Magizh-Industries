@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import { API_BASE_URL } from '../../config/api';
 import '../../styles/pageStyles/Stock/Logtable.css';
 import { Scroll, TrendingUp, TrendingDown, Search } from 'lucide-react';
 
@@ -17,8 +18,8 @@ const LogTable = () => {
 
   const fetchStockEntries = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/stock/entries', {
+      const token = sessionStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/stock/entries`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

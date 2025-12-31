@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import { API_BASE_URL } from '../../config/api';
 import '../../styles/pageStyles/Stock/FinalData.css';
 import { Database, Search, TrendingUp, TrendingDown } from 'lucide-react';
 
@@ -17,10 +18,10 @@ const FinalData = () => {
 
   const fetchStockBalances = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       
       // Fetch all stock entries
-      const response = await fetch('http://localhost:5000/api/stock/entries', {
+      const response = await fetch(`${API_BASE_URL}/api/stock/entries`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -32,7 +33,7 @@ const FinalData = () => {
         const entries = data.data || [];
         
         // Fetch master data to get class information
-        const masterResponse = await fetch('http://localhost:5000/api/master', {
+        const masterResponse = await fetch(`${API_BASE_URL}/api/master`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

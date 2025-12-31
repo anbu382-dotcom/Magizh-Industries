@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { User, ShieldCheck, Trash2, Eye, EyeOff, UserRoundPen } from 'lucide-react';
 import Popup from './popup';
+import { API_BASE_URL } from '../config/api';
 import '../styles/componentStyles/UserManagement.css';
 
 const UserManagement = () => {
@@ -30,13 +31,13 @@ const UserManagement = () => {
     setError(null);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
       if (!token) {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch('http://localhost:5000/api/auth/users', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/users`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -66,13 +67,13 @@ const UserManagement = () => {
     setRequestsLoading(true);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
       if (!token) {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch('http://localhost:5000/api/auth/pending-requests', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/pending-requests`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -96,7 +97,7 @@ const UserManagement = () => {
 
   // Check admin status and fetch users on mount
   useEffect(() => {
-    const userData = localStorage.getItem('user');
+    const userData = sessionStorage.getItem('user');
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
@@ -162,8 +163,8 @@ const UserManagement = () => {
 
     setPasswordChangeLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/auth/admin/change-password', {
+      const token = sessionStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/auth/admin/change-password`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -213,8 +214,8 @@ const UserManagement = () => {
 
     setDeleteLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/auth/user/${selectedUser.userId}`, {
+      const token = sessionStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/auth/user/${selectedUser.userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -255,8 +256,8 @@ const UserManagement = () => {
 
     setApproveLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/auth/approve/${selectedRequest.id}`, {
+      const token = sessionStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/auth/approve/${selectedRequest.id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -297,8 +298,8 @@ const UserManagement = () => {
 
     setRejectLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/auth/decline/${selectedRequest.id}`, {
+      const token = sessionStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/auth/decline/${selectedRequest.id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
