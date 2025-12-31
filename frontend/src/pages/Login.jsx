@@ -68,8 +68,7 @@ const AuthPage = () => {
             
             setTimeout(() => {
               setIsLoading(false);
-              setStatusMessage(data.message || 'Invalid credentials. Please try again.');
-              setTimeout(() => setStatusMessage(null), 4000);
+              setErrorMessage(data.message || 'Invalid credentials. Please try again.');
             }, remainingTime);
           }
         } catch (error) {
@@ -80,8 +79,7 @@ const AuthPage = () => {
           setTimeout(() => {
             setIsLoading(false);
             console.error('Login error:', error);
-            setStatusMessage('Login failed. Please check your connection and try again.');
-            setTimeout(() => setStatusMessage(null), 4000);
+            setErrorMessage('Login failed. Please check your connection and try again.');
           }, remainingTime);
         }
     } else {

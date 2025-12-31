@@ -1,6 +1,6 @@
 const getApiBaseUrl = () => {
   if (import.meta.env.PROD) {
-    return '';
+    return 'https://magizh-industries--magizh-industries-d36e0.europe-west4.hosted.app';
   }
   return 'http://localhost:5000';
 };
