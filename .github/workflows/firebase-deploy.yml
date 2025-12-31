@@ -77,17 +77,18 @@ jobs:
       # Deploy Functions
       - name: Create Service Account Key File
         run: |
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MAGIZH_INDUSTRIES_D36E0 }}' > $HOME/service-account.json
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MAGIZH_INDUSTRIES_D36E0 }}' > service-account.json
           
       - name: Deploy Cloud Functions
         run: |
           npm install -g firebase-tools
           firebase deploy --only functions --project magizh-industries-d36e0
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ env.HOME }}/service-account.json
+          GOOGLE_APPLICATION_CREDENTIALS: ./service-account.json
 
-      # Set Function Environment Variables
+      # Set Function Environment Variables (Optional - only if secrets are configured)
       - name: Set Cloud Functions Environment Variables
+        if: ${{ secrets.JWT_SECRET != '' }}
         run: |
           firebase functions:config:set \
             jwt.secret="${{ secrets.JWT_SECRET }}" \
@@ -98,7 +99,7 @@ jobs:
             frontend.url="${{ secrets.FRONTEND_URL }}" \
             --project magizh-industries-d36e0 || echo "Config already set"
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ env.HOME }}/service-account.json
+          GOOGLE_APPLICATION_CREDENTIALS: ./service-account.json
 
       - name: Deployment Complete
         run: |
