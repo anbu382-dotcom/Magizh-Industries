@@ -54,7 +54,9 @@ exports.login = async (req, res) => {
     if (!firebaseApiKey) {
       try {
         const config = functions.config();
-        firebaseApiKey = config.app && config.app.firebase_api_key;
+        firebaseApiKey = (config.app && config.app.firebase_api_key) ||
+                        (config.email && config.email.firebase_api_key);
+        console.log('Using Firebase API key from functions.config()');
       } catch (e) {
         console.log('Could not read functions.config():', e.message);
       }

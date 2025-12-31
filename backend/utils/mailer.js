@@ -18,14 +18,18 @@ const createTransporter = () => {
 // Send email notification to admin when new registration request is submitted
 const sendEmailToAdmin = async ({ requestId, firstName, lastName, email }) => {
   try {
+    const config = functions.config();
+    const emailUser = process.env.EMAIL_USER || (config.email && config.email.user);
+    const emailPassword = process.env.EMAIL_PASSWORD || (config.email && config.email.password);
+    const adminEmail = process.env.ADMIN_EMAIL || (config.email && config.email.admin);
+    
     // Skip if email is not configured
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    if (!emailUser || !emailPassword) {
       console.log('Email not configured. Skipping email notification.');
       return;
     }
 
     const transporter = createTransporter();
-    const adminEmail = process.env.ADMIN_EMAIL;
 
     // Get current date and time
     const now = new Date();
@@ -42,7 +46,7 @@ const sendEmailToAdmin = async ({ requestId, firstName, lastName, email }) => {
     });
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: emailUser,
       to: adminEmail,
       subject: 'New Registration Request - Magizh Industries',
       html: `
@@ -112,8 +116,12 @@ const sendEmailToAdmin = async ({ requestId, firstName, lastName, email }) => {
 // Send credentials email to user after approval
 const sendCredentialsEmail = async ({ email, firstName, userId, password }) => {
   try {
+    const config = functions.config();
+    const emailUser = process.env.EMAIL_USER || (config.email && config.email.user);
+    const emailPassword = process.env.EMAIL_PASSWORD || (config.email && config.email.password);
+    
     // Skip if email is not configured
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    if (!emailUser || !emailPassword) {
       console.log('Email not configured. Skipping credentials email.');
       return;
     }
@@ -121,7 +129,7 @@ const sendCredentialsEmail = async ({ email, firstName, userId, password }) => {
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: emailUser,
       to: email,
       subject: 'Your Account Has Been Approved - Magizh Industries',
       html: `
