@@ -29,12 +29,19 @@ exports.login = async (req, res) => {
     }
 
     // Step 2: Verify user exists in Firebase Auth
+    let authUser;
     try {
-      await auth.getUserByEmail(user.email);
+      authUser = await auth.getUserByEmail(user.email);
+      console.log('Firebase Auth user found:', authUser.uid);
     } catch (authError) {
-      console.error('Firebase Auth user not found:', authError);
+      console.error('Firebase Auth lookup failed:', {
+        email: user.email,
+        errorCode: authError.code,
+        errorMessage: authError.message
+      });
       return res.status(401).json({
-        message: 'Invalid credentials - user not found in authentication system'
+        message: 'Invalid credentials - user not found in authentication system',
+        debug: process.env.NODE_ENV !== 'production' ? authError.message : undefined
       });
     }
 
