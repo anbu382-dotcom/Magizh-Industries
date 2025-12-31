@@ -1,26 +1,28 @@
 # Firebase App Hosting configuration
-# This tells Firebase how to build and run your full-stack application
-
 runConfig:
-  # Set minimum CPU and memory for your backend
   cpu: 1
   memoryMiB: 512
-  # Maximum number of instances to run
   maxInstances: 10
-  # Minimum number of instances to keep warm
   minInstances: 0
-  # Request timeout
   concurrency: 80
 
 env:
   - variable: NODE_ENV
     value: production
-  # Secrets will be configured in Firebase Console
-  # - variable: JWT_SECRET
-  #   secret: JWT_SECRET
-  # - variable: EMAIL_USER
-  #   secret: EMAIL_USER
-  # - variable: EMAIL_PASS
-  #   secret: EMAIL_PASS
-  # - variable: ADMIN_EMAIL
-  #   secret: ADMIN_EMAIL
+  - variable: JWT_SECRET
+    availability:
+      - BUILD
+      - RUNTIME
+    secret: JWT_SECRET
+  - variable: EMAIL_USER
+    availability:
+      - RUNTIME
+    secret: EMAIL_USER
+  - variable: EMAIL_PASS
+    availability:
+      - RUNTIME
+    secret: EMAIL_PASS
+  - variable: ADMIN_EMAIL
+    availability:
+      - RUNTIME
+    secret: ADMIN_EMAIL
