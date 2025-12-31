@@ -19,7 +19,7 @@ const LogTable = () => {
   const fetchStockEntries = async () => {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/api/stock/entries`, {
+      const response = await fetch(`${API_BASE_URL}/stock/entries`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

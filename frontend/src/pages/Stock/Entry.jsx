@@ -26,7 +26,7 @@ const Entry = () => {
   const fetchMaterials = async () => {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/api/master`, {
+      const response = await fetch(`${API_BASE_URL}/master`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

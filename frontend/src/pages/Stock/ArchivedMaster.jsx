@@ -27,7 +27,7 @@ const ArchivedMaster = () => {
     setLoading(true);
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/api/archive`, {
+      const response = await fetch(`${API_BASE_URL}/archive`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ const ArchivedMaster = () => {
 
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/api/archive/${selectedMaterial.id}/restore`, {
+      const response = await fetch(`${API_BASE_URL}/archive/${selectedMaterial.id}/restore`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -94,7 +94,7 @@ const ArchivedMaster = () => {
 
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/api/archive/${selectedMaterial.id}/permanent`, {
+      const response = await fetch(`${API_BASE_URL}/archive/${selectedMaterial.id}/permanent`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

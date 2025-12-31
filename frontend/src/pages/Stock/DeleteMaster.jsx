@@ -25,7 +25,7 @@ const DeleteMaster = () => {
   const fetchMaterials = async () => {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/api/master`, {
+      const response = await fetch(`${API_BASE_URL}/master`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ const DeleteMaster = () => {
   const handleConfirmDelete = async () => {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/api/master/archive/${selectedMaterial.id}`, {
+      const response = await fetch(`${API_BASE_URL}/master/archive/${selectedMaterial.id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

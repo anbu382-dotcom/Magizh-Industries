@@ -205,7 +205,7 @@ const CreateMaster = () => {
           return;
         }
 
-        const response = await fetch(`${API_BASE_URL}/api/master/create`, {
+        const response = await fetch(`${API_BASE_URL}/master/create`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,

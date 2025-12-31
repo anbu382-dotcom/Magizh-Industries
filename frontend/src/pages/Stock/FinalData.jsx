@@ -21,7 +21,7 @@ const FinalData = () => {
       const token = sessionStorage.getItem('token');
       
       // Fetch all stock entries
-      const response = await fetch(`${API_BASE_URL}/api/stock/entries`, {
+      const response = await fetch(`${API_BASE_URL}/stock/entries`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ const FinalData = () => {
         const entries = data.data || [];
         
         // Fetch master data to get class information
-        const masterResponse = await fetch(`${API_BASE_URL}/api/master`, {
+        const masterResponse = await fetch(`${API_BASE_URL}/master`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

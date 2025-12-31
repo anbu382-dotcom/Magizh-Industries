@@ -36,7 +36,7 @@ const AuthPage = () => {
     if(isLogin) {
         // Login API logic
         try {
-          const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+          const response = await fetch(`${API_BASE_URL}/auth/login`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ const AuthPage = () => {
     } else {
         // Registration API logic
         try {
-          const response = await fetch(`${API_BASE_URL}/api/auth/register-request`, {
+          const response = await fetch(`${API_BASE_URL}/auth/register-request`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

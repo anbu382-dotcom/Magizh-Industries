@@ -51,7 +51,7 @@ const ChangeMaster = () => {
   const fetchMaterials = async () => {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/api/master`, {
+      const response = await fetch(`${API_BASE_URL}/master`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -248,7 +248,7 @@ const ChangeMaster = () => {
 
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/api/master/${selectedMaterial.id}`, {
+      const response = await fetch(`${API_BASE_URL}/master/${selectedMaterial.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
