@@ -1,0 +1,139 @@
+/* Navbar Container */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.navbar-content {
+  height: 100%;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: absolute;
+  left: 30px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: absolute;
+  right: 30px;
+}
+
+.navbar-icon {
+  color: #7469B6;
+  stroke-width: 2.5;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.navbar-icon:hover {
+  transform: scale(1.1);
+  color: #AD88C6;
+}
+
+.company-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #7469B6;
+  white-space: nowrap;
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.company-name.visible {
+  opacity: 1;
+  max-width: 200px;
+  margin-right: 20px;
+}
+
+.navbar-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  text-align: center;
+  flex: 1;
+}
+
+/* Archive Button in Navbar */
+.dm-archive-icon-btn {
+  margin: 4px;
+  background: white;
+  border: 2px solid rgba(116, 105, 182, 0.2);
+  border-radius: 10px;
+  color: #7469B6;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 101;
+}
+
+.dm-archive-icon-btn:hover {
+  background: #7469B6;
+  color: white;
+  border-color: #7469B6;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(116, 105, 182, 0.3);
+}
+
+
+/* Adjust page content when navbar is present */
+.page-with-navbar {
+  padding-top: 90px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    left: 0;
+    height: 60px;
+  }
+
+  .navbar-content {
+    padding: 0 15px;
+  }
+
+  .navbar-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .navbar-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    height: 55px;
+  }
+
+  .navbar-title {
+    font-size: 1.1rem;
+  }
+
+  .navbar-icon {
+    width: 22px;
+    height: 22px;
+  }
+}

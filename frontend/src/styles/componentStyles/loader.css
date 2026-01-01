@@ -1,0 +1,59 @@
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.loader {
+  font-size: 30px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader span {
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: bold;
+  color: #7469B6;
+  background-color: #FFE1FF;
+  border-radius: 8px;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 8px;
+  animation: peek 1s both infinite;
+  animation-delay: var(--d);
+}
+
+@keyframes peek {
+  25% {
+    transform: rotateX(30deg) rotate(-13deg);
+  }
+  50% {
+    transform: translateY(-22px) rotate(3deg) scale(1.1);
+    color: #AD88C6;
+    background-color: #FFF7F1;
+  }
+}
