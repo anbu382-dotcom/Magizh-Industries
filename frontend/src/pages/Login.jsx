@@ -51,10 +51,10 @@ const AuthPage = () => {
 
           const data = await response.json();
 
-          if (response.ok) {
-            // Store JWT token in localStorage
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+          if (response.ok && data.token) {
+            // Store JWT token in sessionStorage
+            sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem('user', JSON.stringify(data.user));
 
             // Ensure loader shows for at least 3 seconds
             const elapsedTime = Date.now() - startTime;
@@ -64,6 +64,9 @@ const AuthPage = () => {
               navigate('/home');
             }, remainingTime);
           } else {
+            // Log error for debugging
+            console.error('Login failed:', data.message || 'Unknown error');
+            
             // Ensure loader shows for at least 3 seconds
             const elapsedTime = Date.now() - startTime;
             const remainingTime = Math.max(0, 3000 - elapsedTime);

@@ -50,7 +50,7 @@ const EntryStock = () => {
     
     setLoadingBalance(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/stock/entries`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -185,10 +185,8 @@ const EntryStock = () => {
       entryType: formData.entryType
     };
 
-    console.log('Submitting entry data:', entryData);
-
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       
       if (!token) {
         alert('Authentication token not found. Please log in again.');
@@ -205,7 +203,6 @@ const EntryStock = () => {
       });
 
       const result = await response.json();
-      console.log('Server response:', result);
 
       if (response.ok) {
         setShowSuccessPopup(true);
@@ -239,7 +236,7 @@ const EntryStock = () => {
   return (
     <div className="es-wrapper">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Stock Entry" backPath="/stock/entry" />
+      <Navbar title="Stock Entry" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
       <div className="es-content page-with-navbar">
         <div className="es-container">
           <div className="es-main-panel">

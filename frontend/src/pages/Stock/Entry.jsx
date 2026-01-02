@@ -24,7 +24,7 @@ const Entry = () => {
 
   const fetchMaterials = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/master`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -67,7 +67,7 @@ const Entry = () => {
   return (
     <div className="dm-wrapper">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Material Entry" backPath="/stock" />
+      <Navbar title="Material Entry" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
       <div className="dm-content page-with-navbar">
         <div className="dm-container">
           <div className="dm-main-panel">

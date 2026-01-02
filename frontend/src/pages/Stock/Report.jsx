@@ -15,7 +15,7 @@ const Report = () => {
   return (
     <div className="stock-container">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Reports" backPath="/stock" />
+      <Navbar title="Reports" onMenuClick={handleMenuClick} />
       <div className="main-content page-with-navbar">
         <div className="content-wrapper">
 

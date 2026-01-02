@@ -55,7 +55,7 @@ const Master = ({ isAdmin = false }) => {
       <Sidebar isAdmin={isAdmin} isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
       <Navbar 
         title="Material Master Management" 
-        backPath="/stock"
+        onMenuClick={() => setSidebarExpanded(!sidebarExpanded)}
         showCompanyName={sidebarExpanded}
       />
 

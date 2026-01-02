@@ -49,7 +49,7 @@ const ChangeMaster = () => {
 
   const fetchMaterials = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/master`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -246,7 +246,7 @@ const ChangeMaster = () => {
     setShowGstError(false);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/master/${selectedMaterial.id}`, {
         method: 'PUT',
         headers: {
@@ -279,7 +279,7 @@ const ChangeMaster = () => {
   return (
     <div className="cm-wrapper">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Change Material Master" backPath="/stock/master" showCompanyName={sidebarExpanded} />
+      <Navbar title="Change Material Master" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
       <div className="cm-content page-with-navbar">
         <div className="cm-container">
           <div className="cm-main-panel">

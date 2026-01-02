@@ -11,12 +11,12 @@ const Home = ({ isAdmin: isAdminProp = false }) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
   useEffect(() => {
-    const userData = localStorage.getItem('user');
+    const userData = sessionStorage.getItem('user');
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
-        // Check role directly from localStorage
+        // Check role directly from sessionStorage
         setIsAdmin(parsedUser.role === 'admin');
       } catch (error) {
         console.error('Error parsing user data:', error);

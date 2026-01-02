@@ -23,7 +23,7 @@ const DeleteMaster = () => {
 
   const fetchMaterials = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/master`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -66,7 +66,7 @@ const DeleteMaster = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/master/archive/${selectedMaterial.id}`, {
         method: 'POST',
         headers: {
@@ -98,7 +98,7 @@ const DeleteMaster = () => {
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
       <Navbar 
         title="Delete Material Master" 
-        backPath="/stock/master"
+        onMenuClick={() => setSidebarExpanded(!sidebarExpanded)}
         showCompanyName={sidebarExpanded}
         rightContent={
           <button className="dm-archive-icon-btn" onClick={() => navigate('/stock/archived-master')} title="View Archived Materials">

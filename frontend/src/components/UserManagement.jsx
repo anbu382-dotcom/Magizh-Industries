@@ -36,7 +36,7 @@ const UserManagement = () => {
     setError(null);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
       if (!token) {
         throw new Error('No authentication token found');
@@ -72,7 +72,7 @@ const UserManagement = () => {
     setRequestsLoading(true);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
       if (!token) {
         throw new Error('No authentication token found');
@@ -102,7 +102,7 @@ const UserManagement = () => {
 
   // Check admin status and fetch users on mount
   useEffect(() => {
-    const userData = localStorage.getItem('user');
+    const userData = sessionStorage.getItem('user');
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
@@ -168,7 +168,7 @@ const UserManagement = () => {
 
     setPasswordChangeLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/admin/change-password`, {
         method: 'POST',
         headers: {
@@ -219,7 +219,7 @@ const UserManagement = () => {
 
     setDeleteLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/user/user/${selectedUser.userId}`, {
         method: 'DELETE',
         headers: {
@@ -261,7 +261,7 @@ const UserManagement = () => {
 
     setApproveLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/approve/${selectedRequest.id}`, {
         method: 'POST',
         headers: {
@@ -303,7 +303,7 @@ const UserManagement = () => {
 
     setRejectLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/decline/${selectedRequest.id}`, {
         method: 'POST',
         headers: {
@@ -348,7 +348,7 @@ const UserManagement = () => {
 
     setAdminPasswordLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/user/admin/change-own-password`, {
         method: 'POST',
         headers: {

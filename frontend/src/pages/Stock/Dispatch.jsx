@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import '../../styles/pageStyles/Stock.css';
 
 const Dispatch = () => {
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
+
   return (
     <div className="stock-container">
-      <Sidebar />
-      <Navbar title="Dispatch" />
+      <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
+      <Navbar title="Dispatch" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
       <div className="main-content page-with-navbar">
         <div className="content-wrapper">
           <div className="coming-soon">

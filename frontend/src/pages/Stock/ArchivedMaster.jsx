@@ -25,7 +25,7 @@ const ArchivedMaster = () => {
   const fetchArchivedMaterials = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/archive`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -55,7 +55,7 @@ const ArchivedMaster = () => {
     if (!selectedMaterial) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/archive/${selectedMaterial.id}/restore`, {
         method: 'POST',
         headers: {
@@ -92,7 +92,7 @@ const ArchivedMaster = () => {
     if (!selectedMaterial) return;
 
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/archive/${selectedMaterial.id}/permanent`, {
         method: 'DELETE',
         headers: {
@@ -135,7 +135,7 @@ const ArchivedMaster = () => {
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
       <Navbar 
         title="Archived Materials" 
-        backPath="/stock/delete-master"
+        onMenuClick={() => setSidebarExpanded(!sidebarExpanded)}
         showCompanyName={sidebarExpanded}
       />
       <div className="am-content page-with-navbar">

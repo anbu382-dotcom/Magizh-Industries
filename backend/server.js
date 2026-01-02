@@ -76,20 +76,7 @@ const authLimiter = rateLimit({
 app.use(cors(corsOptions)); // Allow only specific origins
 app.use(express.json()); // Parse JSON bodies
 
-// HTTP request logging
-const morganFormat = process.env.NODE_ENV === 'production' ? 'combined' : 'dev';
-app.use(morgan(morganFormat, {
-  stream: {
-    write: (message) => logger.http(message.trim())
-  }
-}));
-
-// Apply rate limiting to all API routes
-app.use('/api/', apiLimiter);
-
-// API Routes (stricter rate limits for auth endpoints)
-app.use('/api/auth/login', authLimiter);
-app.use('/api/auth/register-request', authLimiter);
+// API Routes - Register BEFORE rate limiting to avoid middleware issues
 app.use('/api/auth', signupRoutes);
 app.use('/api/auth', loginRoutes);
 app.use('/api/auth', approvalRoutes);
@@ -118,7 +105,7 @@ if (process.env.NODE_ENV === 'production') {
     res.send('API is running...');
   });
 }
-
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 // Health Check Endpoint for monitoring and load balancers
 app.get('/health', (req, res) => {
   const healthCheck = {
@@ -140,6 +127,7 @@ app.use(notFoundHandler);
 // Error Handler - Must be last middleware
 app.use(errorHandler);
 
+// Port configuration (Cloud Run sets PORT=8080, development defaults to 5000)
 const PORT = process.env.PORT || 5000;
 
 // Start server

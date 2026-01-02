@@ -7,9 +7,7 @@ const Navbar = ({ title = 'Stock Management', onMenuClick, showCompanyName = fal
   const navigate = useNavigate();
 
   const handleIconClick = () => {
-    if (backPath) {
-      navigate(backPath);
-    } else if (onMenuClick) {
+    if (onMenuClick) {
       onMenuClick();
     }
   };

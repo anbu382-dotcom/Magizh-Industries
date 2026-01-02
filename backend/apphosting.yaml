@@ -1,0 +1,24 @@
+runConfig:
+  runtime: nodejs20
+  buildCommand: npm install && npm run build
+  startCommand: npm start
+  
+env:
+  - variable: NODE_ENV
+    value: production
+  - variable: JWT_SECRET
+    secret: JWT_SECRET
+  - variable: EMAIL_USER
+    secret: EMAIL_USER
+  - variable: EMAIL_PASS
+    secret: EMAIL_PASS
+  - variable: ADMIN_EMAIL
+    secret: ADMIN_EMAIL
+  - variable: ADMIN_FIRSTNAME
+    secret: ADMIN_FIRSTNAME
+  - variable: ADMIN_LASTNAME
+    secret: ADMIN_LASTNAME
+  - variable: ADMIN_FATHERNAME
+    secret: ADMIN_FATHERNAME
+  - variable: ADMIN_DOB
+    secret: ADMIN_DOB

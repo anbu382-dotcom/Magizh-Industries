@@ -17,7 +17,7 @@ const LogTable = () => {
 
   const fetchStockEntries = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/stock/entries`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -63,7 +63,7 @@ const LogTable = () => {
   return (
     <div className="stock-log-container">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Stock Entry Log" backPath="/stock/report" showCompanyName={sidebarExpanded} />
+      <Navbar title="Stock Entry Log" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
       <div className="log-content page-with-navbar">
         <div className="log-controls">
           <div className="search-wrapper">

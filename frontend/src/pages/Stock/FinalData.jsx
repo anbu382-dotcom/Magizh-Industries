@@ -17,7 +17,7 @@ const FinalData = () => {
 
   const fetchStockBalances = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       
       // Fetch all stock entries
       const response = await fetch(`${import.meta.env.VITE_API_URL}/stock/entries`, {
@@ -123,7 +123,7 @@ const FinalData = () => {
   return (
     <div className="final-data-container">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Final Stock Data" backPath="/stock/report" showCompanyName={sidebarExpanded} />
+      <Navbar title="Final Stock Data" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
       
       <div className="final-main-wrapper page-with-navbar">
         <div className="final-content">
