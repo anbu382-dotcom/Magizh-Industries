@@ -99,3 +99,15 @@ a:focus {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
+
+/* Global Input Styling */
+input,
+textarea,
+select {
+  color: #000000 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af;
+}

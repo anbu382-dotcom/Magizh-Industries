@@ -73,7 +73,7 @@ exports.approveUser = async (req, res) => {
         password: generatedPassword
       });
     } catch (emailError) {
-      console.error('Failed to send credentials email:', emailError);
+      // Email sending failed silently
     }
 
     res.status(200).json({

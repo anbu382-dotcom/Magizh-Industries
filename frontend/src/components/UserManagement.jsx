@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { User, ShieldCheck, Trash2, Eye, EyeOff, UserRoundPen, UserCog } from 'lucide-react';
-import Popup from './popup';
+import Popup, { StatusMessage } from './popup';
 import '../styles/componentStyles/UserManagement.css';
 
 const UserManagement = () => {
@@ -166,10 +166,11 @@ const UserManagement = () => {
       return;
     }
 
+    closePasswordFormPopup();
     setPasswordChangeLoading(true);
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/admin/change-password`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/admin/change-password`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -186,13 +187,10 @@ const UserManagement = () => {
         throw new Error(errorData.message || 'Failed to change password');
       }
 
-      alert('Password changed successfully!');
       setPasswordChangeLoading(false);
-      closePasswordFormPopup();
     } catch (err) {
-      alert('Error changing password: ' + err.message);
       setPasswordChangeLoading(false);
-      closePasswordFormPopup();
+      alert('Error changing password: ' + err.message);
     }
   };
 
@@ -217,6 +215,7 @@ const UserManagement = () => {
   const handleConfirmDelete = async () => {
     if (!selectedUser) return;
 
+    closeDeletePopup();
     setDeleteLoading(true);
     try {
       const token = sessionStorage.getItem('token');
@@ -233,15 +232,11 @@ const UserManagement = () => {
         throw new Error(errorData.message || 'Failed to delete user');
       }
 
-      alert('User deleted successfully!');
+      await fetchUsers();
       setDeleteLoading(false);
-      closeDeletePopup();
-      // Refresh the user list
-      fetchUsers();
     } catch (err) {
-      alert('Error deleting user: ' + err.message);
       setDeleteLoading(false);
-      closeDeletePopup();
+      alert('Error deleting user: ' + err.message);
     }
   };
 
@@ -259,6 +254,7 @@ const UserManagement = () => {
   const handleConfirmApprove = async () => {
     if (!selectedRequest) return;
 
+    closeApprovePopup();
     setApproveLoading(true);
     try {
       const token = sessionStorage.getItem('token');
@@ -275,15 +271,12 @@ const UserManagement = () => {
         throw new Error(errorData.message || 'Failed to approve request');
       }
 
-      alert('User approved successfully!');
+      await fetchRequests();
+      await fetchUsers();
       setApproveLoading(false);
-      closeApprovePopup();
-      fetchRequests();
-      fetchUsers();
     } catch (err) {
-      alert('Error approving request: ' + err.message);
       setApproveLoading(false);
-      closeApprovePopup();
+      alert('Error approving request: ' + err.message);
     }
   };
 
@@ -346,6 +339,7 @@ const UserManagement = () => {
       return;
     }
 
+    setIsAdminPasswordPopupOpen(false);
     setAdminPasswordLoading(true);
     try {
       const token = sessionStorage.getItem('token');
@@ -367,16 +361,14 @@ const UserManagement = () => {
         throw new Error(data.message || 'Failed to change password');
       }
 
-      alert('Password changed successfully!');
       setAdminPasswordLoading(false);
-      setIsAdminPasswordPopupOpen(false);
       setAdminPasswords({ old: '', new: '', confirm: '' });
       setShowAdminOldPassword(false);
       setShowAdminNewPassword(false);
       setShowAdminConfirmPassword(false);
     } catch (err) {
-      alert('Error changing password: ' + err.message);
       setAdminPasswordLoading(false);
+      alert('Error changing password: ' + err.message);
     }
   };
 
@@ -813,6 +805,11 @@ const UserManagement = () => {
           </div>
         </div>
       </Popup>
+
+      {approveLoading && <StatusMessage message="Approving User..." />}
+      {passwordChangeLoading && <StatusMessage message="Changing Password..." />}
+      {adminPasswordLoading && <StatusMessage message="Changing Password..." />}
+      {deleteLoading && <StatusMessage message="Removing User..." />}
     </div>
   );
 };
