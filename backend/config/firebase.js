@@ -6,7 +6,6 @@ const serviceAccount = require(path.join(__dirname, 'serviceAccountKey.json'));
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
-
 const db = admin.firestore();
 const auth = admin.auth();
 

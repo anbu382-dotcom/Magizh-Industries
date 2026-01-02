@@ -1,7 +1,5 @@
 // Handles user management operations: retrieve, update, and delete user records (admin only).
-
 const UserService = require('../services/User');
-
 /**
  * Get all users
  */
