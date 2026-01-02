@@ -279,7 +279,7 @@ const ChangeMaster = () => {
   return (
     <div className="cm-wrapper">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Change Material Master" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
+      <Navbar title="Change Material Master" backPath="/stock/master" showCompanyName={sidebarExpanded} />
       <div className="cm-content page-with-navbar">
         <div className="cm-container">
           <div className="cm-main-panel">

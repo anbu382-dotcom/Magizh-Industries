@@ -157,6 +157,20 @@
   stroke: var(--blue);
 }
 
+/* Error State for Input */
+.input-wrapper.input-error .auth-input {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.input-wrapper.input-error .input-icon {
+  stroke: #ef4444;
+}
+
+.input-wrapper.input-error .password-toggle {
+  color: #ef4444;
+}
+
 /* Password Toggle Button */
 .password-toggle {
   position: absolute;

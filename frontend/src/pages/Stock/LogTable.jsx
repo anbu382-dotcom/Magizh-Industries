@@ -63,7 +63,7 @@ const LogTable = () => {
   return (
     <div className="stock-log-container">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Stock Entry Log" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
+      <Navbar title="Stock Entry Log" backPath="/stock/report" showCompanyName={sidebarExpanded} />
       <div className="log-content page-with-navbar">
         <div className="log-controls">
           <div className="search-wrapper">

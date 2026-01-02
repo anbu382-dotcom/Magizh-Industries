@@ -14,6 +14,7 @@ router.put('/user/:userId', authenticate, adminOnly, userController.updateUser);
 router.delete('/user/:userId', authenticate, adminOnly, userController.deleteUser);
 
 // Admin route - Password management
+router.post('/admin/change-own-password', authenticate, adminOnly, passwordController.adminChangeOwnPassword);
 router.post('/admin/change-password', authenticate, adminOnly, passwordController.adminChangePassword);
 
 module.exports = router;

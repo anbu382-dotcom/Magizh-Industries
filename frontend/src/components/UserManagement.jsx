@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { User, ShieldCheck, Trash2, Eye, EyeOff, UserRoundPen } from 'lucide-react';
+import { User, ShieldCheck, Trash2, Eye, EyeOff, UserRoundPen, UserCog } from 'lucide-react';
 import Popup from './popup';
 import '../styles/componentStyles/UserManagement.css';
 
@@ -9,11 +9,16 @@ const UserManagement = () => {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
+  const [isAdminPasswordPopupOpen, setIsAdminPasswordPopupOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [passwords, setPasswords] = useState({ new: '', confirm: '' });
+  const [adminPasswords, setAdminPasswords] = useState({ old: '', new: '', confirm: '' });
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showAdminOldPassword, setShowAdminOldPassword] = useState(false);
+  const [showAdminNewPassword, setShowAdminNewPassword] = useState(false);
+  const [showAdminConfirmPassword, setShowAdminConfirmPassword] = useState(false);
   const [users, setUsers] = useState([]);
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,6 +29,7 @@ const UserManagement = () => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [approveLoading, setApproveLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
+  const [adminPasswordLoading, setAdminPasswordLoading] = useState(false);
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
@@ -36,7 +42,7 @@ const UserManagement = () => {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/users`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/users`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -214,7 +220,7 @@ const UserManagement = () => {
     setDeleteLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/user/${selectedUser.userId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/user/${selectedUser.userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -323,6 +329,57 @@ const UserManagement = () => {
     }
   };
 
+  const handleAdminPasswordChange = async () => {
+    // Validation
+    if (!adminPasswords.old || !adminPasswords.new || !adminPasswords.confirm) {
+      alert('Please fill in all password fields');
+      return;
+    }
+
+    if (adminPasswords.new.length < 6) {
+      alert('New password must be at least 6 characters long');
+      return;
+    }
+
+    if (adminPasswords.new !== adminPasswords.confirm) {
+      alert('New password and confirm password do not match');
+      return;
+    }
+
+    setAdminPasswordLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/admin/change-own-password`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          oldPassword: adminPasswords.old,
+          newPassword: adminPasswords.new
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to change password');
+      }
+
+      alert('Password changed successfully!');
+      setAdminPasswordLoading(false);
+      setIsAdminPasswordPopupOpen(false);
+      setAdminPasswords({ old: '', new: '', confirm: '' });
+      setShowAdminOldPassword(false);
+      setShowAdminNewPassword(false);
+      setShowAdminConfirmPassword(false);
+    } catch (err) {
+      alert('Error changing password: ' + err.message);
+      setAdminPasswordLoading(false);
+    }
+  };
+
   if (!isAdmin) {
     return (
       <div className="um-container">
@@ -381,9 +438,13 @@ const UserManagement = () => {
   return (
     <div className="um-container">
       <div className="um-card">
-
         <div className="um-header">
-          <h1 className="um-title">User Management</h1>
+          <div className="um-header-top">
+            <h1 className="um-title">User Management</h1>
+            <button className="um-icon-btn" onClick={() => setIsAdminPasswordPopupOpen(true)} title="Change Admin Password">
+              <UserCog size={20} />
+            </button>
+          </div>
           <div className="um-tabs">
             <button
               className={`um-tab ${activeTab === 'list' ? 'active' : ''}`}
@@ -676,6 +737,80 @@ const UserManagement = () => {
         <div className="popup-user-info">
           <div className="popup-user-name">{selectedRequest?.firstName} {selectedRequest?.lastName}</div>
           <div className="popup-user-id">Email: {selectedRequest?.email}</div>
+        </div>
+      </Popup>
+
+      {/* Admin Password Change Popup */}
+      <Popup
+        isOpen={isAdminPasswordPopupOpen}
+        onClose={() => {
+          setIsAdminPasswordPopupOpen(false);
+          setAdminPasswords({ old: '', new: '', confirm: '' });
+          setShowAdminOldPassword(false);
+          setShowAdminNewPassword(false);
+          setShowAdminConfirmPassword(false);
+        }}
+        onConfirm={handleAdminPasswordChange}
+        type="info"
+        confirmText={adminPasswordLoading ? "Updating..." : "Update Password"}
+        cancelText="Cancel"
+      >
+        <div className="form-group">
+          <label>Old Password:</label>
+          <div className="password-input-wrapper">
+            <input
+              type={showAdminOldPassword ? 'text' : 'password'}
+              className="form-input"
+              value={adminPasswords.old}
+              onChange={(e) => setAdminPasswords({ ...adminPasswords, old: e.target.value })}
+              placeholder="Enter your current password"
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowAdminOldPassword(!showAdminOldPassword)}
+            >
+              {showAdminOldPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+        </div>
+        <div className="form-group">
+          <label>New Password:</label>
+          <div className="password-input-wrapper">
+            <input
+              type={showAdminNewPassword ? 'text' : 'password'}
+              className="form-input"
+              value={adminPasswords.new}
+              onChange={(e) => setAdminPasswords({ ...adminPasswords, new: e.target.value })}
+              placeholder="Enter your new password"
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowAdminNewPassword(!showAdminNewPassword)}
+            >
+              {showAdminNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+        </div>
+        <div className="form-group">
+          <label>Confirm Password:</label>
+          <div className="password-input-wrapper">
+            <input
+              type={showAdminConfirmPassword ? 'text' : 'password'}
+              className="form-input"
+              value={adminPasswords.confirm}
+              onChange={(e) => setAdminPasswords({ ...adminPasswords, confirm: e.target.value })}
+              placeholder="Re-enter your new password"
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowAdminConfirmPassword(!showAdminConfirmPassword)}
+            >
+              {showAdminConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
         </div>
       </Popup>
     </div>

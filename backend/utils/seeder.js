@@ -1,6 +1,7 @@
 // backend/utils/seeder.js
 const { db, auth } = require('../config/firebase');
 const { generateCredentials } = require('./generate');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const seedAdmin = async () => {
@@ -40,6 +41,9 @@ const seedAdmin = async () => {
           displayName: `${firstName} ${lastName}`
         });
 
+        // Hash the password for Firestore
+        const hashedPassword = await bcrypt.hash(generatedPassword, 10);
+
         // 3. Create Admin Profile in Firestore
         // We save the generatedUserId here so we can look it up later
         await db.collection('users').doc(userRecord.uid).set({
@@ -49,15 +53,16 @@ const seedAdmin = async () => {
           dob,
           email,
           userId: generatedUserId, // The custom ID
+          password: hashedPassword, // Save hashed password
           role: 'admin',
           createdAt: new Date().toISOString()
         });
 
-        console.log('✅ Admin Seeded Successfully!');
+        console.log('Admin Seeded Successfully!');
       }
     }
   } catch (error) {
-    console.error('❌ Seeding Error:', error);
+    console.error('Seeding Error:', error);
   }
 };
 

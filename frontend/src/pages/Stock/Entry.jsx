@@ -67,7 +67,7 @@ const Entry = () => {
   return (
     <div className="dm-wrapper">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Material Entry" onMenuClick={handleMenuClick} />
+      <Navbar title="Material Entry" backPath="/stock" />
       <div className="dm-content page-with-navbar">
         <div className="dm-container">
           <div className="dm-main-panel">

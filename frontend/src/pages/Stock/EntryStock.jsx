@@ -239,7 +239,7 @@ const EntryStock = () => {
   return (
     <div className="es-wrapper">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Stock Entry" onMenuClick={handleMenuClick} />
+      <Navbar title="Stock Entry" backPath="/stock/entry" />
       <div className="es-content page-with-navbar">
         <div className="es-container">
           <div className="es-main-panel">

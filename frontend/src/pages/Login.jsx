@@ -11,6 +11,7 @@ const AuthPage = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
   // Form Data States
   const [loginData, setLoginData] = useState({ userId: '', password: '' });
@@ -23,7 +24,10 @@ const AuthPage = () => {
   });
 
   // Handlers
-  const handleLoginChange = (e) => setLoginData({...loginData, [e.target.name]: e.target.value});
+  const handleLoginChange = (e) => {
+    setLoginData({...loginData, [e.target.name]: e.target.value});
+    if (loginError) setLoginError(false);
+  };
   const handleRegChange = (e) => setRegData({...regData, [e.target.name]: e.target.value});
 
   const handleSubmit = async (e) => {
@@ -66,7 +70,7 @@ const AuthPage = () => {
             
             setTimeout(() => {
               setIsLoading(false);
-              alert(data.message || 'Invalid credentials. Please try again.');
+              setLoginError(true);
             }, remainingTime);
           }
         } catch (error) {
@@ -76,8 +80,8 @@ const AuthPage = () => {
           
           setTimeout(() => {
             setIsLoading(false);
+            setLoginError(true);
             console.error('Login error:', error);
-            alert('Login failed. Please check your connection and try again.');
           }, remainingTime);
         }
     } else {
@@ -196,7 +200,7 @@ const AuthPage = () => {
               <>
                 <div className="input-group">
                   <label>User ID</label>
-                  <div className="input-wrapper">
+                  <div className={`input-wrapper ${loginError ? 'input-error' : ''}`}>
                     <svg className="input-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     <input
                       type="text"
@@ -212,7 +216,7 @@ const AuthPage = () => {
 
                 <div className="input-group">
                   <label>Password</label>
-                  <div className="input-wrapper">
+                  <div className={`input-wrapper ${loginError ? 'input-error' : ''}`}>
                     <svg className="input-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                     <input
                       type={showPassword ? "text" : "password"}

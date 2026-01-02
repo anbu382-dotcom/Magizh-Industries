@@ -1,8 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Warehouse } from 'lucide-react';
 import '../styles/componentStyles/Navbar.css';
 
-const Navbar = ({ title = 'Stock Management', onMenuClick, showCompanyName = false, rightContent }) => {
+const Navbar = ({ title = 'Stock Management', onMenuClick, showCompanyName = false, rightContent, backPath }) => {
+  const navigate = useNavigate();
+
+  const handleIconClick = () => {
+    if (backPath) {
+      navigate(backPath);
+    } else if (onMenuClick) {
+      onMenuClick();
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-content">
@@ -10,7 +21,7 @@ const Navbar = ({ title = 'Stock Management', onMenuClick, showCompanyName = fal
           <Warehouse 
             className="navbar-icon" 
             size={28} 
-            onClick={onMenuClick}
+            onClick={handleIconClick}
             style={{ cursor: 'pointer' }}
           />
         </div>

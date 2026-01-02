@@ -135,7 +135,7 @@ const ArchivedMaster = () => {
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
       <Navbar 
         title="Archived Materials" 
-        onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} 
+        backPath="/stock/delete-master"
         showCompanyName={sidebarExpanded}
       />
       <div className="am-content page-with-navbar">

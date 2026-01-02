@@ -281,7 +281,7 @@ const CreateMaster = () => {
   return (
     <div className="stock-container">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Create Material" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
+      <Navbar title="Create Material" backPath="/stock/master" />
       <div className="main-content page-with-navbar">
         <div className="content-wrapper">
           <div className="stock-header">

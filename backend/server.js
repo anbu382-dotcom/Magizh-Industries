@@ -93,7 +93,7 @@ app.use('/api/auth/register-request', authLimiter);
 app.use('/api/auth', signupRoutes);
 app.use('/api/auth', loginRoutes);
 app.use('/api/auth', approvalRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/master', masterRoutes);
 app.use('/api/archive', archiveRoutes);
 app.use('/api/stock', stockEntryRoutes);
