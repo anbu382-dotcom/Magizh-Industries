@@ -1,8 +1,0 @@
-{
-  "apphosting": {
-    "backendId": "magizh-industries",
-    "source": {
-      "rootDir": "backend"
-    }
-  }
-}
