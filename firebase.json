@@ -1,14 +1,8 @@
 {
   "apphosting": {
-    "backends": {
-      "default": {
-        "build": {
-          "runtime": "nodejs20"
-        },
-        "source": {
-          "codebase": "backend"
-        }
-      }
+    "backendId": "magizh-industries",
+    "source": {
+      "rootDir": "backend"
     }
   }
 }
