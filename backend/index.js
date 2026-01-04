@@ -39,16 +39,7 @@ const corsOptions = {
 
 // Security Middleware - Helmet (Adjusted for React/Vite compatibility)
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'"], // Allowed for Vite scripts
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https://*.googleapis.com", "https://*.firebaseapp.com", "https://*.hosted.app"],
-    },
-  },
+  contentSecurityPolicy: false, // Disable CSP in production to allow Vite's hashed assets
   crossOriginEmbedderPolicy: false,
 }));
 
