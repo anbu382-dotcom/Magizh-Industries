@@ -6,10 +6,7 @@ const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 const path = require('path');
 const logger = require('./utils/logger');
-
-// Load environment variables FIRST before importing anything that uses them
-const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env';
-dotenv.config({ path: path.join(__dirname, envFile) });
+dotenv.config(); 
 
 // Import Routes
 const signupRoutes = require('./routes/signup');
@@ -30,10 +27,7 @@ const allowedOrigins = process.env.CORS_ORIGIN
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -43,43 +37,27 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
-// Security Middleware - Helmet
+// Security Middleware - Helmet (Adjusted for React/Vite compatibility)
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      scriptSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"], // Allowed for Vite scripts
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'"],
+      connectSrc: ["'self'", "https://*.googleapis.com", "https://*.firebaseapp.com", "https://*.hosted.app"],
     },
   },
   crossOriginEmbedderPolicy: false,
 }));
 
-// Rate Limiting
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.',
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+// Global Middleware
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
 
-// Rate limit for authentication endpoints (stricter)
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 login attempts per windowMs
-  message: 'Too many login attempts, please try again later.',
-  skipSuccessfulRequests: true,
-});
-
-// Middleware
-app.use(cors(corsOptions)); // Allow only specific origins
-app.use(express.json()); // Parse JSON bodies
-
-// API Routes - Register BEFORE static files
+// --- API ROUTES ---
 app.use('/api/auth', signupRoutes);
 app.use('/api/auth', loginRoutes);
 app.use('/api/auth', approvalRoutes);
@@ -88,74 +66,43 @@ app.use('/api/master', masterRoutes);
 app.use('/api/archive', archiveRoutes);
 app.use('/api/stock', stockEntryRoutes);
 
-// Health Check Endpoint
+// Health Check
 app.get('/health', (req, res) => {
-  const healthCheck = {
-    status: 'OK',
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV,
-    memory: {
-      used: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
-      total: `${Math.round(process.memoryUsage().heapTotal / 1024 / 1024)}MB`
-    }
-  };
-  res.status(200).json(healthCheck);
+  res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-app.get('/favicon.ico', (req, res) => res.status(204).end());
+// --- STATIC FILES & SPA ROUTING ---
 
-// Serve static files from frontend build (production only)
-if (process.env.NODE_ENV === 'production') {
-  const frontendPath = path.join(__dirname, '../frontend/dist');
+// In production, we serve from the 'dist' folder that was copied into backend/
+const frontendPath = path.join(__dirname, 'dist');
+
+// Serve static assets
+app.use(express.static(frontendPath));
+
+// The "Catch-all" handler: Send index.html for any request that isn't an API call
+app.get('*', (req, res) => {
+  // If the request is for an API that doesn't exist, return a 404 JSON instead of index.html
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ message: 'API endpoint not found' });
+  }
   
-  // Serve static assets with proper MIME types
-  app.use(express.static(frontendPath, {
-    setHeaders: (res, filePath) => {
-      if (filePath.endsWith('.js')) {
-        res.setHeader('Content-Type', 'application/javascript');
-      } else if (filePath.endsWith('.css')) {
-        res.setHeader('Content-Type', 'text/css');
-      }
+  // Send the React app
+  res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
+    if (err) {
+      logger.error('Error sending index.html:', err);
+      res.status(500).send('An error occurred loading the application.');
     }
-  }));
-  
-  // SPA fallback - serve index.html for all non-API, non-static routes (must be last)
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendPath, 'index.html'));
   });
-} else {
-  // Development - API root route
-  app.get('/', (req, res) => {
-    res.json({ 
-      message: 'Magizh Industries API',
-      status: 'running',
-      version: '1.0.0',
-      mode: 'development'
-    });
-  });
-}
+});
 
-// 404 Handler - Must be after all other routes
+// Error Handlers
 app.use(notFoundHandler);
-
-// Error Handler - Must be last middleware
 app.use(errorHandler);
 
-// Port configuration (Cloud Run sets PORT=8080, development defaults to 5000)
 const PORT = process.env.PORT || 5000;
 const HOST = '0.0.0.0';
 
-// Start server - Must listen on 0.0.0.0 for Cloud Run
 app.listen(PORT, HOST, () => {
-  logger.info(`Server running on ${HOST}:${PORT}`);
-}).on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    logger.error(`Port ${PORT} is already in use.`);
-    logger.error(`stop the other process or use a different port.`);
-    process.exit(1);
-  } else {
-    logger.error('Server error:', err);
-    process.exit(1);
-  }
+  logger.info(`Server running in ${process.env.NODE_ENV || 'development'} mode on ${HOST}:${PORT}`);
+  logger.info(`Static files being served from: ${frontendPath}`);
 });
