@@ -23,13 +23,16 @@ const app = express();
 // CORS Configuration
 const allowedOrigins = process.env.CORS_ORIGIN 
   ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
-  : ['http://localhost:3000'];
+  : ['http://localhost:3000', 'http://localhost:5000'];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    // Allow requests with no origin (like mobile apps, Postman, or curl)
+    // or if the origin is in the allowed list
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      logger.warn(`CORS blocked origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -43,10 +46,19 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
 }));
 
-// Global Middleware
-app.use(cors(corsOptions));
-app.use(express.json());
+// Logging Middleware
 app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
+
+// --- STATIC FILES (BEFORE CORS) ---
+// In production, we serve from the 'dist' folder that was copied into backend/
+const frontendPath = path.join(__dirname, 'dist');
+
+// Serve static assets (no CORS needed for same-origin assets)
+app.use(express.static(frontendPath));
+
+// CORS and JSON parsing only for API routes
+app.use('/api', cors(corsOptions));
+app.use(express.json());
 
 // --- API ROUTES ---
 app.use('/api/auth', signupRoutes);
@@ -61,14 +73,6 @@ app.use('/api/stock', stockEntryRoutes);
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
-
-// --- STATIC FILES & SPA ROUTING ---
-
-// In production, we serve from the 'dist' folder that was copied into backend/
-const frontendPath = path.join(__dirname, 'dist');
-
-// Serve static assets
-app.use(express.static(frontendPath));
 
 // The "Catch-all" handler: Send index.html for any request that isn't an API call
 app.get('*', (req, res) => {
