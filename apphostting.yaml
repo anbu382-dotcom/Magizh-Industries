@@ -20,3 +20,21 @@ env:
     value: gmail
   - variable: CORS_ORIGIN
     value: https://magizh-industries0802--magizh-industries-cbe.us-east4.hosted.app
+  
+  # Secrets from Google Cloud Secret Manager
+  - variable: JWT_SECRET
+    secret: JWT_SECRET
+  - variable: ADMIN_EMAIL
+    secret: ADMIN_EMAIL
+  - variable: ADMIN_FIRSTNAME
+    secret: ADMIN_FIRSTNAME
+  - variable: ADMIN_LASTNAME
+    secret: ADMIN_LASTNAME
+  - variable: ADMIN_FATHERNAME
+    secret: ADMIN_FATHERNAME
+  - variable: ADMIN_DOB
+    secret: ADMIN_DOB
+  - variable: EMAIL_USER
+    secret: EMAIL_USER
+  - variable: EMAIL_PASSWORD
+    secret: EMAIL_PASSWORD
