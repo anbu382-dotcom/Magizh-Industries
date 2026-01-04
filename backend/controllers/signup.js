@@ -40,24 +40,37 @@ exports.registerRequest = async (req, res) => {
       });
     }
 
+    // Check if user already exists in Firestore (regardless of request status)
+    const existingUser = await UserService.findByEmail(email);
+    if (existingUser) {
+      return res.status(409).json({
+        status: 'already_exists',
+        message: `An account with this email already exists and is active. Your User ID is ${existingUser.userId}. Please use the login page to access your account.`,
+        email: email,
+        userId: existingUser.userId
+      });
+    }
+
+    // Check if email exists in Firebase Auth (even if not in Firestore)
+    try {
+      const { auth } = require('../config/firebase');
+      await auth.getUserByEmail(email);
+      // If we get here, user exists in Firebase Auth
+      return res.status(409).json({
+        status: 'already_exists',
+        message: `An account with this email already exists. Please use the login page to access your account.`,
+        email: email
+      });
+    } catch (authError) {
+      // User doesn't exist in Firebase Auth - this is expected for new registrations
+      // Continue with the registration process
+    }
+
     // Check if email exists in any requests
     const anyExistingRequest = await RegistrationService.findByEmail(email);
 
     if (anyExistingRequest && anyExistingRequest.length > 0) {
       const requestStatus = anyExistingRequest[0].status;
-
-      if (requestStatus === 'approved') {
-        const existingUser = await UserService.findByEmail(email);
-
-        if (existingUser) {
-          return res.status(409).json({
-            status: 'already_exists',
-            message: `An account with this email already exists and is active. Your User ID is ${existingUser.userId}. Please use the login page to access your account.`,
-            email: email,
-            userId: existingUser.userId
-          });
-        }
-      }
 
       if (requestStatus === 'rejected') {
         return res.status(409).json({

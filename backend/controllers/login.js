@@ -4,6 +4,7 @@ const { auth } = require('../config/firebase');
 const { generateToken } = require('../utils/jwt');
 const UserService = require('../services/User');
 const loginActivityService = require('../services/loginActivityService');
+const logger = require('../utils/logger');
 
 /**
  * Login user with Firebase Authentication
@@ -42,7 +43,11 @@ exports.login = async (req, res) => {
     const firebaseApiKey = process.env.FIREBASE_API_KEY || process.env.REACT_APP_FIREBASE_API_KEY;
 
     if (!firebaseApiKey) {
-      throw new Error('Firebase API key not configured');
+      logger.error('Firebase API key not configured. Please set FIREBASE_API_KEY environment variable.');
+      return res.status(500).json({
+        message: 'Server configuration error. Please contact administrator.',
+        error: 'Firebase API key not configured'
+      });
     }
 
     const signInResponse = await fetch(

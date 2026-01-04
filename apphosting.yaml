@@ -62,3 +62,6 @@ env:
   - variable: EMAIL_PASSWORD
     availability: [RUNTIME]
     value: qodf yyio qfen lnym
+  - variable: FIREBASE_API_KEY
+    availability: [RUNTIME]
+    value: AIzaSyAS0pM4ZdqE3CDoWljRUcPa8_smUqVJk0M
