@@ -6,18 +6,17 @@ require('dotenv').config();
 
 // Detect environment
 const isAppHosting = process.env.K_SERVICE !== undefined || process.env.FIREBASE_CONFIG !== undefined;
-const isProduction = process.env.NODE_ENV === 'production' || isAppHosting;
 
 // Initialize Firebase Admin
 if (!admin.apps.length) {
-  if (isProduction) {
-    // Production: Use Application Default Credentials (Firebase App Hosting)
+  if (isAppHosting) {
+    // Cloud environment: Use Application Default Credentials (Firebase App Hosting)
     admin.initializeApp({
       credential: admin.credential.applicationDefault(),
     });
-    logger.info("Firebase Connected (Production - Application Default Credentials)");
+    logger.info("Firebase Connected (Cloud - Application Default Credentials)");
   } else {
-    // Development: Use service account file
+    // Local environment (dev or prod mode): Use service account file
     const serviceAccountPath = path.join(__dirname, 'serviceAccountKey.json');
     
     if (!fs.existsSync(serviceAccountPath)) {
@@ -29,9 +28,10 @@ if (!admin.apps.length) {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
     });
-    logger.info("Firebase Connected ")
+    logger.info(`Firebase Connected (Local - ${process.env.NODE_ENV || 'development'} mode)`);
   }
-}
+  }
+
 
 const db = admin.firestore();
 const auth = admin.auth();

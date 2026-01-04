@@ -8,7 +8,8 @@ const path = require('path');
 const logger = require('./utils/logger');
 
 // Load environment variables FIRST before importing anything that uses them
-dotenv.config();
+const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env';
+dotenv.config({ path: path.join(__dirname, envFile) });
 
 // Import Routes
 const signupRoutes = require('./routes/signup');
@@ -47,9 +48,11 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
       scriptSrc: ["'self'"],
       imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'"],
     },
   },
   crossOriginEmbedderPolicy: false,
@@ -76,7 +79,7 @@ const authLimiter = rateLimit({
 app.use(cors(corsOptions)); // Allow only specific origins
 app.use(express.json()); // Parse JSON bodies
 
-// API Routes - Register BEFORE rate limiting to avoid middleware issues
+// API Routes - Register BEFORE static files
 app.use('/api/auth', signupRoutes);
 app.use('/api/auth', loginRoutes);
 app.use('/api/auth', approvalRoutes);
@@ -85,34 +88,7 @@ app.use('/api/master', masterRoutes);
 app.use('/api/archive', archiveRoutes);
 app.use('/api/stock', stockEntryRoutes);
 
-// Serve static files from frontend build (production only)
-if (process.env.NODE_ENV === 'production') {
-  const frontendPath = path.join(__dirname, '../frontend/dist');
-  app.use(express.static(frontendPath));
-  
-  // SPA fallback - serve index.html for all non-API routes
-  app.get('*', (req, res, next) => {
-    // Skip API routes and specific endpoints
-    if (req.path.startsWith('/api/') || req.path === '/health') {
-      return next();
-    }
-    res.sendFile(path.join(frontendPath, 'index.html'));
-  });
-} else {
-  // Development - API root route
-  app.get('/', (req, res) => {
-    res.json({ 
-      message: 'Magizh Industries API',
-      status: 'running',
-      version: '1.0.0',
-      mode: 'development'
-    });
-  });
-}
-
-app.get('/favicon.ico', (req, res) => res.status(204).end());
-
-// Health Check Endpoint for monitoring and load balancers
+// Health Check Endpoint
 app.get('/health', (req, res) => {
   const healthCheck = {
     status: 'OK',
@@ -126,6 +102,39 @@ app.get('/health', (req, res) => {
   };
   res.status(200).json(healthCheck);
 });
+
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
+// Serve static files from frontend build (production only)
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.join(__dirname, '../frontend/dist');
+  
+  // Serve static assets with proper MIME types
+  app.use(express.static(frontendPath, {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript');
+      } else if (filePath.endsWith('.css')) {
+        res.setHeader('Content-Type', 'text/css');
+      }
+    }
+  }));
+  
+  // SPA fallback - serve index.html for all non-API, non-static routes (must be last)
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+} else {
+  // Development - API root route
+  app.get('/', (req, res) => {
+    res.json({ 
+      message: 'Magizh Industries API',
+      status: 'running',
+      version: '1.0.0',
+      mode: 'development'
+    });
+  });
+}
 
 // 404 Handler - Must be after all other routes
 app.use(notFoundHandler);
