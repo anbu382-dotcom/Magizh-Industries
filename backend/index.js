@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 const path = require('path');
+const fs = require('fs');
 const logger = require('./utils/logger');
 dotenv.config(); 
 
@@ -53,8 +54,34 @@ app.use(morgan('combined', { stream: { write: message => logger.info(message.tri
 // In production, we serve from the 'dist' folder that was copied into backend/
 const frontendPath = path.join(__dirname, 'dist');
 
-// Serve static assets (no CORS needed for same-origin assets)
-app.use(express.static(frontendPath));
+// Log the static file path for debugging
+logger.info(`Static files path: ${frontendPath}`);
+if (fs.existsSync(frontendPath)) {
+  logger.info(`Static files directory exists: ${frontendPath}`);
+  const assetsPath = path.join(frontendPath, 'assets');
+  if (fs.existsSync(assetsPath)) {
+    const files = fs.readdirSync(assetsPath);
+    logger.info(`Found ${files.length} files in assets directory: ${files.join(', ')}`);
+  } else {
+    logger.warn(`Assets directory not found: ${assetsPath}`);
+  }
+} else {
+  logger.error(`Static files directory does not exist: ${frontendPath}`);
+}
+
+// Serve static assets with proper MIME types and caching
+// Important: This must come BEFORE the catch-all route
+app.use(express.static(frontendPath, {
+  maxAge: '1y',
+  etag: true,
+  lastModified: true,
+  setHeaders: (res, filePath) => {
+    // Ensure proper MIME types for JavaScript modules
+    if (filePath.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    }
+  }
+}));
 
 // CORS and JSON parsing only for API routes
 app.use('/api', cors(corsOptions));
@@ -74,14 +101,27 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// The "Catch-all" handler: Send index.html for any request that isn't an API call
+// The "Catch-all" handler: Send index.html for SPA routing
+// This should only catch routes that don't match static files or API routes
 app.get('*', (req, res) => {
   // If the request is for an API that doesn't exist, return a 404 JSON instead of index.html
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ message: 'API endpoint not found' });
   }
   
-  // Send the React app
+  // Check if this is a request for a static asset file
+  // If it is, the static middleware should have handled it, but if we reach here,
+  // the file doesn't exist - return 404 instead of index.html
+  const staticAssetExtensions = ['.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg', '.woff', '.woff2', '.ttf', '.eot', '.json'];
+  const isStaticAsset = req.path.startsWith('/assets/') || 
+                        staticAssetExtensions.some(ext => req.path.endsWith(ext));
+  
+  if (isStaticAsset) {
+    logger.warn(`Static asset not found: ${req.path}`);
+    return res.status(404).json({ message: 'Static asset not found' });
+  }
+  
+  // Send the React app for all other routes (SPA routing)
   res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
     if (err) {
       logger.error('Error sending index.html:', err);
