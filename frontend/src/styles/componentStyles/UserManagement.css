@@ -954,7 +954,7 @@
   .um-tab {
     padding: 0.875rem 1.5rem;
     font-size: 0.95rem;
-    gap: 8px;
+    gap: 6px;
   }
 
   .um-tab svg {
@@ -1028,7 +1028,7 @@
   .um-tab {
     padding: 0.75rem 1.25rem;
     font-size: 0.875rem;
-    gap: 6px;
+    gap: 4px;
     border-radius: 10px;
   }
 
@@ -1078,6 +1078,7 @@
   }
 
   .action-btn-change-password,
+  .action-btn-edit,
   .action-btn-delete {
     width: 32px;
     height: 32px;
@@ -1085,6 +1086,7 @@
   }
 
   .action-btn-change-password svg,
+  .action-btn-edit svg,
   .action-btn-delete svg {
     width: 16px;
     height: 16px;
@@ -1127,7 +1129,7 @@
   .um-tab {
     padding: 0.65rem 1rem;
     font-size: 0.8rem;
-    gap: 5px;
+    gap: 3px;
     width: 100%;
     justify-content: center;
   }
@@ -1173,6 +1175,7 @@
   }
 
   .action-btn-change-password,
+  .action-btn-edit,
   .action-btn-delete {
     width: 28px;
     height: 28px;
@@ -1180,6 +1183,7 @@
   }
 
   .action-btn-change-password svg,
+  .action-btn-edit svg,
   .action-btn-delete svg {
     width: 14px;
     height: 14px;
@@ -1264,6 +1268,7 @@
   .um-tab {
     padding: 0.6rem 0.875rem;
     font-size: 0.75rem;
+    gap: 3px;
   }
 
   .um-table th {
@@ -1293,12 +1298,14 @@
   }
 
   .action-btn-change-password,
+  .action-btn-edit,
   .action-btn-delete {
     width: 26px;
     height: 26px;
   }
 
   .action-btn-change-password svg,
+  .action-btn-edit svg,
   .action-btn-delete svg {
     width: 12px;
     height: 12px;

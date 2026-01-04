@@ -1,4 +1,3 @@
-const functions = require('firebase-functions');
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -86,14 +85,30 @@ app.use('/api/master', masterRoutes);
 app.use('/api/archive', archiveRoutes);
 app.use('/api/stock', stockEntryRoutes);
 
-// Root Route
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'Magizh Industries API',
-    status: 'running',
-    version: '1.0.0'
+// Serve static files from frontend build (production only)
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.join(__dirname, '../frontend/dist');
+  app.use(express.static(frontendPath));
+  
+  // SPA fallback - serve index.html for all non-API routes
+  app.get('*', (req, res, next) => {
+    // Skip API routes and specific endpoints
+    if (req.path.startsWith('/api/') || req.path === '/health') {
+      return next();
+    }
+    res.sendFile(path.join(frontendPath, 'index.html'));
   });
-});
+} else {
+  // Development - API root route
+  app.get('/', (req, res) => {
+    res.json({ 
+      message: 'Magizh Industries API',
+      status: 'running',
+      version: '1.0.0',
+      mode: 'development'
+    });
+  });
+}
 
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
@@ -103,7 +118,7 @@ app.get('/health', (req, res) => {
     status: 'OK',
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
+    environment: process.env.NODE_ENV,
     memory: {
       used: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
       total: `${Math.round(process.memoryUsage().heapTotal / 1024 / 1024)}MB`
@@ -125,11 +140,10 @@ const HOST = '0.0.0.0';
 // Start server - Must listen on 0.0.0.0 for Cloud Run
 app.listen(PORT, HOST, () => {
   logger.info(`Server running on ${HOST}:${PORT}`);
-  logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
 }).on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
     logger.error(`Port ${PORT} is already in use.`);
-    logger.error(`Please stop the other process or use a different port.`);
+    logger.error(`stop the other process or use a different port.`);
     process.exit(1);
   } else {
     logger.error('Server error:', err);
