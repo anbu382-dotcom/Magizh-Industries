@@ -2,7 +2,7 @@
   "name": "magizh-industries-root",
   "private": true,
   "scripts": {
-    "install:frontend": "npm install --prefix frontend",
+    "install:frontend": "npm install --prefix frontend --include=dev",
     "install:backend": "npm install --prefix backend",
     "install:all": "npm run install:frontend && npm run install:backend",
     "build:frontend": "npm run build --prefix frontend",
