@@ -32,7 +32,7 @@ const Stock = ({ isAdmin = false }) => {
 
   const otherModules = [
     {
-      title: 'Entry',
+      title: 'Stock Entry',
       description: 'Stock entry and inventory updates',
       path: '/stock/entry',
       icon: (

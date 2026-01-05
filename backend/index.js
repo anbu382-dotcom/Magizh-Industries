@@ -28,8 +28,6 @@ const allowedOrigins = process.env.CORS_ORIGIN
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, Postman, or curl)
-    // or if the origin is in the allowed list
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -49,9 +47,6 @@ app.use(helmet({
 
 // Logging Middleware
 app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
-
-// --- STATIC FILES (BEFORE CORS) ---
-// In production, we serve from the 'dist' folder that was copied into backend/
 const frontendPath = path.join(__dirname, 'dist');
 
 // Log the static file path for debugging
@@ -69,8 +64,6 @@ if (fs.existsSync(frontendPath)) {
   logger.error(`Static files directory does not exist: ${frontendPath}`);
 }
 
-// Serve static assets with proper MIME types and caching
-// Important: This must come BEFORE the catch-all route
 app.use(express.static(frontendPath, {
   maxAge: '1y',
   etag: true,
@@ -101,17 +94,10 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// The "Catch-all" handler: Send index.html for SPA routing
-// This should only catch routes that don't match static files or API routes
 app.get('*', (req, res) => {
-  // If the request is for an API that doesn't exist, return a 404 JSON instead of index.html
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ message: 'API endpoint not found' });
   }
-  
-  // Check if this is a request for a static asset file
-  // If it is, the static middleware should have handled it, but if we reach here,
-  // the file doesn't exist - return 404 instead of index.html
   const staticAssetExtensions = ['.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg', '.woff', '.woff2', '.ttf', '.eot', '.json'];
   const isStaticAsset = req.path.startsWith('/assets/') || 
                         staticAssetExtensions.some(ext => req.path.endsWith(ext));

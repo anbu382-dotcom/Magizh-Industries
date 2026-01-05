@@ -19,7 +19,7 @@ runConfig:
   maxInstances: 10
   concurrency: 80
 
-# Environment variables (add secrets via Secret Manager in Firebase Console)
+# Environment variables (non-sensitive)
 env:
   - variable: NODE_ENV
     availability: [BUILD, RUNTIME]
