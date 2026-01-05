@@ -26,43 +26,57 @@ const seedAdmin = async () => {
   console.log(`Generated Admin Password: ${generatedPassword}`);
 
   try {
-    // 1. Check if admin exists in Auth
+    // 1. Check if admin exists in Firestore
+    const usersSnapshot = await db.collection('users')
+      .where('email', '==', email)
+      .where('role', '==', 'admin')
+      .get();
+
+    if (!usersSnapshot.empty) {
+      console.log('Admin already exists in Firestore. Skipping creation.');
+      return;
+    }
+
+    // 2. Check if admin exists in Auth
+    let userRecord;
     try {
-      await auth.getUserByEmail(email);
-      console.log('Admin already exists in Firebase Auth. Skipping creation.');
+      userRecord = await auth.getUserByEmail(email);
+      console.log('Admin exists in Firebase Auth but not in Firestore. Creating Firestore document...');
     } catch (e) {
       if (e.code === 'auth/user-not-found') {
-        
-        // 2. Create Admin in Firebase Authentication
-        // Note: We use the GENERATED password here so the admin can actually login
-        const userRecord = await auth.createUser({
+        // 3. Create Admin in Firebase Authentication
+        console.log('Creating admin in Firebase Auth...');
+        userRecord = await auth.createUser({
           email: email,
           password: generatedPassword, 
           displayName: `${firstName} ${lastName}`
         });
-
-        // Hash the password for Firestore
-        const hashedPassword = await bcrypt.hash(generatedPassword, 10);
-
-        // 3. Create Admin Profile in Firestore
-        // We save the generatedUserId here so we can look it up later
-        await db.collection('users').doc(userRecord.uid).set({
-          firstName,
-          lastName,
-          fatherName,
-          dob,
-          email,
-          userId: generatedUserId, // The custom ID
-          password: hashedPassword, // Save hashed password
-          role: 'admin',
-          createdAt: new Date().toISOString()
-        });
-
-        console.log('Admin Seeded Successfully!');
+        console.log('Admin created in Firebase Auth.');
+      } else {
+        throw e;
       }
     }
+
+    // 4. Hash the password for Firestore
+    const hashedPassword = await bcrypt.hash(generatedPassword, 10);
+
+    // 5. Create Admin Profile in Firestore
+    await db.collection('users').doc(userRecord.uid).set({
+      firstName,
+      lastName,
+      fatherName,
+      dob,
+      email,
+      userId: generatedUserId,
+      password: hashedPassword,
+      role: 'admin',
+      createdAt: new Date().toISOString()
+    });
+
+    console.log('Admin Seeded Successfully!');
   } catch (error) {
     console.error('Seeding Error:', error);
+    throw error;
   }
 };
 
