@@ -26,11 +26,11 @@
 /* Popup Container */
 .popup-container {
   background: white;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
   max-width: 420px;
   width: 90%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(45, 55, 72, 0.25);
   position: relative;
   animation: slideUp 0.3s ease-out;
 }
@@ -81,7 +81,7 @@
 }
 
 .popup-icon.info {
-  color: #2563eb;
+  color: var(--color-accent);
 }
 
 .popup-icon.warning {
@@ -150,11 +150,11 @@
 }
 
 .popup-btn-confirm.info {
-  background: #2563eb;
+  background: var(--color-accent);
 }
 
 .popup-btn-confirm.info:hover {
-  background: #1d4ed8;
+  background: var(--color-accent-light);
 }
 
 .popup-btn-confirm.warning {
@@ -203,8 +203,8 @@
 
 .popup-content .form-input:focus {
   outline: none;
-  border-color: #7469B6;
-  box-shadow: 0 0 0 3px rgba(116, 105, 182, 0.1);
+  border-color: #5B7B9A;
+  box-shadow: 0 0 0 3px rgba(91, 123, 154, 0.1);
 }
 
 /* User info in popup */

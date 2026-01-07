@@ -1,269 +1,380 @@
-/* Color Palette Variables */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Courgette&family=Montserrat:wght@300;400;500;600;700&display=swap");
+
+/* ============================================
+   LOGIN PAGE COLORS - Matching global palette
+   ============================================ */
 :root {
-  --purple: #473472;
-  --blue: #53629E;
-  --teal: #87BAC3;
-  --light-teal: #D6F4ED;
-  --text-dark: #1e293b;
-  --text-light: #64748b;
+  /* Form & Input Colors */
+  --bg-input: rgba(91, 123, 154, 0.15);     /* Soft blue-gray input background */
+  --input-focus-border: #5B7B9A;            /* Steel blue focus border */
+  
+  /* Button Colors */
+  --accent-green: #5B7B9A;                  /* Primary button - matches sidebar */
+  --accent-green-hover: #4A6A89;            /* Darker on hover */
+  
+  /* Form Card Colors */
+  --form-card-bg: rgba(255, 255, 255, 0.95); /* Nearly white card */
+  --form-card-border: rgba(91, 123, 154, 0.15); /* Subtle blue border */
+  
+  /* Feature Display Colors */
+  --feature-icon-bg: #5B7B9A;               /* Icon wrapper background */
+  --feature-icon-color: #ffffff;            /* White icons */
+  --feature-heading: #2D3748;               /* Dark heading text */
+  --feature-text: #64748B;                  /* Medium gray description */
+  --indicator-active: #5B7B9A;              /* Active dot color */
+  --indicator-inactive: rgba(91, 123, 154, 0.3); /* Inactive dot color */
+  
+  /* Status Colors */
+  --danger: #EF4444;                        /* Error red */
+  --success-bg: linear-gradient(135deg, #10B981, #059669); /* Success green */
+  
+  /* Text Colors */
+  --text-secondary: #64748B;                /* Secondary text */
+  --text-white: #2D3748;                    /* Dark text for inputs (light bg) */
+  --text-label: #2D3748;                    /* Form labels */
+  
+  /* Dot Pattern - black dots */
+  --dot-pattern-color: rgba(0, 0, 0, 0.3);
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Container */
+body, html {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-bg-primary);
+  background-image: 
+    radial-gradient(circle, var(--dot-pattern-color) 1.5px, transparent 1.5px);
+  background-size: 50px 50px;
+  background-position: 0 0;
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+}
+
+/* --- Main Container & Layout --- */
 .auth-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   min-height: 100vh;
   width: 100%;
+  position: relative;
+  padding: 2rem 4rem;
+  gap: 2rem;
+  background-image: 
+    radial-gradient(circle, var(--dot-pattern-color) 1.5px, transparent 1.5px);
+  background-size: 40px 40px; /* Denser grid of dots */
+  background-position: 0 0;
+}
+
+/* --- Content Section (Left) --- */
+.content-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 1;
+  font-family: "Montserrat", sans-serif;
+}
+
+.feature-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.content-heading {
+  font-family: "Courgette", cursive;
+  font-size: clamp(2.3rem, 4vw, 4rem);
+  line-height: 1.3;
+  margin-bottom: 30px;
+  color: var(--feature-heading);
+  animation: fadeSlideIn 0.5s ease-out;
+}
+
+.content-text {
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  color: var(--feature-text);
+  text-align: justify;
+  animation: fadeSlideIn 0.5s ease-out 0.1s both;
+}
+
+.feature-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  background: var(--feature-icon-bg);
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 50%, var(--teal) 100%);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 20px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 24px rgba(91, 123, 154, 0.25);
+  animation: iconPulse 2s ease-in-out infinite;
 }
 
-/* The Card */
-.auth-card {
+.feature-icon {
+  color: var(--feature-icon-color);
+  stroke-width: 1.5;
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 24px rgba(91, 123, 154, 0.25);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 32px rgba(91, 123, 154, 0.35);
+  }
+}
+
+.feature-indicators {
   display: flex;
-  width: 100%;
-  max-width: 900px;
-  min-height: 600px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  animation: fadeIn 0.5s ease-out;
+  gap: 18px;
+  margin-top: 2rem;
 }
 
-@keyframes fadeIn {
+.indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--indicator-inactive);
+  transition: all 0.3s ease;
+}
+
+.indicator-dot.active {
+  background: var(--indicator-active);
+  width: 30px;
+  border-radius: 5px;
+  box-shadow: 0 0 12px rgba(91, 123, 154, 0.4);
+}
+
+@keyframes fadeSlideIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
 }
 
-/* LEFT SIDE: Visual */
-.visual-side {
-  width: 50%;
-  background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 50%, var(--teal) 100%);
+/* --- Form Section (Right) --- */
+.form-section {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
-  padding: 40px;
-  text-align: center;
-  position: relative;
+  padding: 2.5rem;
+  z-index: 1;
 }
 
-.visual-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-  font-weight: 700;
-}
-
-.visual-content p {
-  font-size: 1.1rem;
-  opacity: 0.95;
-  line-height: 1.6;
-}
-
-/* RIGHT SIDE: Form */
-.form-side {
-  width: 50%;
-  padding: 50px;
+.form-wrapper {
+  width: 100%;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  overflow-y: auto;
+  gap: 0.8rem;
+  background: var(--form-card-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  border: 1px solid var(--form-card-border);
+  box-shadow: 0 8px 32px rgba(91, 123, 154, 0.15);
+  padding: 2.5rem;
 }
 
-.form-header {
-  margin-bottom: 30px;
+/* --- Header Styles --- */
+.header_heading {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
-.form-header h3 {
-  font-size: 2rem;
-  color: var(--text-dark);
-  margin-bottom: 10px;
+.header_heading h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: var(--text-label);
 }
 
-.form-header p {
-  color: var(--text-light);
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
 }
 
-/* Inputs */
+/* --- Form Fields --- */
 .input-group {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
 }
 
 .input-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--text-dark);
+  font-size: 0.85rem;
   font-weight: 600;
-  font-size: 0.875rem;
+  color: var(--text-label);
 }
 
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
+.required {
+  color: var(--danger);
+}
+
+.input-group input {
   width: 100%;
-}
-
-.input-icon {
-  position: absolute;
-  left: 16px;
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: var(--text-light);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  pointer-events: none;
-  z-index: 10;
-}
-
-.auth-input {
-  width: 100%;
-  padding: 12px 48px 12px 48px;
-  border: 2px solid #e2e8f0;
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-input);
+  border: 1px solid rgba(91, 123, 154, 0.2);
   border-radius: 10px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  color: var(--text-white);
+  font-size: 0.95rem;
   outline: none;
-  background-color: #f8fafc;
-  color: var(--text-dark);
-  height: 48px;
-  box-sizing: border-box;
+  transition: border-color 0.2s ease;
 }
 
-.auth-input:focus {
-  border-color: var(--blue);
-  background-color: white;
-  box-shadow: 0 0 0 3px rgba(83, 98, 158, 0.1);
+.input-group input:focus {
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px rgba(91, 123, 154, 0.1);
 }
 
-.auth-input:focus + .input-icon,
-.input-wrapper:has(.auth-input:focus) .input-icon {
-  stroke: var(--blue);
+.input-group input::placeholder {
+  color: var(--text-secondary);
 }
 
-/* Error State for Input */
-.input-wrapper.input-error .auth-input {
-  border-color: #ef4444;
-  background-color: #fef2f2;
+/* Override browser autofill styles completely */
+.input-group input:-webkit-autofill,
+.input-group input:-webkit-autofill:hover,
+.input-group input:-webkit-autofill:focus,
+.input-group input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: var(--text-white) !important;
+  transition: background-color 0s 50000s, color 0s 50000s !important;
+  box-shadow: inset 0 0 0 1000px var(--bg-input) !important;
+  background-color: var(--bg-input) !important;
+  border-radius: 8px !important;
+  color: var(--text-white) !important;
 }
 
-.input-wrapper.input-error .input-icon {
-  stroke: #ef4444;
+.input-group input.input-error {
+  border-color: var(--danger);
 }
 
-.input-wrapper.input-error .password-toggle {
-  color: #ef4444;
+/* --- Password Field --- */
+.password-input-wrapper {
+  position: relative;
 }
 
-/* Password Toggle Button */
-.password-toggle {
+.password-input-wrapper input {
+  padding-right: 3rem;
+}
+
+.eye-toggle {
   position: absolute;
-  right: 12px;
+  right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: var(--text-light);
+  color: var(--text-secondary);
   cursor: pointer;
-  padding: 8px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: color 0.3s ease;
-  z-index: 10;
-}
-
-.password-toggle:hover {
-  color: var(--mid-blue);
-}
-
-.password-toggle:focus {
+  transition: color 0.2s;
   outline: none;
-  color: var(--mid-blue);
 }
 
-/* Buttons */
-.submit-btn {
+.eye-toggle:hover {
+  color: var(--text-white);
+}
+
+.eye-toggle:focus {
+  outline: none;
+}
+
+/* --- Main Submit Button --- */
+.main-btn {
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
-  color: white;
+  padding: 0.85rem;
+  background-color: var(--accent-green);
+  color: #ffffff;
   border: none;
   border-radius: 10px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 10px;
-  box-shadow: 0 4px 12px rgba(71, 52, 114, 0.3);
+  transition: all 0.2s ease;
+  outline: none;
+  margin-top: 0.5rem;
 }
 
-.submit-btn:hover {
-  background: linear-gradient(135deg, var(--blue) 0%, var(--teal) 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(83, 98, 158, 0.4);
+.main-btn:hover {
+  background-color: var(--accent-green-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.3);
 }
 
-.submit-btn.request-btn {
-  background: linear-gradient(135deg, var(--blue), var(--teal));
+.main-btn:focus {
+  outline: none;
 }
 
-.submit-btn.request-btn:hover {
-  background: linear-gradient(135deg, var(--teal), var(--blue));
-}
-
-/* Toggle Link */
-.toggle-container {
-  margin-top: 20px;
+/* --- Toggle Link (Login/Signup switch) --- */
+.toggle-link-container {
   text-align: center;
   font-size: 0.9rem;
-  color: var(--text-dark);
+  color: var(--text-secondary);
+  margin-top: 1rem;
 }
 
-.toggle-btn {
+.link-btn {
   background: none;
   border: none;
-  color: var(--blue);
-  font-weight: bold;
+  color: var(--accent-green);
+  font-weight: 600;
   cursor: pointer;
-  margin-left: 5px;
+  padding: 0;
+  margin-left: 4px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.link-btn:hover {
   text-decoration: underline;
-  transition: color 0.3s ease;
+}
+
+.link-btn:focus {
   outline: none;
 }
 
-.toggle-btn:hover {
-  color: var(--teal);
+/* --- Signup Grid Layout --- */
+.signup-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
-.toggle-btn:focus {
-  outline: none;
-  box-shadow: none;
+.signup-row {
+  display: flex;
+  gap: 0.6rem;
 }
 
-.toggle-btn:active {
-  outline: none;
+.signup-row .input-group {
+  flex: 1;
+  margin-bottom: 0;
 }
 
-/* Success Message */
+/* --- Success Message --- */
 .success-message {
-  background: linear-gradient(135deg, #10b981, #059669);
+  background: var(--success-bg);
   color: white;
   padding: 16px 20px;
   border-radius: 12px;
@@ -308,301 +419,111 @@
   opacity: 0.9;
 }
 
-/* ===========================
-   RESPONSIVE MEDIA QUERIES
-   =========================== */
-
-/* Tablet View - iPad and similar (768px - 1024px) */
-@media screen and (max-width: 1024px) {
-  .auth-card {
-    max-width: 750px;
-    min-height: 550px;
-  }
-
-  .visual-side {
-    padding: 30px;
-  }
-
-  .visual-content h2 {
-    font-size: 2rem;
-  }
-
-  .visual-content p {
-    font-size: 1rem;
-  }
-
-  .form-side {
-    padding: 40px 35px;
-  }
-
-  .form-header h3 {
-    font-size: 1.75rem;
-  }
-}
-
-/* Tablet Portrait - iPad Portrait (768px - 900px) */
-@media screen and (max-width: 900px) {
-  .auth-card {
-    flex-direction: column;
-    max-width: 500px;
-    min-height: auto;
-  }
-
-  .visual-side {
-    width: 100%;
-    padding: 40px 30px;
-    min-height: 250px;
-  }
-
-  .visual-content h2 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
-
-  .visual-content p {
-    font-size: 0.95rem;
-  }
-
-  .form-side {
-    width: 100%;
-    padding: 40px 30px;
-  }
-
-  .form-header h3 {
-    font-size: 1.75rem;
-    margin-bottom: 8px;
-  }
-
-  .form-header p {
-    font-size: 0.9rem;
-  }
-}
-
-/* Mobile Landscape (576px - 767px) */
-@media screen and (max-width: 767px) {
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+@media (max-width: 1024px) {
   .auth-container {
-    padding: 15px;
+    padding: 2rem;
   }
 
-  .auth-card {
+  .content-section {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body, html {
+    background-image: none;
+  }
+
+  .auth-container {
+    grid-template-columns: 1fr;
+    padding: 0;
+    gap: 0;
+    background-image: none;
+  }
+
+  .content-section {
+    display: none;
+  }
+
+  .form-section {
+    padding: 0;
+    min-height: 100vh;
+    background: transparent;
+  }
+
+  .form-wrapper {
     max-width: 100%;
-    border-radius: 15px;
-  }
-
-  .visual-side {
-    padding: 30px 20px;
-    min-height: 200px;
-  }
-
-  .visual-content h2 {
-    font-size: 1.75rem;
-  }
-
-  .visual-content p {
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-
-  .form-side {
-    padding: 30px 25px;
-  }
-
-  .form-header h3 {
-    font-size: 1.5rem;
-  }
-
-  .form-header p {
-    font-size: 0.875rem;
-  }
-
-  .auth-input {
-    padding: 11px 45px 11px 45px;
-    font-size: 0.95rem;
-    height: 46px;
-  }
-
-  .input-icon {
-    left: 14px;
-    width: 18px;
-    height: 18px;
-  }
-
-  .password-toggle {
-    right: 10px;
-    padding: 6px;
-  }
-
-  .submit-btn {
-    padding: 13px;
-    font-size: 0.95rem;
-  }
-
-  .input-group {
-    margin-bottom: 18px;
-  }
-
-  .success-message {
-    padding: 14px 18px;
-    gap: 10px;
-  }
-
-  .success-message svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .success-message-content h4 {
-    font-size: 0.95rem;
-  }
-
-  .success-message-content p {
-    font-size: 0.8rem;
+    width: 100%;
+    min-height: 100vh;
+    border-radius: 0;
+    border: none;
+    padding: 2rem 1.5rem;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
   }
 }
 
-/* Mobile Portrait (320px - 575px) */
-@media screen and (max-width: 575px) {
+@media (max-width: 480px) {
+  body, html {
+    background-image: none;
+  }
+
   .auth-container {
-    padding: 10px;
+    padding: 0;
+    background-image: none;
   }
 
-  .auth-card {
-    border-radius: 12px;
+  .form-section {
+    padding: 0;
   }
 
-  .visual-side {
-    padding: 25px 15px;
-    min-height: 180px;
+  .form-wrapper {
+    padding: 1.5rem 1rem;
+    gap: 0.7rem;
+    min-height: 100vh;
   }
 
-  .visual-content h2 {
-    font-size: 1.5rem;
-    margin-bottom: 8px;
-  }
-
-  .visual-content p {
-    font-size: 0.85rem;
-    line-height: 1.4;
-  }
-
-  .form-side {
-    padding: 25px 20px;
-  }
-
-  .form-header {
-    margin-bottom: 25px;
-  }
-
-  .form-header h3 {
-    font-size: 1.35rem;
-    margin-bottom: 6px;
-  }
-
-  .form-header p {
-    font-size: 0.8rem;
-  }
-
-  .input-group label {
-    font-size: 0.8rem;
-    margin-bottom: 6px;
-  }
-
-  .auth-input {
-    padding: 10px 42px 10px 42px;
-    font-size: 0.9rem;
-    height: 44px;
-    border-radius: 8px;
-  }
-
-  .input-icon {
-    left: 12px;
-    width: 16px;
-    height: 16px;
-  }
-
-  .password-toggle {
-    right: 8px;
-    padding: 5px;
-  }
-
-  .password-toggle svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .submit-btn {
-    padding: 12px;
-    font-size: 0.9rem;
-    border-radius: 8px;
-    margin-top: 8px;
-  }
-
-  .input-group {
-    margin-bottom: 16px;
-  }
-
-  .toggle-container {
-    margin-top: 18px;
-    font-size: 0.85rem;
-  }
-
-  .success-message {
-    padding: 12px 15px;
-    gap: 8px;
-    border-radius: 10px;
-    margin-bottom: 18px;
-  }
-
-  .success-message svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .success-message-content h4 {
-    font-size: 0.9rem;
-    margin-bottom: 3px;
-  }
-
-  .success-message-content p {
-    font-size: 0.75rem;
-  }
-}
-
-/* Extra Small Mobile (320px - 374px) */
-@media screen and (max-width: 374px) {
-  .auth-container {
-    padding: 8px;
-  }
-
-  .visual-side {
-    padding: 20px 12px;
-    min-height: 160px;
-  }
-
-  .visual-content h2 {
+  .header_heading h1 {
     font-size: 1.3rem;
   }
 
-  .visual-content p {
+  .subtitle {
     font-size: 0.8rem;
   }
 
-  .form-side {
-    padding: 20px 15px;
+  .logo-circle {
+    width: 44px;
+    height: 44px;
   }
 
-  .form-header h3 {
-    font-size: 1.25rem;
+  .input-group {
+    margin-bottom: 0.5rem;
   }
 
-  .auth-input {
-    padding: 9px 40px 9px 40px;
-    font-size: 0.85rem;
-    height: 42px;
+  .input-group label {
+    font-size: 0.75rem;
   }
 
-  .submit-btn {
-    padding: 11px;
-    font-size: 0.85rem;
+  .input-group input {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .main-btn {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .signup-row {
+    flex-direction: column;
+  }
+
+  .signup-row .input-group {
+    margin-bottom: 0.5rem;
   }
 }

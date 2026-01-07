@@ -1,25 +1,42 @@
-/* CSS Variables for Theme */
 :root {
-  /* Color Palette */
-  --color-bg-primary: #F5EFE6;
-  --color-bg-secondary: #E8DFCA;
-  --color-accent: #6D94C5;
-  --color-accent-light: #CBDCEB;
-  --color-text-primary: #6D94C5;
-  --color-text-secondary: #8892b0;
-  --color-white: #ffffff;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
-
-  /* Shadows */
-  --shadow-sm: 0 4px 15px rgba(109, 148, 197, 0.1);
-  --shadow-md: 0 8px 24px rgba(109, 148, 197, 0.15);
-  --shadow-lg: 0 12px 48px rgba(109, 148, 197, 0.3);
+  /* Primary Background */
+  --color-bg-primary: #F8F6F4;              /* Warm off-white background for all pages */
+  
+  /* Navbar Colors - Clean & Light */
+  --navbar-bg: rgba(255, 255, 255, 0.95);   /* Almost white with slight transparency */
+  --navbar-text: #2D3748;                   /* Dark gray for readability */
+  --navbar-icon: #5B7B9A;                   /* Soft steel blue icons */
+  --navbar-icon-hover: #7C9AB6;             /* Lighter blue on hover */
+  --navbar-border: rgba(91, 123, 154, 0.1); /* Subtle blue-gray border */
+  
+  /* Sidebar Colors - Balanced Blue */
+  --sidebar-bg: #5B7B9A;                    /* Soft steel blue - professional look */
+  --sidebar-text: rgba(255, 255, 255, 0.85); /* Off-white text */
+  --sidebar-text-active: #ffffff;           /* Pure white for active items */
+  --sidebar-hover: rgba(255, 255, 255, 0.15); /* Subtle hover effect */
+  
+  /* Text Colors */
+  --color-text-primary: #2D3748;            /* Dark charcoal for headings */
+  --color-text-secondary: #64748B;          /* Medium gray for body text */
+  --color-text-muted: #94A3B8;              /* Light gray for hints */
+  --color-white: #ffffff;                   /* Pure white for cards */
+  
+  /* Accent Color */
+  --color-accent: #5B7B9A;                  /* Primary accent - matches sidebar */
+  --color-accent-light: #7C9AB6;            /* Lighter accent for hovers */
+  
+  /* ============================================
+     DESIGN TOKENS
+     ============================================ */
+  
+  /* Shadows - Softer, warmer */
+  --shadow-sm: 0 2px 8px rgba(45, 55, 72, 0.06);
+  --shadow-md: 0 4px 16px rgba(45, 55, 72, 0.08);
+  --shadow-lg: 0 8px 32px rgba(45, 55, 72, 0.12);
 
   /* Borders */
-  --border-subtle: 2px solid rgba(109, 148, 197, 0.15);
-  --border-accent: 2px solid rgba(109, 148, 197, 0.3);
+  --border-subtle: 1px solid rgba(91, 123, 154, 0.1);
+  --border-accent: 1px solid rgba(91, 123, 154, 0.2);
 
   /* Transitions */
   --transition-fast: 0.2s ease;
@@ -53,61 +70,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 50%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-primary);
   color: var(--color-text-primary);
   overflow-x: hidden;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(109, 148, 197, 0.1);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-accent);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #5a7da8;
-}
-
-/* Selection */
-::selection {
-  background: var(--color-accent);
-  color: var(--color-white);
-}
-
-/* Focus Styles */
-*:focus {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-button:focus,
-a:focus {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* Global Input Styling */
-input,
-textarea,
-select {
-  color: #000000 !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #9ca3af;
 }

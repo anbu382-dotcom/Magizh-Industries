@@ -1,17 +1,5 @@
 /* ArchivedMaster.css - Professional Purple Theme */
 
-:root {
-  --primary-purple: #7469B6;
-  --primary-light: #AD88C6;
-  --accent-pink: #FFE1FF;
-  --bg-light: #FFF7F1;
-  --success-green: #10b981;
-  --success-green-hover: #059669;
-  --danger-red: #dc3545;
-  --danger-red-hover: #c82333;
-  --warning-orange: #f59e0b;
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -21,7 +9,7 @@
 .am-wrapper {
   display: flex;
   height: 100vh;
-  background: linear-gradient(135deg, #f8f9ff 0%, #fff5f7 100%);
+  background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-primary) 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow: hidden;
 }
@@ -78,10 +66,10 @@
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background: white;
-  border: 2px solid rgba(116, 105, 182, 0.2);
+  background: var(--color-white);
+  border: 2px solid rgba(91, 123, 154, 0.2);
   border-radius: 12px;
-  color: var(--primary-purple);
+  color: var(--color-accent);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -90,9 +78,9 @@
 }
 
 .am-back-btn:hover {
-  background: var(--primary-purple);
-  color: white;
-  border-color: var(--primary-purple);
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
   transform: translateX(-4px);
 }
 
@@ -112,7 +100,7 @@
 .am-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--primary-purple);
+  color: var(--color-accent);
   margin: 0;
   font-family: 'Segoe UI', system-ui, sans-serif;
   text-transform: capitalize;
@@ -121,7 +109,7 @@
 
 .am-subtitle {
   font-size: 1rem;
-  color: #666;
+  color: var(--color-text-muted);
   margin: 0.5rem 0 0 0;
   font-weight: 500;
   text-align: center;
@@ -129,11 +117,11 @@
 
 /* Main Panel */
 .am-main-panel {
-  background: white;
+  background: var(--color-white);
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 0 8px 32px rgba(116, 105, 182, 0.12);
-  border: 1px solid rgba(116, 105, 182, 0.15);
+  box-shadow: 0 8px 32px rgba(91, 123, 154, 0.12);
+  border: 1px solid rgba(91, 123, 154, 0.15);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -168,25 +156,25 @@
 .am-search-box input {
   width: 100%;
   padding: 14px 16px 14px 48px;
-  border: 2px solid rgba(116, 105, 182, 0.15);
+  border: 2px solid rgba(91, 123, 154, 0.15);
   border-radius: 12px;
   font-size: 15px;
   font-family: 'Segoe UI', system-ui, sans-serif;
   transition: all 0.3s ease;
-  background: #fafafa;
+  background: var(--color-bg-light);
 }
 
 .am-search-box input:focus {
   outline: none;
-  border-color: var(--primary-purple);
-  background: white;
-  box-shadow: 0 0 0 4px rgba(116, 105, 182, 0.08);
+  border-color: var(--color-accent);
+  background: var(--color-white);
+  box-shadow: 0 0 0 4px rgba(91, 123, 154, 0.08);
 }
 
 .am-filter-tabs {
   display: flex;
   gap: 0.75rem;
-  background: #f8f9fa;
+  background: var(--color-bg-lightest);
   padding: 6px;
   border-radius: 12px;
 }
@@ -195,7 +183,7 @@
   padding: 10px 24px;
   border: none;
   background: transparent;
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 14px;
   font-weight: 600;
   border-radius: 8px;
@@ -205,14 +193,14 @@
 }
 
 .am-tab:hover {
-  background: rgba(116, 105, 182, 0.1);
-  color: var(--primary-purple);
+  background: rgba(91, 123, 154, 0.1);
+  color: var(--color-accent);
 }
 
 .am-tab-active {
-  background: var(--primary-purple) !important;
-  color: white !important;
-  box-shadow: 0 4px 12px rgba(116, 105, 182, 0.25);
+  background: var(--color-accent) !important;
+  color: var(--color-white) !important;
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.25);
 }
 
 /* Loading State */
@@ -228,8 +216,8 @@
 .am-spinner {
   width: 56px;
   height: 56px;
-  border: 4px solid rgba(116, 105, 182, 0.1);
-  border-top-color: var(--primary-purple);
+  border: 4px solid rgba(91, 123, 154, 0.1);
+  border-top-color: var(--color-accent);
   border-radius: 50%;
   animation: am-spin 0.8s linear infinite;
 }
@@ -241,7 +229,7 @@
 }
 
 .am-loading p {
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 1rem;
   font-weight: 500;
 }
@@ -257,19 +245,19 @@
 }
 
 .am-empty svg {
-  color: rgba(116, 105, 182, 0.2);
+  color: rgba(91, 123, 154, 0.2);
   margin-bottom: 1.5rem;
 }
 
 .am-empty h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--primary-purple);
+  color: var(--color-accent);
   margin: 0 0 0.5rem 0;
 }
 
 .am-empty p {
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 1rem;
   margin: 0;
 }
@@ -288,15 +276,15 @@
 
 /* Card Styles */
 .am-card {
-  background: white;
+  background: var(--color-white);
   border-radius: 16px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border: 1px solid rgba(116, 105, 182, 0.15);
+  border: 1px solid rgba(91, 123, 154, 0.15);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 16px rgba(116, 105, 182, 0.08);
+  box-shadow: 0 4px 16px rgba(91, 123, 154, 0.08);
   position: relative;
   height: fit-content;
   min-height: 400px;
@@ -316,8 +304,8 @@
 
 .am-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(116, 105, 182, 0.18);
-  border-color: var(--primary-purple);
+  box-shadow: 0 12px 32px rgba(91, 123, 154, 0.18);
+  border-color: var(--color-accent);
 }
 
 .am-card-header {
@@ -326,17 +314,17 @@
   align-items: center;
   gap: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f5f5f5;
+  border-bottom: 2px solid var(--color-bg-lighter);
 }
 
 .am-code-badge {
   padding: 8px 16px;
-  background: var(--primary-purple);
-  color: white;
+  background: var(--color-accent);
+  color: var(--color-white);
   border-radius: 10px;
   font-weight: 700;
   font-size: 15px;
-  box-shadow: 0 4px 12px rgba(116, 105, 182, 0.25);
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.25);
   letter-spacing: 0.5px;
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
@@ -450,13 +438,13 @@
 }
 
 .am-restore-btn {
-  background: var(--success-green);
-  color: white;
+  background: var(--color-success);
+  color: var(--color-white);
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
 }
 
 .am-restore-btn:hover {
-  background: var(--success-green-hover);
+  background: #059669;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
 }
@@ -466,15 +454,15 @@
 }
 
 .am-permanent-delete-btn {
-  background: var(--danger-red);
-  color: white;
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+  background: var(--color-danger-dark);
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
 }
 
 .am-permanent-delete-btn:hover {
-  background: var(--danger-red-hover);
+  background: #991b1b;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.35);
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.35);
 }
 
 .am-permanent-delete-btn:active {
@@ -876,9 +864,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.875rem 1rem;
-  background: #f8f9fa;
+  background: var(--color-bg-lightest);
   border-radius: 10px;
-  border-left: 4px solid var(--primary-purple);
+  border-left: 4px solid var(--color-accent);
 }
 
 .am-popup-label {

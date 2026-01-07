@@ -4,16 +4,16 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
+  background: #F1F0E9;
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
-  animation: fadeIn 0.3s ease;
+  z-index: 99999;
+  animation: fadeInLoader 0.2s ease-out forwards;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInLoader {
   from {
     opacity: 0;
   }
@@ -37,8 +37,8 @@
   justify-content: center;
   font-family: 'Segoe UI', sans-serif;
   font-weight: bold;
-  color: #7469B6;
-  background-color: #FFE1FF;
+  color: var(--color-accent);
+  background-color: rgba(91, 123, 154, 0.1);
   border-radius: 8px;
   min-width: 40px;
   min-height: 40px;
@@ -53,7 +53,7 @@
   }
   50% {
     transform: translateY(-22px) rotate(3deg) scale(1.1);
-    color: #AD88C6;
-    background-color: #FFF7F1;
+    color: var(--color-accent-light);
+    background-color: var(--color-bg-primary);
   }
 }
