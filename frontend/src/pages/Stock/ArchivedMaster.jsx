@@ -4,7 +4,9 @@ import Navbar from '../../components/Navbar';
 import Popup from '../../components/popup';
 import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/ArchivedMaster.css';
-import { Undo2, Trash2 } from 'lucide-react';
+import { Undo2, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const ITEMS_PER_PAGE = 6;
 
 const ArchivedMaster = () => {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
@@ -17,6 +19,7 @@ const ArchivedMaster = () => {
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [showRestoreSuccess, setShowRestoreSuccess] = useState(false);
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     fetchArchivedMaterials();
@@ -130,6 +133,16 @@ const ArchivedMaster = () => {
     return matchesSearch && matchesFilter;
   });
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredArchivedMaterials.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedMaterials = filteredArchivedMaterials.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Reset to page 1 when search or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterType]);
+
   return (
     <div className="am-wrapper">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
@@ -193,58 +206,82 @@ const ArchivedMaster = () => {
                 <p>{searchTerm ? 'Try adjusting your search criteria' : 'No materials have been archived yet'}</p>
               </div>
             ) : (
-              <div className="am-grid">
-                {filteredArchivedMaterials.map((material) => (
-                  <div key={material.id} className="am-card">
-                    <div className="am-card-header">
-                      <span className="am-code-badge">{material.materialCode || 'N/A'}</span>
-                      <span className={`am-flow-badge am-flow-${material.materialFlow?.toLowerCase()}`}>
-                        {material.materialFlow}
-                      </span>
-                    </div>
+              <>
+                <div className="am-grid">
+                  {paginatedMaterials.map((material) => (
+                    <div key={material.id} className="am-card">
+                      <div className="am-card-header">
+                        <span className="am-code-badge">{material.materialCode || 'N/A'}</span>
+                        <span className={`am-flow-badge am-flow-${material.materialFlow?.toLowerCase()}`}>
+                          {material.materialFlow}
+                        </span>
+                      </div>
 
-                    <div className="am-card-body">
-                      <h3 className="am-material-name">{material.materialName}</h3>
+                      <div className="am-card-body">
+                        <h3 className="am-material-name">{material.materialName}</h3>
 
-                      <div className="am-info-list">
-                        <div className="am-info-row">
-                          <span className="am-label">Category:</span>
-                          <span className="am-value">{material.category || '-'}</span>
-                        </div>
-                        <div className="am-info-row">
-                          <span className="am-label">HSN Code:</span>
-                          <span className="am-value">{material.hsnCode || '-'}</span>
-                        </div>
-                        <div className="am-info-row">
-                          <span className="am-label">Archived:</span>
-                          <span className="am-value am-archived-date">
-                            {material.archivedAt ? new Date(material.archivedAt).toLocaleDateString() : '-'}
-                          </span>
+                        <div className="am-info-list">
+                          <div className="am-info-row">
+                            <span className="am-label">Category:</span>
+                            <span className="am-value">{material.category || '-'}</span>
+                          </div>
+                          <div className="am-info-row">
+                            <span className="am-label">HSN Code:</span>
+                            <span className="am-value">{material.hsnCode || '-'}</span>
+                          </div>
+                          <div className="am-info-row">
+                            <span className="am-label">Archived:</span>
+                            <span className="am-value am-archived-date">
+                              {material.archivedAt ? new Date(material.archivedAt).toLocaleDateString() : '-'}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="am-card-footer">
+                      <div className="am-card-footer">
+                        <button
+                          className="am-restore-btn"
+                          onClick={() => handleRestoreMaterial(material)}
+                          title="Restore to active inventory"
+                        >
+                          <Undo2 size={16} />
+                          Restore
+                        </button>
+                        <button
+                          className="am-permanent-delete-btn"
+                          onClick={() => handlePermanentDelete(material)}
+                          title="Permanently delete"
+                        >
+                          <Trash2 size={16} />
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Pagination Controls - Only Previous/Next */}
+                  {totalPages > 1 && (
+                    <div className="am-pagination">
                       <button
-                        className="am-restore-btn"
-                        onClick={() => handleRestoreMaterial(material)}
-                        title="Restore to active inventory"
+                        className="am-pagination-btn"
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
                       >
-                        <Undo2 size={16} />
-                        Restore
+                        <ChevronLeft size={18} />
+                        Previous
                       </button>
                       <button
-                        className="am-permanent-delete-btn"
-                        onClick={() => handlePermanentDelete(material)}
-                        title="Permanently delete"
+                        className="am-pagination-btn"
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
                       >
-                        <Trash2 size={16} />
-                        Delete
+                        Next
+                        <ChevronRight size={18} />
                       </button>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  )}
+                </div>
+              </>
             )}
           </div>
         </div>

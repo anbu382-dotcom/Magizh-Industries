@@ -3,7 +3,9 @@ import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import '../../styles/pageStyles/Stock/DeleteMaster.css';
 import { useNavigate } from 'react-router-dom';
-import { IndianRupee, Warehouse } from 'lucide-react';
+import { IndianRupee, Warehouse, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const ITEMS_PER_PAGE = 6;
 
 const Entry = () => {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ const Entry = () => {
   const [filterType, setFilterType] = useState('all');
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleMenuClick = () => {
     setSidebarExpanded(!sidebarExpanded);
@@ -54,6 +57,16 @@ const Entry = () => {
 
     return matchesSearch && matchesFilter;
   });
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredMaterials.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedMaterials = filteredMaterials.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Reset to page 1 when search or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterType]);
 
   const handleSelect = (material) => {
     // Navigate to EntryStock page with material data
@@ -124,7 +137,7 @@ const Entry = () => {
               </div>
             ) : (
               <div className="dm-grid">
-                {filteredMaterials.map((material) => (
+                {paginatedMaterials.map((material) => (
                   <div key={material.id} className="dm-card entry-card">
                     <div className="dm-card-header">
                       <span className="dm-code-badge">{material.materialCode || 'N/A'}</span>
@@ -170,6 +183,28 @@ const Entry = () => {
                     </div>
                   </div>
                 ))}
+
+                {/* Pagination Controls - Only Previous/Next */}
+                {totalPages > 1 && (
+                  <div className="dm-pagination">
+                    <button
+                      className="dm-pagination-btn"
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeft size={18} />
+                      Previous
+                    </button>
+                    <button
+                      className="dm-pagination-btn"
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                      <ChevronRight size={18} />
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>

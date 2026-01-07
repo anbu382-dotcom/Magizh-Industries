@@ -37,6 +37,13 @@ const AuthPage = () => {
     }
   ];
 
+  // Clear authentication token when login page is accessed
+  // This prevents back button navigation from bypassing authentication
+  useEffect(() => {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+  }, []);
+
   // Auto-rotate features every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {

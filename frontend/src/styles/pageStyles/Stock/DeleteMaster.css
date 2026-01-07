@@ -369,7 +369,7 @@
 .dm-delete-btn {
   width: 100%;
   padding: 10px 16px;
-  background: var(--danger-red);
+  background: #dc2626;
   color: white;
   border: none;
   border-radius: 10px;
@@ -381,7 +381,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
@@ -392,9 +392,9 @@
 }
 
 .dm-delete-btn:hover {
-  background: var(--danger-red-hover);
+  background: #b91c1c;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.35);
+  box-shadow: 0 6px 20px rgba(185, 28, 28, 0.4);
 }
 
 /* Loading State */
@@ -582,9 +582,9 @@
 }
 
 .dm-confirm-btn {
-  background: var(--danger-red);
+  background: #dc2626;
   color: white;
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
 }
 
 .dm-confirm-btn svg {
@@ -593,9 +593,9 @@
 }
 
 .dm-confirm-btn:hover {
-  background: var(--danger-red-hover);
+  background: #b91c1c;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.35);
+  box-shadow: 0 6px 20px rgba(185, 28, 28, 0.35);
 }
 
 /* Archive Icon Button */
@@ -763,7 +763,7 @@
 .dm-permanent-delete-btn {
   flex: 1;
   padding: 10px 16px;
-  background: var(--danger-red);
+  background: #dc2626;
   color: white;
   border: none;
   border-radius: 10px;
@@ -775,14 +775,14 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
 .dm-permanent-delete-btn:hover {
-  background: var(--danger-red-hover);
+  background: #b91c1c;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.35);
+  box-shadow: 0 6px 20px rgba(185, 28, 28, 0.35);
 }
 
 /* Permanent Delete Modal Specific Styles */
@@ -799,7 +799,7 @@
 .dm-permanent-confirm-btn {
   flex: 1;
   padding: 14px 24px;
-  background: var(--danger-red);
+  background: #dc2626;
   color: white;
   border: none;
   border-radius: 12px;
@@ -812,19 +812,61 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
 }
 
 .dm-permanent-confirm-btn:hover {
-  background: var(--danger-red-hover);
+  background: #b91c1c;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.35);
+  box-shadow: 0 6px 20px rgba(185, 28, 28, 0.35);
 }
 
 .dm-archived-date {
   color: #999;
   font-style: italic;
 }
+
+/* ===========================
+   PAGINATION STYLES
+   =========================== */
+
+.dm-pagination {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0 0.5rem 0;
+}
+
+.dm-pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 10px 20px;
+  background: var(--color-white);
+  border: 2px solid rgba(91, 123, 154, 0.2);
+  border-radius: 10px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.dm-pagination-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.dm-pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* ===========================
    RESPONSIVE MEDIA QUERIES
    =========================== */
@@ -968,6 +1010,16 @@
 
   .dm-delete-btn {
     padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  .dm-pagination {
+    gap: 1rem;
+    padding: 1rem 0 0.5rem 0;
+  }
+
+  .dm-pagination-btn {
+    padding: 8px 14px;
     font-size: 13px;
   }
 }

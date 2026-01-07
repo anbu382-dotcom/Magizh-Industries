@@ -303,7 +303,6 @@
 }
 
 .am-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(91, 123, 154, 0.18);
   border-color: var(--color-accent);
 }
@@ -438,7 +437,7 @@
 }
 
 .am-restore-btn {
-  background: var(--color-success);
+  background: #10b981;
   color: var(--color-white);
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
 }
@@ -454,15 +453,15 @@
 }
 
 .am-permanent-delete-btn {
-  background: var(--color-danger-dark);
+  background: #dc2626;
   color: var(--color-white);
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
 }
 
 .am-permanent-delete-btn:hover {
-  background: #991b1b;
+  background: #b91c1c;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.35);
+  box-shadow: 0 6px 16px rgba(185, 28, 28, 0.4);
 }
 
 .am-permanent-delete-btn:active {
@@ -492,6 +491,47 @@
   border-color: var(--warning-orange);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+}
+
+/* ===========================
+   PAGINATION STYLES
+   =========================== */
+
+.am-pagination {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0 0.5rem 0;
+}
+
+.am-pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 10px 20px;
+  background: var(--color-white);
+  border: 2px solid rgba(91, 123, 154, 0.2);
+  border-radius: 10px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.am-pagination-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.am-pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* ===========================
@@ -662,6 +702,16 @@
   .am-archive-icon-btn svg {
     width: 18px;
     height: 18px;
+  }
+
+  .am-pagination {
+    gap: 1rem;
+    padding: 1rem 0 0.5rem 0;
+  }
+
+  .am-pagination-btn {
+    padding: 8px 14px;
+    font-size: 13px;
   }
 }
 
@@ -857,6 +907,20 @@
   gap: 1rem;
   padding: 1rem 0;
   margin-top: 0.5rem;
+}
+
+/* Override popup confirm button to be red for delete action */
+.am-wrapper .popup-btn-confirm,
+.am-wrapper .popup-btn-confirm.danger,
+.am-wrapper .popup-btn-confirm.warning {
+  background: #dc2626 !important;
+  color: white !important;
+}
+
+.am-wrapper .popup-btn-confirm:hover,
+.am-wrapper .popup-btn-confirm.danger:hover,
+.am-wrapper .popup-btn-confirm.warning:hover {
+  background: #b91c1c !important;
 }
 
 .am-popup-info-row {

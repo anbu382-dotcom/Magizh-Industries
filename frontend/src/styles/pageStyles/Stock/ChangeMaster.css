@@ -940,6 +940,48 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(91, 123, 154, 0.4);
 }
+
+/* ===========================
+   PAGINATION STYLES
+   =========================== */
+
+.cm-pagination {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0 0.5rem 0;
+}
+
+.cm-pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 10px 20px;
+  background: var(--color-white);
+  border: 2px solid rgba(91, 123, 154, 0.2);
+  border-radius: 10px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.cm-pagination-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.cm-pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* ===========================
    RESPONSIVE MEDIA QUERIES
    =========================== */
@@ -1084,6 +1126,16 @@
 
   .cm-edit-btn {
     padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  .cm-pagination {
+    gap: 1rem;
+    padding: 1rem 0 0.5rem 0;
+  }
+
+  .cm-pagination-btn {
+    padding: 8px 14px;
     font-size: 13px;
   }
 

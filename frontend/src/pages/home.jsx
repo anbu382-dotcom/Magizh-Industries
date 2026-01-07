@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import UserManagement from '../components/UserManagement';
@@ -6,9 +7,40 @@ import { Users } from 'lucide-react';
 import '../styles/pageStyles/Home.css';
 
 const Home = ({ isAdmin: isAdminProp = false }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+
+  // Robust back button handling - always redirect to login
+  const handleBackNavigation = useCallback(() => {
+    navigate('/login', { replace: true });
+  }, [navigate]);
+
+  useEffect(() => {
+    // Push state twice to create a buffer for back button detection
+    window.history.pushState({ page: 'home' }, '', window.location.href);
+    window.history.pushState({ page: 'home' }, '', window.location.href);
+    
+    const handlePopState = (event) => {
+      // Always redirect to login on any back navigation
+      handleBackNavigation();
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    // Also handle beforeunload for additional safety
+    const handleBeforeUnload = () => {
+      window.history.pushState({ page: 'home' }, '', window.location.href);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [handleBackNavigation]);
 
   useEffect(() => {
     const userData = sessionStorage.getItem('user');

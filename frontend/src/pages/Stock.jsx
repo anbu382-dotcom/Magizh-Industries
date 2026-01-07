@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import '../styles/pageStyles/Stock.css';
@@ -7,6 +7,36 @@ import '../styles/pageStyles/Stock.css';
 const Stock = ({ isAdmin = false }) => {
   const navigate = useNavigate();
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+
+  // Robust back button handling - always redirect to home
+  const handleBackNavigation = useCallback(() => {
+    navigate('/home', { replace: true });
+  }, [navigate]);
+
+  useEffect(() => {
+    // Push state twice to create a buffer for back button detection
+    window.history.pushState({ page: 'stock' }, '', window.location.href);
+    window.history.pushState({ page: 'stock' }, '', window.location.href);
+    
+    const handlePopState = (event) => {
+      // Always redirect to home on any back navigation
+      handleBackNavigation();
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    // Also handle beforeunload for additional safety
+    const handleBeforeUnload = () => {
+      window.history.pushState({ page: 'stock' }, '', window.location.href);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [handleBackNavigation]);
 
   const handleMenuClick = () => {
     setSidebarExpanded(!sidebarExpanded);
