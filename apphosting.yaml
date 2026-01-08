@@ -19,7 +19,7 @@ runConfig:
   maxInstances: 10
   concurrency: 80
 
-# Environment variables (add secrets via Secret Manager in Firebase Console)
+# Environment variables (non-sensitive)
 env:
   - variable: NODE_ENV
     availability: [BUILD, RUNTIME]
@@ -35,15 +35,7 @@ env:
     value: gmail
   - variable: CORS_ORIGIN
     availability: [RUNTIME]
-    value: https://magizh-industries0802--magizh-industries-cbe.us-east4.hosted.app
-  
-  # Environment variables (replace with your actual values)
-  - variable: JWT_SECRET
-    availability: [RUNTIME]
-    value: vmrigoernvjndjnvjnmflcnjnew2i3
-  - variable: ADMIN_EMAIL
-    availability: [RUNTIME]
-    value: magizhindustriescbe@gmail.com
+    value: https://magizh-industries0802--magizh-industries-cbe.us-east4.hosted.app/,https://www.magizhindustries.in
   - variable: ADMIN_FIRSTNAME
     availability: [RUNTIME]
     value: Arulmani
@@ -54,14 +46,18 @@ env:
     availability: [RUNTIME]
     value: Arunachalam
   - variable: ADMIN_DOB
-    availability: [RUNTIME]
+    availability: [RUNTIME] 
     value: 1990-01-01
-  - variable: EMAIL_USER
+  - variable: ADMIN_EMAIL
     availability: [RUNTIME]
     value: magizhindustriescbe@gmail.com
+
+  # Environment variables (sensitive)
+  - variable: JWT_SECRET
+    secret: projects/773055492466/secrets/JWT_SECRET
+  - variable: EMAIL_USER
+    secret: projects/773055492466/secrets/EMAIL_USER
   - variable: EMAIL_PASSWORD
-    availability: [RUNTIME]
-    value: qodf yyio qfen lnym
+    secret: projects/773055492466/secrets/EMAIL_PASSWORD
   - variable: FIREBASE_API_KEY
-    availability: [RUNTIME]
-    value: AIzaSyAS0pM4ZdqE3CDoWljRUcPa8_smUqVJk0M
+    secret: projects/773055492466/secrets/FIREBASE_API_KEY
