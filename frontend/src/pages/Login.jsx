@@ -44,11 +44,11 @@ const AuthPage = () => {
     sessionStorage.removeItem('user');
   }, []);
 
-  // Auto-rotate features every 3 seconds
+  // Auto-change features every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveFeature((prev) => (prev + 1) % features.length);
-    }, 3000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [features.length]);

@@ -112,7 +112,6 @@ const DeleteMaster = () => {
       <Navbar 
         title="Delete Material Master" 
         onMenuClick={() => setSidebarExpanded(!sidebarExpanded)}
-        showCompanyName={sidebarExpanded}
         rightContent={
           <button className="dm-archive-icon-btn" onClick={() => navigate('/stock/archived-master')} title="View Archived Materials">
             <Archive size={24} />

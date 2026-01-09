@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import { useNavigate } from 'react-router-dom';
@@ -8,14 +8,10 @@ const Report = () => {
   const navigate = useNavigate();
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
-  const handleMenuClick = () => {
-    setSidebarExpanded(!sidebarExpanded);
-  };
-
   return (
     <div className="stock-container">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Reports" onMenuClick={handleMenuClick} />
+      <Navbar title="Reports" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
       <div className="main-content page-with-navbar">
         <div className="content-wrapper">
 

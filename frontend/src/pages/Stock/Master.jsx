@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
@@ -7,6 +7,30 @@ import '../../styles/pageStyles/Stock/Master.css';
 const Master = ({ isAdmin = false }) => {
   const navigate = useNavigate();
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+
+  // Handle back button navigation - always redirect to stock page
+  useEffect(() => {
+    // Mark this page in history
+    const currentState = { page: 'master', timestamp: Date.now() };
+    window.history.replaceState(currentState, '', window.location.href);
+    
+    const handlePopState = (event) => {
+      // When back button is pressed, navigate to stock page instead
+      event.preventDefault();
+      navigate('/stock', { replace: true });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [navigate]);
+
+  // Debug: Log admin status
+  useEffect(() => {
+    console.log('Master component - isAdmin:', isAdmin);
+  }, [isAdmin]);
 
   const masterOptions = [
     {
@@ -56,29 +80,36 @@ const Master = ({ isAdmin = false }) => {
       <Navbar 
         title="Material Master Management" 
         onMenuClick={() => setSidebarExpanded(!sidebarExpanded)}
-        showCompanyName={sidebarExpanded}
       />
 
       <div className="master-content">
         <div className="master-options-grid">
-          {masterOptions.map((option, index) => (
-            <div
-              key={index}
-              className="master-option-card"
-              onClick={() => navigate(option.path)}
-              style={{ '--card-color': option.color }}
-            >
-              <div className="option-icon">{option.icon}</div>
-              <h3 className="option-title">{option.title}</h3>
-              <p className="option-description">{option.description}</p>
-              <div className="option-arrow">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
+          {masterOptions
+            .filter(option => {
+              // Only show Delete Material to admin users
+              if (option.title === 'Delete Material') {
+                return isAdmin;
+              }
+              return true;
+            })
+            .map((option, index) => (
+              <div
+                key={index}
+                className="master-option-card"
+                onClick={() => navigate(option.path)}
+                style={{ '--card-color': option.color }}
+              >
+                <div className="option-icon">{option.icon}</div>
+                <h3 className="option-title">{option.title}</h3>
+                <p className="option-description">{option.description}</p>
+                <div className="option-arrow">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>

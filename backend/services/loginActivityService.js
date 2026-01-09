@@ -21,27 +21,22 @@ class LoginActivityService {
   async cleanupOldActivities(userId) {
     const snapshot = await this.collection
       .where('userId', '==', userId)
+      .orderBy('timestamp', 'desc')
       .get();
 
-    if (snapshot.size > 5) {
-      const docs = snapshot.docs.sort((a, b) => {
-        const timeA = a.data().timestamp || '';
-        const timeB = b.data().timestamp || '';
-        return timeB.localeCompare(timeA);
-      });
-
+    if (snapshot.size > 2) {
+      const docs = snapshot.docs;
       const docsToDelete = [];
       docs.forEach((doc, index) => {
-        if (index >= 5) {
+        if (index >= 2) {
           docsToDelete.push(doc.ref.delete());
         }
       });
-
       await Promise.all(docsToDelete);
     }
   }
-
-  async getUserActivities(userId, limit = 5) {
+// declare user login limit retrieval
+  async getUserActivities(userId, limit = 2) {
     const snapshot = await this.collection
       .where('userId', '==', userId)
       .get();

@@ -264,7 +264,7 @@
 /* Mobile Portrait (375px - 479px) */
 @media screen and (max-width: 479px) {
   .master-content {
-    padding: 4rem 0.75rem 0.75rem 0.75rem;
+    padding: 0.2rem 0.75rem 0.75rem 0.75rem;
   }
 
   .master-options-grid {
@@ -313,7 +313,7 @@
 /* Extra Small Mobile (320px - 374px) */
 @media screen and (max-width: 374px) {
   .master-content {
-    padding: 4rem 0.5rem 0.5rem 0.5rem;
+    padding: 0.1rem 0.5rem 0.5rem 0.5rem;
   }
 
   .master-options-grid {

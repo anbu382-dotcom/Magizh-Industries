@@ -123,7 +123,7 @@ const FinalData = () => {
   return (
     <div className="final-data-container">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Final Stock Data" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
+      <Navbar title="Final Stock Data" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
       
       <div className="final-main-wrapper page-with-navbar">
         <div className="final-content">

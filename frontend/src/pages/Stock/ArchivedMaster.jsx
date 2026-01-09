@@ -149,7 +149,6 @@ const ArchivedMaster = () => {
       <Navbar 
         title="Archived Materials" 
         onMenuClick={() => setSidebarExpanded(!sidebarExpanded)}
-        showCompanyName={sidebarExpanded}
       />
       <div className="am-content page-with-navbar">
         <div className="am-container">

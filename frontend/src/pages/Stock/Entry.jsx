@@ -3,7 +3,7 @@ import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import '../../styles/pageStyles/Stock/DeleteMaster.css';
 import { useNavigate } from 'react-router-dom';
-import { IndianRupee, Warehouse, ChevronLeft, ChevronRight } from 'lucide-react';
+import { IndianRupee, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -13,13 +13,27 @@ const Entry = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
-  const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handleMenuClick = () => {
-    setSidebarExpanded(!sidebarExpanded);
-  };
+  // Handle back button navigation - always redirect to stock page
+  useEffect(() => {
+    // Mark this page in history
+    const currentState = { page: 'entry', timestamp: Date.now() };
+    window.history.replaceState(currentState, '', window.location.href);
+    
+    const handlePopState = (event) => {
+      // When back button is pressed, navigate to stock page instead
+      event.preventDefault();
+      navigate('/stock', { replace: true });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [navigate]);
 
   useEffect(() => {
     fetchMaterials();

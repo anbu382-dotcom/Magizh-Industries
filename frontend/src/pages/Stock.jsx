@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import '../styles/pageStyles/Stock.css';
@@ -8,35 +8,24 @@ const Stock = ({ isAdmin = false }) => {
   const navigate = useNavigate();
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
-  // Robust back button handling - always redirect to home
-  const handleBackNavigation = useCallback(() => {
-    navigate('/home', { replace: true });
-  }, [navigate]);
-
+  // Handle back button navigation - always redirect to home
   useEffect(() => {
-    // Push state twice to create a buffer for back button detection
-    window.history.pushState({ page: 'stock' }, '', window.location.href);
-    window.history.pushState({ page: 'stock' }, '', window.location.href);
+    // Mark this page in history
+    const currentState = { page: 'stock', timestamp: Date.now() };
+    window.history.replaceState(currentState, '', window.location.href);
     
     const handlePopState = (event) => {
-      // Always redirect to home on any back navigation
-      handleBackNavigation();
+      // When back button is pressed, navigate to home instead
+      event.preventDefault();
+      navigate('/home', { replace: true });
     };
 
     window.addEventListener('popstate', handlePopState);
 
-    // Also handle beforeunload for additional safety
-    const handleBeforeUnload = () => {
-      window.history.pushState({ page: 'stock' }, '', window.location.href);
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
     return () => {
       window.removeEventListener('popstate', handlePopState);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [handleBackNavigation]);
+  }, [navigate]);
 
   const handleMenuClick = () => {
     setSidebarExpanded(!sidebarExpanded);
@@ -92,7 +81,7 @@ const Stock = ({ isAdmin = false }) => {
   return (
     <div className="stock-container">
       <Sidebar isAdmin={isAdmin} isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Stock Management" onMenuClick={handleMenuClick} showCompanyName={sidebarExpanded} />
+      <Navbar title="Stock Management" onMenuClick={handleMenuClick} />
 
       <div className="main-content page-with-navbar">
         <div className="content-wrapper">

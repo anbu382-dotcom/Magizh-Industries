@@ -66,7 +66,7 @@ const Home = ({ isAdmin: isAdminProp = false }) => {
   return (
     <div className="home-container">
       <Sidebar isAdmin={isAdmin} isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Welcome To Magizh Industries !" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
+      <Navbar title="Welcome To Magizh Industries !" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
 
       <div className="main-content page-with-navbar">
         <div className="content-wrapper">
