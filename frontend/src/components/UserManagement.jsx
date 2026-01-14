@@ -1,35 +1,24 @@
 import { useState, useEffect, useCallback } from 'react';
-import { User, ShieldCheck, Trash2, Eye, EyeOff, UserRoundPen, UserCog } from 'lucide-react';
+import { User, ShieldCheck, Trash2 } from 'lucide-react';
 import Popup, { StatusMessage } from './popup';
 import '../styles/componentStyles/UserManagement.css';
 
 const UserManagement = () => {
   const [activeTab, setActiveTab] = useState('list');
-  const [isPasswordFormPopupOpen, setIsPasswordFormPopupOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isApprovePopupOpen, setIsApprovePopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
-  const [isAdminPasswordPopupOpen, setIsAdminPasswordPopupOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
-  const [passwords, setPasswords] = useState({ new: '', confirm: '' });
-  const [adminPasswords, setAdminPasswords] = useState({ old: '', new: '', confirm: '' });
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showAdminOldPassword, setShowAdminOldPassword] = useState(false);
-  const [showAdminNewPassword, setShowAdminNewPassword] = useState(false);
-  const [showAdminConfirmPassword, setShowAdminConfirmPassword] = useState(false);
   const [users, setUsers] = useState([]);
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [requestsLoading, setRequestsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [passwordChangeLoading, setPasswordChangeLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [approveLoading, setApproveLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
-  const [adminPasswordLoading, setAdminPasswordLoading] = useState(false);
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
@@ -139,65 +128,6 @@ const UserManagement = () => {
     hours = hours ? hours : 12;
 
     return `${day}/${month}/${year} - ${hours}:${minutes}${ampm}`;
-  };
-
-  // Password Change: Step 1 - Show form popup
-  const handleEditClick = (user) => {
-    setSelectedUser(user);
-    setPasswords({ new: '', confirm: '' });
-    setIsPasswordFormPopupOpen(true);
-  };
-
-  const closePasswordFormPopup = () => {
-    setIsPasswordFormPopupOpen(false);
-    setPasswords({ new: '', confirm: '' });
-    setSelectedUser(null);
-  };
-
-  // Password Change: Step 2 - Show confirmation popup
-  const handlePasswordFormSubmit = async () => {
-    if (passwords.new !== passwords.confirm) {
-      alert("Passwords do not match!");
-      return;
-    }
-
-    if (passwords.new.length < 6) {
-      alert('Password must be at least 6 characters long');
-      return;
-    }
-
-    closePasswordFormPopup();
-    setPasswordChangeLoading(true);
-    try {
-      const token = sessionStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/admin/change-password`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userId: selectedUser.userId,
-          newPassword: passwords.new
-        })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to change password');
-      }
-
-      setPasswordChangeLoading(false);
-    } catch (err) {
-      setPasswordChangeLoading(false);
-      alert('Error changing password: ' + err.message);
-    }
-  };
-
-  const closePasswordConfirmPopup = () => {
-    setIsPasswordFormPopupOpen(false);
-    setPasswords({ new: '', confirm: '' });
-    setSelectedUser(null);
   };
 
   // Delete: Show delete popup
@@ -322,56 +252,6 @@ const UserManagement = () => {
     }
   };
 
-  const handleAdminPasswordChange = async () => {
-    // Validation
-    if (!adminPasswords.old || !adminPasswords.new || !adminPasswords.confirm) {
-      alert('Please fill in all password fields');
-      return;
-    }
-
-    if (adminPasswords.new.length < 6) {
-      alert('New password must be at least 6 characters long');
-      return;
-    }
-
-    if (adminPasswords.new !== adminPasswords.confirm) {
-      alert('New password and confirm password do not match');
-      return;
-    }
-
-    setIsAdminPasswordPopupOpen(false);
-    setAdminPasswordLoading(true);
-    try {
-      const token = sessionStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/admin/change-own-password`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          oldPassword: adminPasswords.old,
-          newPassword: adminPasswords.new
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to change password');
-      }
-
-      setAdminPasswordLoading(false);
-      setAdminPasswords({ old: '', new: '', confirm: '' });
-      setShowAdminOldPassword(false);
-      setShowAdminNewPassword(false);
-      setShowAdminConfirmPassword(false);
-    } catch (err) {
-      setAdminPasswordLoading(false);
-      alert('Error changing password: ' + err.message);
-    }
-  };
-
   if (!isAdmin) {
     return (
       <div className="um-container">
@@ -433,9 +313,6 @@ const UserManagement = () => {
         <div className="um-header">
           <div className="um-header-top">
             <h1 className="um-title">User Management</h1>
-            <button className="um-icon-btn" onClick={() => setIsAdminPasswordPopupOpen(true)} title="Change Admin Password">
-              <UserCog size={20} />
-            </button>
           </div>
           <div className="um-tabs">
             <button
@@ -492,13 +369,6 @@ const UserManagement = () => {
                       </td>
                       <td>
                         <div className="action-buttons-container">
-                          <button
-                            className="action-btn-change-password"
-                            onClick={() => handleEditClick(user)}
-                            title="Change Password"
-                          >
-                            <UserRoundPen size={18} />
-                          </button>
                           <button
                             className="action-btn-delete"
                             onClick={() => handleDeleteClick(user)}
@@ -587,85 +457,6 @@ const UserManagement = () => {
         </div>
       </div>
 
-      {/* Step 1: Password Change Form Popup */}
-      <Popup
-        isOpen={isPasswordFormPopupOpen}
-        onClose={closePasswordFormPopup}
-        onConfirm={handlePasswordFormSubmit}
-        type="warning"
-        confirmText="Update Password"
-        isLoading={passwordChangeLoading}
-      >
-        <div className="password-change-container">
-          <div className="password-user-card">
-            <div className="password-user-avatar">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </div>
-            <div className="password-user-details">
-              <div className="password-user-name">{selectedUser?.firstName} {selectedUser?.lastName}</div>
-              <div className="password-user-id">User ID: {selectedUser?.userId}</div>
-            </div>
-          </div>
-
-          <div className="password-form-section">
-            <div className="password-form-group">
-              <label className="password-label">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-                New Password
-              </label>
-              <div className="password-input-wrapper">
-                <input
-                  type={showNewPassword ? "text" : "password"}
-                  className="password-input"
-                  value={passwords.new}
-                  onChange={(e) => setPasswords({...passwords, new: e.target.value})}
-                  placeholder="Enter new password (min 6 characters)"
-                  autoFocus
-                />
-                <button
-                  type="button"
-                  className="password-toggle-btn"
-                  onClick={() => setShowNewPassword(!showNewPassword)}
-                >
-                  {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </div>
-            
-            <div className="password-form-group">
-              <label className="password-label">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-                Confirm Password
-              </label>
-              <div className="password-input-wrapper">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  className="password-input"
-                  value={passwords.confirm}
-                  onChange={(e) => setPasswords({...passwords, confirm: e.target.value})}
-                  placeholder="Confirm new password"
-                />
-                <button
-                  type="button"
-                  className="password-toggle-btn"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Popup>
-
       {/* Delete Confirmation Popup */}
       <Popup
         isOpen={isDeletePopupOpen}
@@ -732,83 +523,7 @@ const UserManagement = () => {
         </div>
       </Popup>
 
-      {/* Admin Password Change Popup */}
-      <Popup
-        isOpen={isAdminPasswordPopupOpen}
-        onClose={() => {
-          setIsAdminPasswordPopupOpen(false);
-          setAdminPasswords({ old: '', new: '', confirm: '' });
-          setShowAdminOldPassword(false);
-          setShowAdminNewPassword(false);
-          setShowAdminConfirmPassword(false);
-        }}
-        onConfirm={handleAdminPasswordChange}
-        type="info"
-        confirmText={adminPasswordLoading ? "Updating..." : "Update Password"}
-        cancelText="Cancel"
-      >
-        <div className="form-group">
-          <label>Old Password:</label>
-          <div className="password-input-wrapper">
-            <input
-              type={showAdminOldPassword ? 'text' : 'password'}
-              className="form-input"
-              value={adminPasswords.old}
-              onChange={(e) => setAdminPasswords({ ...adminPasswords, old: e.target.value })}
-              placeholder="Enter your current password"
-            />
-            <button
-              type="button"
-              className="password-toggle-btn"
-              onClick={() => setShowAdminOldPassword(!showAdminOldPassword)}
-            >
-              {showAdminOldPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </div>
-        </div>
-        <div className="form-group">
-          <label>New Password:</label>
-          <div className="password-input-wrapper">
-            <input
-              type={showAdminNewPassword ? 'text' : 'password'}
-              className="form-input"
-              value={adminPasswords.new}
-              onChange={(e) => setAdminPasswords({ ...adminPasswords, new: e.target.value })}
-              placeholder="Enter your new password"
-            />
-            <button
-              type="button"
-              className="password-toggle-btn"
-              onClick={() => setShowAdminNewPassword(!showAdminNewPassword)}
-            >
-              {showAdminNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </div>
-        </div>
-        <div className="form-group">
-          <label>Confirm Password:</label>
-          <div className="password-input-wrapper">
-            <input
-              type={showAdminConfirmPassword ? 'text' : 'password'}
-              className="form-input"
-              value={adminPasswords.confirm}
-              onChange={(e) => setAdminPasswords({ ...adminPasswords, confirm: e.target.value })}
-              placeholder="Re-enter your new password"
-            />
-            <button
-              type="button"
-              className="password-toggle-btn"
-              onClick={() => setShowAdminConfirmPassword(!showAdminConfirmPassword)}
-            >
-              {showAdminConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </div>
-        </div>
-      </Popup>
-
       {approveLoading && <StatusMessage message="Approving User..." />}
-      {passwordChangeLoading && <StatusMessage message="Changing Password..." />}
-      {adminPasswordLoading && <StatusMessage message="Changing Password..." />}
       {deleteLoading && <StatusMessage message="Removing User..." />}
     </div>
   );

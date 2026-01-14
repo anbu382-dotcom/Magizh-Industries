@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
-import '../../styles/pageStyles/Stock/DeleteMaster.css';
+import '../../styles/pageStyles/Stock/Entry.css';
 import { useNavigate } from 'react-router-dom';
 import { IndianRupee, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -92,14 +92,14 @@ const Entry = () => {
   };
 
   return (
-    <div className="dm-wrapper">
+    <div className="en-wrapper">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
       <Navbar title="Material Entry" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
-      <div className="dm-content page-with-navbar">
-        <div className="dm-container">
-          <div className="dm-main-panel">
-            <div className="dm-filter-bar">
-              <div className="dm-search-box">
+      <div className="en-content page-with-navbar">
+        <div className="en-container">
+          <div className="en-main-panel">
+            <div className="en-filter-bar">
+              <div className="en-search-box">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8"></circle>
                   <path d="m21 21-4.35-4.35"></path>
@@ -112,21 +112,21 @@ const Entry = () => {
                 />
               </div>
 
-              <div className="dm-filter-tabs">
+              <div className="en-filter-tabs">
                 <button
-                  className={`dm-tab ${filterType === 'all' ? 'dm-tab-active' : ''}`}
+                  className={`en-tab ${filterType === 'all' ? 'en-tab-active' : ''}`}
                   onClick={() => setFilterType('all')}
                 >
                   All
                 </button>
                 <button
-                  className={`dm-tab ${filterType === 'BOM' ? 'dm-tab-active' : ''}`}
+                  className={`en-tab ${filterType === 'BOM' ? 'en-tab-active' : ''}`}
                   onClick={() => setFilterType('BOM')}
                 >
                   BOM
                 </button>
                 <button
-                  className={`dm-tab ${filterType === 'FIN' ? 'dm-tab-active' : ''}`}
+                  className={`en-tab ${filterType === 'FIN' ? 'en-tab-active' : ''}`}
                   onClick={() => setFilterType('FIN')}
                 >
                   FIN
@@ -135,12 +135,12 @@ const Entry = () => {
             </div>
 
             {loading ? (
-              <div className="dm-loading">
-                <div className="dm-spinner"></div>
+              <div className="en-loading">
+                <div className="en-spinner"></div>
                 <p>Loading materials...</p>
               </div>
             ) : filteredMaterials.length === 0 ? (
-              <div className="dm-empty">
+              <div className="en-empty">
                 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -150,31 +150,31 @@ const Entry = () => {
                 <p>{searchTerm ? 'Try adjusting your search criteria' : 'No materials available'}</p>
               </div>
             ) : (
-              <div className="dm-grid">
+              <div className="en-grid">
                 {paginatedMaterials.map((material) => (
-                  <div key={material.id} className="dm-card entry-card">
-                    <div className="dm-card-header">
-                      <span className="dm-code-badge">{material.materialCode || 'N/A'}</span>
-                      <span className={`dm-flow-badge dm-flow-${material.materialFlow?.toLowerCase()}`}>
+                  <div key={material.id} className="en-card">
+                    <div className="en-card-header">
+                      <span className="en-code-badge">{material.materialCode || 'N/A'}</span>
+                      <span className={`en-flow-badge en-flow-${material.materialFlow?.toLowerCase()}`}>
                         {material.materialFlow}
                       </span>
                     </div>
 
-                    <div className="dm-card-body">
-                      <h3 className="dm-material-name">{material.materialName}</h3>
+                    <div className="en-card-body">
+                      <h3 className="en-material-name">{material.materialName}</h3>
 
-                      <div className="dm-info-list">
-                        <div className="dm-info-row">
-                          <span className="dm-label">Category:</span>
-                          <span className="dm-value">{material.category || '-'}</span>
+                      <div className="en-info-list">
+                        <div className="en-info-row">
+                          <span className="en-label">Category:</span>
+                          <span className="en-value">{material.category || '-'}</span>
                         </div>
-                        <div className="dm-info-row">
-                          <span className="dm-label">HSN Code:</span>
-                          <span className="dm-value">{material.hsnCode || '-'}</span>
+                        <div className="en-info-row">
+                          <span className="en-label">HSN Code:</span>
+                          <span className="en-value">{material.hsnCode || '-'}</span>
                         </div>
-                        <div className="dm-info-row">
-                          <span className="dm-label">Cost/Item:</span>
-                          <span className="dm-value dm-price">
+                        <div className="en-info-row">
+                          <span className="en-label">Cost/Item:</span>
+                          <span className="en-value en-price">
                             <IndianRupee size={15} />
                             {material.costPerItem || '0'}
                           </span>
@@ -182,11 +182,10 @@ const Entry = () => {
                       </div>
                     </div>
 
-                    <div className="dm-card-footer">
+                    <div className="en-card-footer">
                       <button
-                        className="dm-delete-btn"
+                        className="en-select-btn"
                         onClick={() => handleSelect(material)}
-                        style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: 'white' }}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="9 11 12 14 22 4"></polyline>
@@ -200,9 +199,9 @@ const Entry = () => {
 
                 {/* Pagination Controls - Only Previous/Next */}
                 {totalPages > 1 && (
-                  <div className="dm-pagination">
+                  <div className="en-pagination">
                     <button
-                      className="dm-pagination-btn"
+                      className="en-pagination-btn"
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                       disabled={currentPage === 1}
                     >
@@ -210,7 +209,7 @@ const Entry = () => {
                       Previous
                     </button>
                     <button
-                      className="dm-pagination-btn"
+                      className="en-pagination-btn"
                       onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                       disabled={currentPage === totalPages}
                     >

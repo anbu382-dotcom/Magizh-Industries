@@ -139,44 +139,8 @@
    RESPONSIVE MEDIA QUERIES
    =========================== */
 
-/* Tablet (768px - 1024px) */
-@media screen and (max-width: 1024px) {
-  .master-content {
-    padding: 4.5rem 1.5rem 1.5rem 1.5rem;
-  }
-
-  .master-options-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 1.5rem 0;
-  }
-
-  .master-option-card {
-    padding: 28px 24px;
-    min-height: 200px;
-  }
-
-  .option-icon {
-    width: 64px;
-    height: 64px;
-  }
-
-  .option-icon svg {
-    width: 32px;
-    height: 32px;
-  }
-
-  .option-title {
-    font-size: 20px;
-  }
-
-  .option-description {
-    font-size: 14px;
-  }
-}
-
-/* Small Tablet (600px - 767px) */
-@media screen and (max-width: 767px) {
+/* Mobile Portrait (≤768px) */
+@media screen and (max-width: 768px) {
   .master-content {
     padding: 4rem 1.25rem 1.25rem 1.25rem;
   }
@@ -214,55 +178,8 @@
   }
 }
 
-/* Mobile Landscape (480px - 599px) */
-@media screen and (max-width: 599px) {
-  .master-content {
-    padding: 4rem 1rem 1rem 1rem;
-  }
-
-  .master-options-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 1rem 0;
-  }
-
-  .master-option-card {
-    padding: 22px 20px;
-    min-height: 160px;
-    border-radius: 16px;
-    max-width: 100%;
-  }
-
-  .option-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    margin-bottom: 16px;
-  }
-
-  .option-icon svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .option-title {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-
-  .option-description {
-    font-size: 13px;
-    margin-bottom: 16px;
-  }
-
-  .option-arrow svg {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-/* Mobile Portrait (375px - 479px) */
-@media screen and (max-width: 479px) {
+/* Small Mobile Portrait (≤575px) */
+@media screen and (max-width: 575px) {
   .master-content {
     padding: 0.2rem 0.75rem 0.75rem 0.75rem;
   }

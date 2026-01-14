@@ -1,61 +1,157 @@
 :root {
-  /* Primary Background */
-  --color-bg-primary: #F8F6F4;              /* Warm off-white background for all pages */
-  
-  /* Navbar Colors - Clean & Light */
-  --navbar-bg: rgba(255, 255, 255, 0.95);   /* Almost white with slight transparency */
-  --navbar-text: #2D3748;                   /* Dark gray for readability */
-  --navbar-icon: #5B7B9A;                   /* Soft steel blue icons */
-  --navbar-icon-hover: #7C9AB6;             /* Lighter blue on hover */
-  --navbar-border: rgba(91, 123, 154, 0.1); /* Subtle blue-gray border */
-  
-  /* Sidebar Colors - Balanced Blue */
-  --sidebar-bg: #5B7B9A;                    /* Soft steel blue - professional look */
-  --sidebar-text: rgba(255, 255, 255, 0.85); /* Off-white text */
-  --sidebar-text-active: #ffffff;           /* Pure white for active items */
-  --sidebar-hover: rgba(255, 255, 255, 0.15); /* Subtle hover effect */
-  
-  /* Text Colors */
-  --color-text-primary: #2D3748;            /* Dark charcoal for headings */
-  --color-text-secondary: #64748B;          /* Medium gray for body text */
-  --color-text-muted: #94A3B8;              /* Light gray for hints */
-  --color-white: #ffffff;                   /* Pure white for cards */
-  
-  /* Accent Color */
-  --color-accent: #5B7B9A;                  /* Primary accent - matches sidebar */
-  --color-accent-light: #7C9AB6;            /* Lighter accent for hovers */
-  
   /* ============================================
-     DESIGN TOKENS
+     GLOBAL DESIGN SYSTEM - LAPTOP OPTIMIZED
+     Target: 1366px - 1920px viewports
      ============================================ */
   
-  /* Shadows - Softer, warmer */
+  /* Primary Background */
+  --color-bg-primary: #F8F6F4;
+  --color-bg-light: #FAFAF9;
+  --color-bg-lightest: #FCFCFC;
+  
+  /* Navbar Colors */
+  --navbar-bg: rgba(255, 255, 255, 0.95);
+  --navbar-text: #2D3748;
+  --navbar-icon: #5B7B9A;
+  --navbar-icon-hover: #7C9AB6;
+  --navbar-border: rgba(91, 123, 154, 0.1);
+  
+  /* Sidebar Colors */
+  --sidebar-bg: #5B7B9A;
+  --sidebar-text: rgba(255, 255, 255, 0.85);
+  --sidebar-text-active: #ffffff;
+  --sidebar-hover: rgba(255, 255, 255, 0.15);
+  
+  /* Text Colors */
+  --color-text-primary: #2D3748;
+  --color-text-secondary: #64748B;
+  --color-text-muted: #94A3B8;
+  --color-text-dark: #1E293B;
+  --color-white: #ffffff;
+  
+  /* Accent Colors */
+  --color-accent: #5B7B9A;
+  --color-accent-light: #7C9AB6;
+  --color-accent-dark: #4A6A89;
+  
+  /* Status Colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-info: #3B82F6;
+  
+  /* ============================================
+     STANDARDIZED CARD SYSTEM
+     ============================================ */
+  
+  /* Card Sizes - Laptop Optimized */
+  --card-width-small: 320px;
+  --card-width-medium: 450px;
+  --card-width-large: 600px;
+  --card-width-full: 100%;
+  
+  /* Card Styling - CONSISTENT ACROSS SITE */
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 16px rgba(45, 55, 72, 0.08);
+  --card-shadow-hover: 0 8px 32px rgba(45, 55, 72, 0.12);
+  --card-border: 1px solid rgba(91, 123, 154, 0.1);
+  --card-border-radius: 16px;
+  --card-padding: clamp(1rem, 2vw, 1.5rem);
+  
+  /* ============================================
+     STANDARDIZED WAREHOUSE ICON
+     ============================================ */
+  
+  /* Icon Sizes - CONSISTENT EVERYWHERE */
+  --icon-size-sm: 20px;
+  --icon-size-md: 24px;
+  --icon-size-lg: 32px;
+  --icon-size-xl: 48px;
+  
+  /* Warehouse/Menu Icon - STANDARD SIZE SITE-WIDE */
+  --warehouse-icon-size: 24px;
+  --warehouse-icon-touch-target: 44px; /* Touch-friendly */
+  
+  /* ============================================
+     SHADOWS - CONSISTENT ELEVATION
+     ============================================ */
+  
+  --shadow-xs: 0 1px 4px rgba(45, 55, 72, 0.04);
   --shadow-sm: 0 2px 8px rgba(45, 55, 72, 0.06);
   --shadow-md: 0 4px 16px rgba(45, 55, 72, 0.08);
   --shadow-lg: 0 8px 32px rgba(45, 55, 72, 0.12);
-
-  /* Borders */
+  --shadow-xl: 0 16px 48px rgba(45, 55, 72, 0.16);
+  
+  /* ============================================
+     BORDERS - CONSISTENT STYLING
+     ============================================ */
+  
+  --border-width: 1px;
   --border-subtle: 1px solid rgba(91, 123, 154, 0.1);
   --border-accent: 1px solid rgba(91, 123, 154, 0.2);
-
-  /* Transitions */
-  --transition-fast: 0.2s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.5s ease;
-
-  /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 2.5rem;
-
-  /* Border Radius */
+  --border-strong: 2px solid rgba(91, 123, 154, 0.3);
+  
+  /* Border Radius - CONSISTENT SITE-WIDE */
+  --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
+  --radius-2xl: 24px;
   --radius-full: 50%;
+  
+  /* ============================================
+     TRANSITIONS - CONSISTENT TIMING
+     ============================================ */
+  
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --transition-all: all 0.3s ease;
+  
+  /* ============================================
+     SPACING SYSTEM - CONSISTENT RHYTHM
+     ============================================ */
+  
+  --spacing-2xs: 0.25rem;  /* 4px */
+  --spacing-xs: 0.5rem;    /* 8px */
+  --spacing-sm: 0.75rem;   /* 12px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-2xl: 2.5rem;   /* 40px */
+  --spacing-3xl: 3rem;     /* 48px */
+  
+  /* ============================================
+     TYPOGRAPHY SCALE - CONSISTENT SIZES
+     ============================================ */
+  
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 2rem;       /* 32px */
+  --font-size-4xl: 2.5rem;     /* 40px */
+  
+  /* ============================================
+     LAYOUT CONSTRAINTS - LAPTOP OPTIMIZED
+     ============================================ */
+  
+  /* Container Widths */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1400px;  /* Primary container for laptop screens */
+  
+  /* Touch Targets */
+  --touch-target-min: 44px;  /* Minimum touch-friendly size */
+  
+  /* Input Heights */
+  --input-height: 44px;      /* Standard input height */
+  --button-height: 44px;     /* Standard button height */
 }
 
 * {
@@ -73,4 +169,127 @@ body {
   background: var(--color-bg-primary);
   color: var(--color-text-primary);
   overflow-x: hidden;
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+
+/* ============================================
+   GLOBAL UTILITY CLASSES
+   ============================================ */
+
+/* Centered Container - Laptop Optimized */
+.container {
+  max-inline-size: var(--container-2xl);
+  margin-inline: auto;
+  padding-inline: var(--spacing-lg);
+}
+
+/* Standard Card Styles - CONSISTENT SITE-WIDE */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  border: var(--card-border);
+  padding: var(--card-padding);
+  transition: var(--transition-all);
+}
+
+.card:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Card Size Variants */
+.card-sm {
+  max-inline-size: var(--card-width-small);
+  margin-inline: auto;
+}
+
+.card-md {
+  max-inline-size: var(--card-width-medium);
+  margin-inline: auto;
+}
+
+.card-lg {
+  max-inline-size: var(--card-width-large);
+  margin-inline: auto;
+}
+
+.card-full {
+  max-inline-size: var(--card-width-full);
+}
+
+/* Grid Layouts - Laptop Optimized */
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--spacing-xl);
+  place-items: center;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xl);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+}
+
+/* Center Alignment Utilities */
+.center {
+  margin-inline: auto;
+}
+
+.center-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Warehouse Icon - STANDARDIZED SIZE SITE-WIDE */
+.warehouse-icon,
+.menu-icon {
+  inline-size: var(--warehouse-icon-size);
+  block-size: var(--warehouse-icon-size);
+  min-inline-size: var(--warehouse-icon-size);
+  min-block-size: var(--warehouse-icon-size);
+  flex-shrink: 0;
+}
+
+/* Icon Button Wrapper - Touch-Friendly */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--warehouse-icon-touch-target);
+  min-block-size: var(--warehouse-icon-touch-target);
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-md);
+  transition: var(--transition-all);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.icon-btn:hover {
+  background: rgba(91, 123, 154, 0.1);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease;
 }

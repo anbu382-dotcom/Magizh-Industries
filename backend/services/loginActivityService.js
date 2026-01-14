@@ -19,20 +19,37 @@ class LoginActivityService {
   }
 
   async cleanupOldActivities(userId) {
-    const snapshot = await this.collection
-      .where('userId', '==', userId)
-      .orderBy('timestamp', 'desc')
-      .get();
+    try {
+      // Get all activities for this user
+      const snapshot = await this.collection
+        .where('userId', '==', userId)
+        .get();
 
-    if (snapshot.size > 2) {
-      const docs = snapshot.docs;
-      const docsToDelete = [];
-      docs.forEach((doc, index) => {
-        if (index >= 2) {
-          docsToDelete.push(doc.ref.delete());
-        }
+      if (snapshot.size <= 2) {
+        return; // No cleanup needed
+      }
+
+      // Convert to array and sort by timestamp (newest first)
+      const activities = [];
+      snapshot.forEach(doc => {
+        activities.push({
+          id: doc.id,
+          ref: doc.ref,
+          timestamp: doc.data().timestamp || ''
+        });
       });
+
+      // Sort by timestamp descending (newest first)
+      activities.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+
+      // Keep only the first 2 (most recent), delete the rest
+      const docsToDelete = activities.slice(2).map(activity => activity.ref.delete());
+      
       await Promise.all(docsToDelete);
+      console.log(`Cleaned up ${docsToDelete.length} old login activities for user ${userId}`);
+    } catch (error) {
+      console.error('Error cleaning up old activities:', error);
+      // Don't throw - cleanup failure shouldn't prevent login
     }
   }
 // declare user login limit retrieval

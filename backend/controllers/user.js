@@ -1,8 +1,6 @@
 // Handles user management operations: retrieve, update, and delete user records (admin only).
 const UserService = require('../services/User');
-/**
- * Get all users
- */
+// Get all users
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await UserService.getAllUsers();
@@ -15,9 +13,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-/**
- * Get user by userId
- */
+// Get user by userId
 exports.getUserById = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -43,38 +39,7 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-/**
- * Update user
- */
-exports.updateUser = async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const updateData = req.body;
-
-    if (!userId) {
-      return res.status(400).json({ message: 'User ID is required' });
-    }
-
-    // Remove fields that shouldn't be updated directly
-    delete updateData.userId;
-    delete updateData.password;
-    delete updateData.email;
-
-    await UserService.updateUser(userId, updateData);
-
-    res.status(200).json({
-      message: 'User updated successfully'
-    });
-
-  } catch (error) {
-    console.error('Update User Error:', error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
-/**
- * Delete user
- */
+// Delete user  
 exports.deleteUser = async (req, res) => {
   try {
     const { userId } = req.params;

@@ -1,9 +1,4 @@
 // Ensures only users with admin role can access protected routes (must be used after auth.middleware.js).
-
-/**
- * Middleware to check if authenticated user has admin role
- * Must be used after authenticate middleware
- */
 const adminOnly = (req, res, next) => {
   try {
     // Check if user was attached by authenticate middleware

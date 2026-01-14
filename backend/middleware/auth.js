@@ -1,10 +1,7 @@
 // Verifies JWT tokens and attaches decoded user information to the request object.
-
 const { verifyToken } = require('../utils/jwt');
 
-/**
- * Middleware to verify JWT token and attach user info to request
- */
+// Middleware to verify JWT token and attach user info to request
 const authenticate = async (req, res, next) => {
   try {
     // Get the token from the Authorization header (Bearer <token>)

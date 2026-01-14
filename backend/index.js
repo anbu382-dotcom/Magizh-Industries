@@ -7,6 +7,8 @@ const morgan = require('morgan');
 const path = require('path');
 const fs = require('fs');
 const logger = require('./utils/logger');
+const OtpController = require('./controllers/otp');
+
 dotenv.config(); 
 
 // Import Routes
@@ -17,6 +19,7 @@ const userRoutes = require('./routes/user');
 const masterRoutes = require('./routes/master');
 const archiveRoutes = require('./routes/archive');
 const stockEntryRoutes = require('./routes/stockEntry');
+const forgotPasswordRoutes = require('./routes/forgotPassword');
 const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
 
 const app = express();
@@ -78,12 +81,13 @@ app.use(express.static(frontendPath, {
 
 // CORS and JSON parsing only for API routes
 app.use('/api', cors(corsOptions));
-app.use(express.json());
+app.use('/api', express.json());
 
 // --- API ROUTES ---
 app.use('/api/auth', signupRoutes);
 app.use('/api/auth', loginRoutes);
 app.use('/api/auth', approvalRoutes);
+app.use('/api/auth/forgot-password', forgotPasswordRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/master', masterRoutes);
 app.use('/api/archive', archiveRoutes);
@@ -123,7 +127,20 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 const HOST = '0.0.0.0';
 
+// Start automatic cleanup of expired OTPs every minute
+setInterval(async () => {
+  try {
+    const deletedCount = await OtpController.cleanupExpired();
+    if (deletedCount > 0) {
+      logger.info(`Auto-cleanup: Deleted ${deletedCount} expired OTP(s)`);
+    }
+  } catch (error) {
+    logger.error('Error during OTP auto-cleanup:', error);
+  }
+}, 60 * 1000); // Run every 60 seconds
+
 app.listen(PORT, HOST, () => {
   logger.info(`Server running in ${process.env.NODE_ENV || 'development'} mode on ${HOST}:${PORT}`);
   logger.info(`Static files being served from: ${frontendPath}`);
+  logger.info(`OTP auto-cleanup scheduled every 60 seconds`);
 });

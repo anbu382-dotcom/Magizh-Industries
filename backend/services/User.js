@@ -6,9 +6,7 @@ class UserService {
     this.collection = db.collection('users');
   }
 
-  /**
-   * Find user by userId
-   */
+  // Find user by userId
   async findByUserId(userId) {
     try {
       const snapshot = await this.collection
@@ -32,9 +30,7 @@ class UserService {
     }
   }
 
-  /**
-   * Find user by email
-   */
+// Find user by email
   async findByEmail(email) {
     try {
       const snapshot = await this.collection
@@ -58,9 +54,8 @@ class UserService {
     }
   }
 
-  /**
-   * Get all users
-   */
+// Get all users
+
   async getAllUsers() {
     try {
       const snapshot = await this.collection.get();
@@ -99,9 +94,7 @@ class UserService {
     }
   }
 
-  /**
-   * Create a new user
-   */
+// Create a new user
   async createUser(userData) {
     try {
       // Create user in Firebase Auth
@@ -129,63 +122,7 @@ class UserService {
     }
   }
 
-  /**
-   * Update user
-   */
-  async updateUser(userId, updateData) {
-    try {
-      const user = await this.findByUserId(userId);
-
-      if (!user) {
-        throw new Error('User not found');
-      }
-
-      await this.collection.doc(user.id).update({
-        ...updateData,
-        updatedAt: new Date().toISOString()
-      });
-
-      return { success: true };
-    } catch (error) {
-      console.error('Error updating user:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Change user password
-   */
-  async changePassword(userId, newPassword) {
-    try {
-      const user = await this.findByUserId(userId);
-
-      if (!user) {
-        throw new Error('User not found');
-      }
-
-      // Update in Firebase Auth
-      const authUser = await auth.getUserByEmail(user.email);
-      await auth.updateUser(authUser.uid, {
-        password: newPassword
-      });
-
-      // Hash and update in Firestore
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-      await this.collection.doc(user.id).update({
-        password: hashedPassword,
-        updatedAt: new Date().toISOString()
-      });
-
-      return { success: true };
-    } catch (error) {
-      console.error('Error changing password:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Update last login time
-   */
+  // Update last login time
   async updateLastLogin(userId, loginTime) {
     try {
       const user = await this.findByUserId(userId);
@@ -204,9 +141,7 @@ class UserService {
     }
   }
 
-  /**
-   * Delete user
-   */
+  // Delete user
   async deleteUser(userId) {
     try {
       const user = await this.findByUserId(userId);

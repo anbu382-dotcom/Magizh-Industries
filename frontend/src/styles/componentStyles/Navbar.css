@@ -1,21 +1,20 @@
 /* Navbar Container */
 .navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: clamp(3.375rem, 10vw, 4.375rem); /* 54px → 70px */
   background: var(--navbar-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--navbar-border);
+  border-block-end: 1px solid var(--navbar-border);
   z-index: 100;
   transition: all 0.3s ease;
 }
 
 .navbar-content {
-  height: 100%;
-  padding: 0 30px;
+  block-size: 100%;
+  padding-inline: clamp(0.625rem, 3vw, 1.875rem); /* 10px → 30px */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,25 +24,30 @@
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: clamp(0.5rem, 2vw, 0.9375rem); /* 8px → 15px */
   position: absolute;
-  left: 10px;
+  inset-inline-start: clamp(0.3125rem, 1.5vw, 0.625rem); /* 5px → 10px */
 }
 
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: clamp(0.5rem, 2vw, 0.9375rem); /* 8px → 15px */
   position: absolute;
-  right: 30px;
+  inset-inline-end: clamp(0.625rem, 3vw, 1.875rem); /* 10px → 30px */
 }
 
+/* Warehouse/Menu Icon - STANDARDIZED SIZE SITE-WIDE */
 .navbar-icon {
   color: var(--navbar-icon);
   stroke-width: 2.5;
   flex-shrink: 0;
-  transition: all 0.3s ease;
-  margin-left: 20px;
+  transition: var(--transition-all);
+  margin-inline-start: var(--spacing-md);
+  inline-size: var(--warehouse-icon-size); /* 24px standard */
+  block-size: var(--warehouse-icon-size);
+  min-inline-size: var(--warehouse-icon-size);
+  min-block-size: var(--warehouse-icon-size);
 }
 
 .navbar-icon:hover {
@@ -52,186 +56,56 @@
 }
 
 .navbar-title {
-  font-size: 1.5rem;
+  font-size: clamp(0.9375rem, 2.5vw, 1.5rem); /* 15px → 24px */
   font-weight: 700;
   color: var(--navbar-text);
   margin: 0;
   text-align: center;
   flex: 1;
+  padding-inline: clamp(0.5rem, 2vw, 0.625rem);
 }
 
 /* Adjust page content when navbar is present */
 .page-with-navbar {
-  padding-top: 90px;
+  padding-block-start: clamp(4.0625rem, 12vw, 5.625rem); /* 65px → 90px */
+}
+
+/* Download Button in Navbar */
+.navbar-right .download-icon-btn {
+  background: transparent;
+  border: 2px solid var(--color-accent);
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(91, 123, 154, 0.15);
+}
+
+.navbar-right .download-icon-btn:hover {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.4);
+}
+
+.navbar-right .download-icon-btn svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* ===========================
    RESPONSIVE MEDIA QUERIES
+   Modern fluid design with clamp() eliminates most breakpoints
    =========================== */
 
-/* Tablet (768px - 1024px) */
-@media screen and (max-width: 1024px) {
-  .navbar {
-    height: 65px;
-  }
-
-  .navbar-content {
-    padding: 0 25px;
-  }
-
+/* Optional: Adjust specific layout behaviors only when needed */
+@media (max-width: 768px) {
   .navbar-title {
-    font-size: 1.4rem;
-  }
-  
-
-  .page-with-navbar {
-    padding-top: 85px;
-  }
-}
-
-/* Small Tablet (600px - 767px) */
-@media screen and (max-width: 767px) {
-  .navbar {
-    height: 60px;
-  }
-
-  .navbar-content {
-    padding: 0 20px;
-  }
-
-  .navbar-left {
-    left: 8px;
-  }
-
-  .navbar-right {
-    right: 20px;
-  }
-
-  .navbar-icon {
-    margin-left: 15px;
-  }
-
-  .navbar-title {
-    font-size: 1.25rem;
-  }
-
-  .page-with-navbar {
-    padding-top: 75px;
-  }
-}
-
-/* Mobile Landscape (480px - 599px) */
-@media screen and (max-width: 599px) {
-  .navbar {
-    height: 58px;
-  }
-
-  .navbar-content {
-    padding: 0 15px;
-  }
-
-  .navbar-left {
-    left: 5px;
-    gap: 12px;
-  }
-
-  .navbar-right {
-    right: 15px;
-    gap: 12px;
-  }
-
-  .navbar-icon {
-    margin-left: 10px;
-  }
-
-  .navbar-icon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .navbar-title {
-    font-size: 1.15rem;
-  }
-
-  .page-with-navbar {
-    padding-top: 72px;
-  }
-}
-
-/* Mobile Portrait (375px - 479px) */
-@media screen and (max-width: 479px) {
-  .navbar {
-    height: 56px;
-  }
-
-  .navbar-content {
-    padding: 0 12px;
-  }
-
-  .navbar-left {
-    left: 5px;
-    gap: 10px;
-  }
-
-  .navbar-right {
-    right: 12px;
-    gap: 10px;
-  }
-
-  .navbar-icon {
-    margin-left: 15px;
-  }
-
-  .navbar-icon svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .navbar-title {
-    font-size: 1.05rem;
-    padding: 0 10px;
-  }
-
-  .page-with-navbar {
-    padding-top: 68px;
-  }
-}
-
-/* Extra Small Mobile (320px - 374px) */
-@media screen and (max-width: 374px) {
-  .navbar {
-    height: 54px;
-  }
-
-  .navbar-content {
-    padding: 0 10px;
-  }
-
-  .navbar-left {
-    left: 14px;
-    gap: 8px;
-  }
-
-  .navbar-right {
-    right: 10px;
-    gap: 8px;
-  }
-
-  .navbar-icon {
-    margin-left: 5px;
-  }
-
-  .navbar-icon svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .navbar-title {
-    font-size: 0.95rem;
-    padding: 0 8px;
-  }
-
-  .page-with-navbar {
-    padding-top: 65px;
+    font-size: clamp(0.9375rem, 3vw, 1.25rem); /* Slightly tighter range on mobile */
   }
 }

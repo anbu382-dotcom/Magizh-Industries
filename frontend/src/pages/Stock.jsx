@@ -31,7 +31,7 @@ const Stock = ({ isAdmin = false }) => {
     setSidebarExpanded(!sidebarExpanded);
   };
 
-  const masterModules = [
+  const stockModules = [
     {
       title: 'Material Master',
       description: 'Manage material master data',
@@ -46,10 +46,7 @@ const Stock = ({ isAdmin = false }) => {
           <line x1="12" y1="22.08" x2="12" y2="12"></line>
         </svg>
       )
-    }
-  ];
-
-  const otherModules = [
+    },
     {
       title: 'Stock Entry',
       description: 'Stock entry and inventory updates',
@@ -75,7 +72,6 @@ const Stock = ({ isAdmin = false }) => {
         </svg>
       )
     }
-
   ];
 
   return (
@@ -85,37 +81,18 @@ const Stock = ({ isAdmin = false }) => {
 
       <div className="main-content page-with-navbar">
         <div className="content-wrapper">
-          {/* Master Modules Section */}
-          <div className="master-section">
-            {/* Master Card */}
-            <div
-              className="stock-module-card master-card-large"
-              onClick={() => navigate(masterModules[0].path)}
-            >
-              <div className="module-icon">{masterModules[0].icon}</div>
-              <h3 className="module-title">{masterModules[0].title}</h3>
-              <p className="module-description">{masterModules[0].description}</p>
-              <div className="module-arrow">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Other Modules Section */}
-          <div className="stock-modules-grid">
-            {otherModules.map((module, index) => (
+          {/* Stock Modules Grid */}
+          <div className="stock-options-grid">
+            {stockModules.map((module, index) => (
               <div
                 key={index}
-                className="stock-module-card"
+                className="stock-option-card"
                 onClick={() => navigate(module.path)}
               >
-                <div className="module-icon">{module.icon}</div>
-                <h3 className="module-title">{module.title}</h3>
-                <p className="module-description">{module.description}</p>
-                <div className="module-arrow">
+                <div className="option-icon">{module.icon}</div>
+                <h3 className="option-title">{module.title}</h3>
+                <p className="option-description">{module.description}</p>
+                <div className="option-arrow">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>

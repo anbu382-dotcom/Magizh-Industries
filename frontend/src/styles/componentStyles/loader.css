@@ -1,9 +1,8 @@
 .loader-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
+  inline-size: 100vw;
+  block-size: 100vh;
   background: #F1F0E9;
   backdrop-filter: blur(10px);
   display: flex;
@@ -23,9 +22,9 @@
 }
 
 .loader {
-  font-size: 30px;
+  font-size: clamp(1.5rem, 4vw, 1.875rem); /* 24px → 30px */
   display: flex;
-  gap: 10px;
+  gap: clamp(0.5rem, 2vw, 0.625rem); /* 8px → 10px */
   justify-content: center;
   align-items: center;
 }
@@ -39,10 +38,10 @@
   font-weight: bold;
   color: var(--color-accent);
   background-color: rgba(91, 123, 154, 0.1);
-  border-radius: 8px;
-  min-width: 40px;
-  min-height: 40px;
-  padding: 8px;
+  border-radius: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
+  min-inline-size: clamp(2.25rem, 5vw, 2.5rem); /* 36px → 40px */
+  min-block-size: clamp(2.25rem, 5vw, 2.5rem);
+  padding: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
   animation: peek 1s both infinite;
   animation-delay: var(--d);
 }

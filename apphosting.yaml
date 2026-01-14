@@ -51,6 +51,12 @@ env:
   - variable: ADMIN_EMAIL
     availability: [RUNTIME]
     value: magizhindustriescbe@gmail.com
+  - variable: OTP_VALID_TIME
+    availability: [RUNTIME]
+    value: "60"
+  - variable: OTP_RESEND_TIME
+    availability: [RUNTIME]
+    value: "100"
 
   # Environment variables (sensitive)
   - variable: JWT_SECRET

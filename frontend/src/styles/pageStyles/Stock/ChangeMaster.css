@@ -984,159 +984,136 @@
 
 /* ===========================
    RESPONSIVE MEDIA QUERIES
+   Standard Mobile Breakpoints:
+   - Large Mobile: 769px - 1024px
+   - Standard Mobile: 430px - 768px  
+   - Small Mobile: 375px - 429px
+   - Extra Small: 320px - 374px
    =========================== */
 
-/* Mobile Landscape (768px and below) */
-@media (max-width: 768px) {
+/* Large Mobile (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
   .cm-content {
-    margin-left: 0;
-    padding: 4rem 5px 0.5rem 5px;
-    box-sizing: border-box;
+    padding: 4rem 1.5rem 1rem 1.5rem;
+  }
 
+  .cm-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .cm-main-panel {
+    padding: 1.75rem;
+  }
+}
+
+/* Standard Mobile (430px - 768px) */
+@media (max-width: 768px) and (min-width: 430px) {
+  .cm-content {
+    margin-top: 2rem;
+    padding: 1rem 12px 0.5rem 12px;
+    box-sizing: border-box;
   }
 
   .cm-container {
     max-width: 100%;
     width: 100%;
-    padding: 0;
     margin: 0;
-  }
-
-  .cm-header {
-    margin-bottom: 0.75rem;
-    padding: 0.75rem 0;
-  }
-
-  .cm-header-top {
-    gap: 6px;
-    margin-bottom: 0.5rem;
-  }
-
-  .cm-warehouse-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 9px;
-  }
-
-  .cm-warehouse-icon svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .cm-back-btn {
-    padding: 8px 14px;
-    font-size: 12px;
-    border-radius: 9px;
-    gap: 5px;
-  }
-
-  .cm-back-btn svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .cm-title {
-    font-size: 1.25rem;
-    padding: 0;
-    line-height: 1.2;
-  }
-
-  .cm-subtitle {
-    font-size: 0.8125rem;
-    margin-top: 0.25rem;
   }
 
   .cm-main-panel {
-    padding: 12px 10px;
+    padding: 1.25rem;
     border-radius: 16px;
-    margin: 0;
-    width: 100%;
-    box-sizing: border-box;
   }
 
   .cm-filter-bar {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
     margin-bottom: 1.25rem;
   }
 
   .cm-search-box {
+    padding: 0;
     min-width: 100%;
     width: 100%;
   }
 
   .cm-search-box input {
-    padding: 11px 14px 11px 2.75rem;
-    font-size: 13px;
-    height: 44px;
+    padding: 12px 14px 12px 44px;
+    font-size: 14px;
+    height: 46px;
   }
 
   .cm-search-box svg {
-    left: 0.875rem;
-    width: 16px;
-    height: 16px;
+    left: 14px;
+    width: 18px;
+    height: 18px;
   }
 
   .cm-filter-tabs {
     width: 100%;
     justify-content: space-between;
-    padding: 5px;
+    padding: 6px;
   }
 
   .cm-tab {
-    padding: 8px 16px;
-    font-size: 13px;
+    padding: 10px 18px;
+    font-size: 14px;
     flex: 1;
     text-align: center;
   }
 
   .cm-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 1.25rem;
+    gap: 1.125rem;
+    margin-top: 1rem;
   }
 
   .cm-card {
-    padding: 1rem;
+    padding: 1.125rem;
     border-radius: 14px;
-    max-height: 50px;
+    max-height: none;
   }
 
   .cm-card-header {
-    padding-bottom: 0.75rem;
+    padding-bottom: 0.875rem;
   }
 
   .cm-code-badge {
-    font-size: 13px;
-    padding: 6px 12px;
+    font-size: 14px;
+    padding: 7px 14px;
   }
 
-  .cm-type-badge {
-    font-size: 11px;
-    padding: 4px 10px;
+  .cm-flow-badge {
+    font-size: 12px;
+    padding: 5px 11px;
   }
 
-  .cm-card-title {
-    font-size: 1.125rem;
+  .cm-material-name {
+    font-size: 1.25rem;
   }
 
-  .cm-info-item {
-    font-size: 13px;
+  .cm-label {
+    font-size: 14px;
+  }
+
+  .cm-value {
+    font-size: 14px;
   }
 
   .cm-edit-btn {
-    padding: 10px 18px;
-    font-size: 13px;
+    padding: 11px 20px;
+    font-size: 14px;
   }
 
   .cm-pagination {
-    gap: 1rem;
-    padding: 1rem 0 0.5rem 0;
+    gap: 1.25rem;
+    padding: 1.25rem 0 0.75rem 0;
   }
 
   .cm-pagination-btn {
-    padding: 8px 14px;
-    font-size: 13px;
+    padding: 10px 16px;
+    font-size: 14px;
   }
 
   /* Edit Modal Responsive Styles */
@@ -1226,16 +1203,22 @@
     border-radius: 10px !important;
   }
 
-  .cm-form-group .rsuite-dropdown .rs-dropdown-menu {
-    min-width: 150px !important;
-    width: 150px !important;
-    max-width: 150px !important;
+  /* RSuite Dropdown Menu Mobile Styles */
+  .cm-form-group .rsuite-dropdown .rs-dropdown-menu,
+  .rs-picker-popup .rs-dropdown-menu {
+    min-width: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 10px !important;
+    padding: 6px !important;
   }
 
-  .cm-form-group .rsuite-dropdown .rs-dropdown-item {
+  .cm-form-group .rsuite-dropdown .rs-dropdown-item,
+  .rs-picker-popup .rs-dropdown-item {
     padding: 10px 14px !important;
     font-size: 13px !important;
     min-height: 42px !important;
+    border-radius: 8px !important;
   }
 
   .cm-input-with-icon {
@@ -1265,60 +1248,104 @@
   }
 }
 
-@media (max-width: 575px) {
+/* Small Mobile (375px - 429px) */
+@media (max-width: 429px) and (min-width: 375px) {
   .cm-content {
-    padding: 4rem 3px 0.5rem 3px;
+    margin-top: 3rem;
+    padding: 1rem 8px 0.5rem 8px;
+    box-sizing: border-box;
+  }
+
+  .cm-container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
   }
 
   .cm-main-panel {
-    padding: 10px 8px;
-    border-radius: 14px;
+    padding: 12px 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .cm-title {
-    font-size: 1.125rem;
+  .cm-filter-bar {
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-bottom: 1rem;
   }
 
-  .cm-subtitle {
-    font-size: 0.75rem;
+  .cm-search-box {
+    padding: 0;
+    min-width: 100%;
+    width: 100%;
   }
 
   .cm-search-box input {
-    padding: 10px 12px 10px 2.5rem;
-    font-size: 12px;
-    height: 42px;
+    padding: 11px 13px 11px 40px;
+    font-size: 13px;
+    height: 44px;
+  }
+
+  .cm-search-box svg {
+    left: 12px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .cm-filter-tabs {
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px;
   }
 
   .cm-tab {
-    padding: 7px 12px;
-    font-size: 12px;
+    padding: 8px 14px;
+    font-size: 13px;
+    flex: 1;
+    text-align: center;
+  }
+
+  .cm-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
   }
 
   .cm-card {
-    padding: 0.875rem;
+    padding: 1rem;
+    border-radius: 12px;
   }
 
   .cm-code-badge {
-    font-size: 12px;
-    padding: 5px 10px;
+    font-size: 13px;
+    padding: 6px 12px;
   }
 
-  .cm-type-badge {
-    font-size: 10px;
-    padding: 3px 8px;
+  .cm-flow-badge {
+    font-size: 11px;
+    padding: 4px 10px;
   }
 
-  .cm-card-title {
-    font-size: 1rem;
+  .cm-material-name {
+    font-size: 1.125rem;
   }
 
-  .cm-info-item {
-    font-size: 12px;
+  .cm-label {
+    font-size: 13px;
+  }
+
+  .cm-value {
+    font-size: 13px;
   }
 
   .cm-edit-btn {
-    padding: 9px 16px;
-    font-size: 12px;
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  .cm-pagination-btn {
+    padding: 9px 14px;
+    font-size: 13px;
   }
 
   /* Edit Modal Responsive Styles for Small Screens */
@@ -1384,16 +1411,23 @@
     border-radius: 9px !important;
   }
 
-  .cm-form-group .rsuite-dropdown .rs-dropdown-menu {
-    min-width: 140px !important;
-    width: 140px !important;
-    max-width: 140px !important;
+  /* RSuite Dropdown Menu Small Mobile Styles */
+  .cm-form-group .rsuite-dropdown .rs-dropdown-menu,
+  .rs-picker-popup .rs-dropdown-menu {
+    min-width: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 8px !important;
+    padding: 6px !important;
+    max-height: 250px !important;
   }
 
-  .cm-form-group .rsuite-dropdown .rs-dropdown-item {
+  .cm-form-group .rsuite-dropdown .rs-dropdown-item,
+  .rs-picker-popup .rs-dropdown-item {
     padding: 9px 12px !important;
     font-size: 12px !important;
     min-height: 40px !important;
+    border-radius: 6px !important;
   }
 
   .cm-rupee-icon {
@@ -1409,5 +1443,226 @@
   .cm-form-actions button {
     padding: 11px 18px;
     font-size: 13px;
+  }
+}
+
+/* Extra Small Mobile (320px - 374px) */
+@media (max-width: 374px) {
+  .cm-content {
+    margin-top: 3.5rem;
+    padding: 1rem 6px 0.5rem 6px;
+    box-sizing: border-box;
+  }
+
+  .cm-container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+  }
+
+  .cm-main-panel {
+    padding: 10px 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .cm-filter-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .cm-search-box {
+    padding: 0;
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .cm-search-box input {
+    padding: 10px 12px 10px 36px;
+    font-size: 12px;
+    height: 42px;
+  }
+
+  .cm-search-box svg {
+    left: 10px;
+    width: 14px;
+    height: 14px;
+  }
+
+  .cm-filter-tabs {
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px;
+  }
+
+  .cm-tab {
+    padding: 7px 12px;
+    font-size: 12px;
+    flex: 1;
+    text-align: center;
+  }
+
+  .cm-grid {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+    margin-top: 0.875rem;
+  }
+
+  .cm-card {
+    padding: 0.875rem;
+    border-radius: 12px;
+  }
+
+  .cm-code-badge {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .cm-flow-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .cm-material-name {
+    font-size: 1rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .cm-label {
+    font-size: 12px;
+  }
+
+  .cm-value {
+    font-size: 12px;
+    word-break: break-word;
+  }
+
+  .cm-edit-btn {
+    padding: 9px 16px;
+    font-size: 12px;
+  }
+
+  .cm-pagination {
+    gap: 0.875rem;
+    padding: 1rem 1rem 3rem 1rem;
+  }
+
+  .cm-pagination-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  /* Edit Modal Responsive Styles for Extra Small Screens */
+  .cm-modal-overlay {
+    padding: 0.25rem;
+  }
+
+  .cm-modal {
+    border-radius: 12px;
+    max-height: 92vh;
+  }
+
+  .cm-modal-header {
+    padding: 1rem 0.875rem 0.75rem 0.875rem;
+  }
+
+  .cm-modal-header h2 {
+    font-size: 1rem;
+  }
+
+  .cm-close-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .cm-form {
+    padding: 1rem 0.875rem;
+    gap: 1rem;
+  }
+
+  .cm-form-section h3 {
+    font-size: 0.875rem;
+  }
+
+  .cm-form-row {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  .cm-tax-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .cm-tax-row .cm-form-group:nth-child(4),
+  .cm-tax-row .cm-form-group:nth-child(5) {
+    grid-column: span 1;
+  }
+
+  .cm-form-group label {
+    font-size: 11px;
+  }
+
+  .cm-form-group input {
+    padding: 8px 11px;
+    font-size: 11px;
+    border-radius: 8px;
+    height: 40px;
+  }
+
+  .cm-form-group .rsuite-dropdown .rs-dropdown-toggle,
+  .cm-form-group .rsuite-dropdown .rs-btn {
+    min-width: 100% !important;
+    height: 40px !important;
+    padding: 8px 11px !important;
+    font-size: 11px !important;
+    border-radius: 8px !important;
+  }
+
+  /* RSuite Dropdown Menu Extra Small Mobile Styles */
+  .cm-form-group .rsuite-dropdown .rs-dropdown-menu,
+  .rs-picker-popup .rs-dropdown-menu {
+    min-width: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 8px !important;
+    padding: 4px !important;
+    max-height: 220px !important;
+  }
+
+  .cm-form-group .rsuite-dropdown .rs-dropdown-item,
+  .rs-picker-popup .rs-dropdown-item {
+    padding: 8px 11px !important;
+    font-size: 11px !important;
+    min-height: 38px !important;
+    border-radius: 6px !important;
+  }
+
+  .cm-rupee-icon {
+    width: 12px;
+    height: 12px;
+    left: 9px;
+    font-size: 11px;
+  }
+
+  .cm-input-with-icon input {
+    padding-left: 28px;
+  }
+
+  .cm-form-actions {
+    gap: 0.625rem;
+  }
+
+  .cm-form-actions button {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+
+  .cm-gst-error-message,
+  .cm-no-changes-message {
+    font-size: 11px;
+    padding: 8px 12px;
   }
 }

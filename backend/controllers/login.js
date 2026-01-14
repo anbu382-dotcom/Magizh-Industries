@@ -7,9 +7,7 @@ const loginActivityService = require('../services/loginActivityService');
 const logger = require('../utils/logger');
 const https = require('https');
 
-/**
- * Login user with Firebase Authentication
- */
+// Login user with Firebase Authentication
 exports.login = async (req, res) => {
   try {
     const { userId, password } = req.body;
@@ -23,13 +21,11 @@ exports.login = async (req, res) => {
 
     // Step 1: Find user by userId
     const user = await UserService.findByUserId(userId);
-
     if (!user) {
       return res.status(401).json({
         message: 'Invalid credentials'
       });
     }
-
     // Step 2: Verify user exists in Firebase Auth
     try {
       await auth.getUserByEmail(user.email);
@@ -39,7 +35,6 @@ exports.login = async (req, res) => {
         message: 'Invalid credentials - user not found in authentication system'
       });
     }
-
     // Step 3: Verify password using Firebase REST API
     const firebaseApiKey = process.env.FIREBASE_API_KEY || process.env.REACT_APP_FIREBASE_API_KEY;
 
@@ -65,7 +60,8 @@ exports.login = async (req, res) => {
     const token = generateToken(
       user.userId,
       user.email,
-      user.role || 'employee'
+      user.role || 'employee',
+      user.firstName || ''
     );
 
     // Step 5: Record login activity (non-blocking, ignore errors)
@@ -107,9 +103,7 @@ exports.login = async (req, res) => {
   }
 };
 
-/**
- * Get user login sessions (activities)
- */
+// Get user login sessions (activities)
 exports.getUserSessions = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -131,9 +125,7 @@ exports.getUserSessions = async (req, res) => {
   }
 };
 
-/**
- * Helper function to verify password with Firebase using native https module
- */
+// Helper function acts as a bridge between node.js and Firebase REST API to verify password
 function verifyPasswordWithFirebase(email, password, apiKey) {
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify({

@@ -18,39 +18,45 @@
 /* Sidebar Container */
 .sidebar {
   position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 0;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  block-size: 100vh;
+  inline-size: 0;
   background: var(--sidebar-bg);
   display: flex;
   flex-direction: column;
   z-index: 1000;
   box-shadow: 4px 0 20px rgba(45, 55, 72, 0.15);
-  transition: width 0.3s ease;
+  transition: inline-size 0.3s ease;
   overflow: hidden;
 }
 
 .sidebar.expanded {
-  width: 260px;
+  inline-size: clamp(15rem, 25vw, 16.25rem); /* 240px → 260px */
 }
 
 /* Sidebar Header */
 .sidebar-header {
-  padding: 20px 24px;
+  padding-block: clamp(1rem, 3vw, 1.25rem); /* 16px → 20px */
+  padding-inline: clamp(1.25rem, 3vw, 1.5rem); /* 20px → 24px */
   display: flex;
   align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  gap: clamp(0.625rem, 2vw, 0.75rem); /* 10px → 12px */
+  border-block-end: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+/* Sidebar Logo - STANDARDIZED SIZE */
 .sidebar-logo {
   color: white;
   flex-shrink: 0;
+  inline-size: var(--icon-size-lg); /* 32px standard */
+  block-size: var(--icon-size-lg);
+  min-inline-size: var(--icon-size-lg);
+  min-block-size: var(--icon-size-lg);
 }
 
 .sidebar-company-name {
-  font-size: 1.1rem;
+  font-size: clamp(0.9375rem, 2.5vw, 1.1rem); /* 15px → 17.6px */
   font-weight: 700;
   color: white;
   white-space: nowrap;
@@ -65,16 +71,18 @@
 /* Navigation */
 .sidebar-nav {
   flex: 1;
-  padding: 20px 0;
+  padding-block: clamp(1rem, 3vw, 1.25rem); /* 16px → 20px */
+  padding-inline: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: clamp(0.125rem, 0.5vw, 0.25rem); /* 2px → 4px */
 }
 
 /* Navigation Items */
 .nav-item {
-  width: 100%;
-  padding: 16px 24px;
+  inline-size: 100%;
+  padding-block: clamp(0.875rem, 2.5vw, 1rem); /* 14px → 16px */
+  padding-inline: clamp(1.25rem, 3vw, 1.5rem); /* 20px → 24px */
   background: transparent;
   border: none;
   color: var(--sidebar-text);
@@ -82,10 +90,11 @@
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 14px;
-  font-size: 15px;
+  gap: clamp(0.75rem, 2vw, 0.875rem); /* 12px → 14px */
+  font-size: clamp(0.875rem, 2vw, 0.9375rem); /* 14px → 15px */
   font-weight: 500;
   position: relative;
+  min-block-size: 2.75rem; /* 44px touch target */
 }
 
 .nav-item:hover {
@@ -101,15 +110,20 @@
 .nav-item.active::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 4px;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  block-size: 100%;
+  inline-size: 0.25rem; /* 4px */
   background: white;
 }
 
+/* Warehouse/Menu Icon - STANDARDIZED SIZE SITE-WIDE */
 .nav-icon {
   flex-shrink: 0;
+  inline-size: var(--warehouse-icon-size); /* 24px standard */
+  block-size: var(--warehouse-icon-size);
+  min-inline-size: var(--warehouse-icon-size);
+  min-block-size: var(--warehouse-icon-size);
 }
 
 .nav-text {
@@ -125,18 +139,18 @@
 /* Footer */
 .sidebar-footer {
   padding: 0;
-  margin-top: auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin-block-start: auto;
+  border-block-start: 1px solid rgba(255, 255, 255, 0.15);
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset-block-end: 0;
+  inset-inline: 0;
   background: var(--sidebar-bg);
 }
 
 .logout-btn {
-  width: 100%;
-  padding: 16px 24px;
+  inline-size: 100%;
+  padding-block: clamp(0.875rem, 2.5vw, 1rem); /* 14px → 16px */
+  padding-inline: clamp(1.25rem, 3vw, 1.5rem); /* 20px → 24px */
   background: #DC2626;
   border: none;
   color: #ffffff;
@@ -144,10 +158,11 @@
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 14px;
-  font-size: 15px;
+  gap: clamp(0.75rem, 2vw, 0.875rem); /* 12px → 14px */
+  font-size: clamp(0.875rem, 2vw, 0.9375rem); /* 14px → 15px */
   font-weight: 600;
   margin: 0;
+  min-block-size: 2.75rem; /* 44px touch target */
 }
 
 .logout-btn:hover {
@@ -155,14 +170,19 @@
   color: white;
 }
 
-/* Responsive */
+/* ===========================
+   RESPONSIVE MEDIA QUERIES
+   Modern fluid design with minimal breakpoints
+   =========================== */
+
+/* Standard Mobile & Below (≤768px) */
 @media (max-width: 768px) {
   .sidebar {
-    width: 0;
+    inline-size: 0;
   }
   
   .sidebar.expanded {
-    width: 260px;
+    inline-size: clamp(15rem, 80vw, 16.25rem); /* 240px → 260px, max 80vw */
   }
   
   .menu-toggle-btn {

@@ -4,7 +4,7 @@ const errorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || err.status || 500;
   const isProduction = process.env.NODE_ENV === 'production';
 
-  // Log error using winston
+  // Log error using winston library 
   logger.error('Error occurred:', {
     message: err.message,
     statusCode,

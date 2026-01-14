@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Package, BarChart3, Shield, Users } from 'lucide-react';
 import DatePicker from '../components/datepicker';
 import Loader from '../components/loader';
+import { StatusMessage } from '../components/popup';
 import '../styles/pageStyles/login.css';
 
 const AuthPage = () => {
@@ -13,6 +14,20 @@ const AuthPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
+  
+  // Forgot Password States
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotPasswordStep, setForgotPasswordStep] = useState(1); // 1: Email, 2: OTP, 3: New Password
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [otp, setOtp] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [otpTimer, setOtpTimer] = useState(0);
+  const [canResendOtp, setCanResendOtp] = useState(false);
+  const [forgotPasswordError, setForgotPasswordError] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
 
   const features = [
     {
@@ -53,6 +68,23 @@ const AuthPage = () => {
     return () => clearInterval(interval);
   }, [features.length]);
 
+  // OTP Timer
+  useEffect(() => {
+    let interval;
+    if (forgotPasswordStep === 2 && otpTimer > 0 && !canResendOtp) {
+      interval = setInterval(() => {
+        setOtpTimer((prev) => {
+          if (prev <= 1) {
+            setCanResendOtp(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [forgotPasswordStep, otpTimer, canResendOtp]);
+
   // Form Data States
   const [loginData, setLoginData] = useState({ userId: '', password: '' });
   const [regData, setRegData] = useState({
@@ -73,6 +105,178 @@ const AuthPage = () => {
   const handleToggleMode = () => {
     setIsLogin(!isLogin);
     setLoginError(false);
+    setShowForgotPassword(false);
+    setForgotPasswordStep(1);
+    setForgotEmail('');
+    setOtp('');
+  };
+
+  const handleForgotPasswordClick = () => {
+    setShowForgotPassword(true);
+    setForgotPasswordStep(1);
+    setForgotEmail('');
+    setOtp('');
+    setNewPassword('');
+    setConfirmPassword('');
+    setOtpTimer(0);
+    setCanResendOtp(false);
+    setForgotPasswordError('');
+  };
+
+  const handleBackToLogin = () => {
+    setShowForgotPassword(false);
+    setForgotPasswordStep(1);
+    setForgotEmail('');
+    setOtp('');
+    setNewPassword('');
+    setConfirmPassword('');
+    setForgotPasswordError('');
+  };
+
+  const handleSendOtp = async (e) => {
+    e.preventDefault();
+    setStatusMessage('Sending OTP...');
+    setForgotPasswordError('');
+    
+    try {
+      // Call API to send OTP
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/forgot-password/send-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: forgotEmail })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setStatusMessage('');
+        setForgotPasswordStep(2);
+        setOtpTimer(data.resendOtpSeconds || 60);
+        setCanResendOtp(false);
+        setForgotPasswordError('');
+      } else {
+        setStatusMessage('');
+        setForgotPasswordError(data.message || 'Failed to send OTP. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      setStatusMessage('');
+      setForgotPasswordError('Failed to send OTP. Please check your connection and try again.');
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setStatusMessage('Resending OTP...');
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/forgot-password/resend-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: forgotEmail })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setOtpTimer(data.resendOtpSeconds || 60);
+        setCanResendOtp(false);
+        setStatusMessage('');
+        setForgotPasswordError('OTP resent to your email!');
+        setTimeout(() => setForgotPasswordError(''), 3000);
+      } else {
+        setStatusMessage('');
+        setForgotPasswordError(data.message || 'Failed to resend OTP. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error resending OTP:', error);
+      setStatusMessage('');
+      setForgotPasswordError('Failed to resend OTP. Please try again.');
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    setStatusMessage('Verifying OTP...');
+    
+    try {
+      // Call API to verify OTP
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/forgot-password/verify-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          email: forgotEmail,
+          otp: otp 
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setStatusMessage('');
+        setForgotPasswordStep(3);
+        setForgotPasswordError('');
+      } else {
+        setStatusMessage('');
+        setForgotPasswordError(data.message || 'Invalid OTP. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+      setStatusMessage('');
+      setForgotPasswordError('Failed to verify OTP. Please try again.');
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    
+    if (newPassword !== confirmPassword) {
+      setForgotPasswordError('Passwords do not match!');
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setForgotPasswordError('Password must be at least 6 characters long!');
+      return;
+    }
+
+    setStatusMessage('Changing password...');
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/forgot-password/reset-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          email: forgotEmail,
+          otp: otp,
+          newPassword: newPassword
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setStatusMessage('Password changed successfully!');
+        setTimeout(() => {
+          setStatusMessage('');
+          handleBackToLogin();
+        }, 2000);
+      } else {
+        setStatusMessage('');
+        setForgotPasswordError(data.message || 'Failed to reset password. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error resetting password:', error);
+      setStatusMessage('');
+      setForgotPasswordError('Failed to reset password. Please try again.');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -177,13 +381,13 @@ const AuthPage = () => {
 
               // Handle specific error cases
               if (data.status === 'already_requested') {
-                alert('⚠️ Request Already Submitted\n\n' + data.message);
+                alert(' Request Already Submitted\n\n' + data.message);
               } else if (data.status === 'already_exists') {
-                alert('⚠️ Account Already Exists\n\n' + data.message);
+                alert('Account Already Exists\n\n' + data.message);
                 // Optionally switch to login view
                 setTimeout(() => setIsLogin(true), 2000);
               } else if (data.status === 'rejected') {
-                alert('❌ Previous Request Rejected\n\n' + data.message);
+                alert('Previous Request Rejected\n\n' + data.message);
               } else {
                 alert(data.message || 'Failed to send registration request. Please try again.');
               }
@@ -206,6 +410,7 @@ const AuthPage = () => {
   return (
     <>
       {isLoading && <Loader />}
+      {statusMessage && <StatusMessage message={statusMessage} />}
       <div className="auth-container">
         {/* Left Content Section */}
         <div className="content-section">
@@ -257,7 +462,126 @@ const AuthPage = () => {
               </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            {showForgotPassword ? (
+              // --- FORGOT PASSWORD FORM ---
+              <form onSubmit={forgotPasswordStep === 1 ? handleSendOtp : forgotPasswordStep === 2 ? handleVerifyOtp : handleResetPassword}>
+                {forgotPasswordStep === 1 ? (
+                  // Step 1: Enter Email
+                  <div className="input-group">
+                    <label htmlFor="forgotEmail">Email Address <span className="required">*</span></label>
+                    <input
+                      type="email"
+                      id="forgotEmail"
+                      name="forgotEmail"
+                      placeholder="Enter your registered email"
+                      value={forgotEmail}
+                      onChange={(e) => {
+                        setForgotEmail(e.target.value);
+                        setForgotPasswordError('');
+                      }}
+                      required
+                    />
+                    {forgotPasswordError && (
+                      <p style={{ color: 'red', fontSize: '14px', marginTop: '8px', marginBottom: '0' }}>
+                        {forgotPasswordError}
+                      </p>
+                    )}
+                  </div>
+                ) : forgotPasswordStep === 2 ? (
+                  // Step 2: Enter OTP
+                  <>
+                    <div className="input-group">
+                      <label htmlFor="otp">Enter OTP <span className="required">*</span></label>
+                      <input
+                        type="text"
+                        id="otp"
+                        name="otp"
+                        placeholder="Enter 6-digit OTP"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        maxLength="6"
+                        required
+                      />
+                    </div>
+                    <div className="otp-timer-container">
+                      {canResendOtp ? (
+                        <button type="button" className="resend-otp-btn" onClick={handleResendOtp}>
+                          Resend OTP
+                        </button>
+                      ) : (
+                        <p className="otp-timer">Resend OTP in {otpTimer}s</p>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  // Step 3: Enter New Password
+                  <>
+                    <div className="input-group password-group">
+                      <label htmlFor="newPassword">New Password <span className="required">*</span></label>
+                      <div className="password-input-wrapper">
+                        <input
+                          type={showNewPassword ? 'text' : 'password'}
+                          id="newPassword"
+                          name="newPassword"
+                          placeholder="Enter new password"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          minLength="6"
+                          required
+                        />
+                        <button
+                          type="button"
+                          className="eye-toggle"
+                          onClick={() => setShowNewPassword(!showNewPassword)}
+                          tabIndex="-1"
+                          aria-label={showNewPassword ? "Hide password" : "Show password"}
+                        >
+                          {showNewPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="input-group password-group">
+                      <label htmlFor="confirmPassword">Confirm Password <span className="required">*</span></label>
+                      <div className="password-input-wrapper">
+                        <input
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          id="confirmPassword"
+                          name="confirmPassword"
+                          placeholder="Confirm new password"
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          minLength="6"
+                          required
+                        />
+                        <button
+                          type="button"
+                          className="eye-toggle"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          tabIndex="-1"
+                          aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                        >
+                          {showConfirmPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* Submit Button */}
+                <button type="submit" className="main-btn">
+                  {forgotPasswordStep === 1 ? 'Send OTP' : forgotPasswordStep === 2 ? 'Verify OTP' : 'Reset Password'}
+                </button>
+
+                {/* Back to Login */}
+                <div className="back-to-login-container">
+                  <button type="button" className="link-btn" onClick={handleBackToLogin}>
+                    Back to Login
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <form onSubmit={handleSubmit}>
               {isLogin ? (
                 // --- LOGIN FIELDS ---
                 <>
@@ -373,6 +697,16 @@ const AuthPage = () => {
                 {isLogin ? 'Login' : 'Sign Up'}
               </button>
             </form>
+            )}
+
+            {/* Forget Password Link - Only for Login */}
+            {isLogin && !showForgotPassword && (
+              <div className="forget-password-container">
+                <button type="button" className="link-btn" onClick={handleForgotPasswordClick}>
+                  Forget password ?
+                </button>
+              </div>
+            )}
 
             {/* Toggle Mode Link */}
             <div className="toggle-link-container">

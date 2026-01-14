@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import DownloadPopup from '../../components/DownloadPopup';
+import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/FinalData.css';
-import { Database, Search, TrendingUp, TrendingDown } from 'lucide-react';
+import { Database, Search, TrendingUp, TrendingDown, Download } from 'lucide-react';
+import { Dropdown } from 'rsuite';
 
 const FinalData = () => {
   const [stockBalances, setStockBalances] = useState([]);
@@ -10,6 +13,8 @@ const FinalData = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterClass, setFilterClass] = useState('all');
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     fetchStockBalances();
@@ -120,10 +125,73 @@ const FinalData = () => {
     return matchesSearch && matchesClass;
   });
 
+  const handleDownload = async () => {
+    try {
+      setIsDownloading(true);
+      const token = sessionStorage.getItem('token');
+      
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/stock/download/current`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+
+      if (response.ok) {
+        // Get the blob from response
+        const blob = await response.blob();
+        
+        // Get filename from Content-Disposition header or use default
+        const contentDisposition = response.headers.get('Content-Disposition');
+        let filename = 'Current_stock_data.xls';
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+          if (filenameMatch) {
+            filename = filenameMatch[1];
+          }
+        }
+        
+        // Create download link
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        
+        // Cleanup
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else {
+        console.error('Failed to download file');
+        alert('Failed to download file. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      alert('Error downloading file. Please try again.');
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <div className="final-data-container">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Final Stock Data" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
+      <Navbar 
+        title="Current Stock " 
+        onMenuClick={() => setSidebarExpanded(!sidebarExpanded)}
+        rightContent={
+          <button 
+            className="download-icon-btn" 
+            onClick={() => setShowDownloadPopup(true)}
+            title="Download Report"
+          >
+            <Download size={20} />
+          </button>
+        }
+      />
       
       <div className="final-main-wrapper page-with-navbar">
         <div className="final-content">
@@ -141,18 +209,18 @@ const FinalData = () => {
 
             <div className="filter-group">
               <label>Filter by Class:</label>
-              <select
-                value={filterClass}
-                onChange={(e) => setFilterClass(e.target.value)}
-                className="filter-select"
+              <Dropdown
+                title={filterClass === 'all' ? 'All' : filterClass}
+                onSelect={(value) => setFilterClass(value)}
+                placement="bottomEnd"
               >
-                <option value="all">All</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-                <option value="F">F</option>
-              </select>
+                <Dropdown.Item eventKey="all">All</Dropdown.Item>
+                <Dropdown.Item eventKey="A">A</Dropdown.Item>
+                <Dropdown.Item eventKey="B">B</Dropdown.Item>
+                <Dropdown.Item eventKey="C">C</Dropdown.Item>
+                <Dropdown.Item eventKey="D">D</Dropdown.Item>
+                <Dropdown.Item eventKey="F">F</Dropdown.Item>
+              </Dropdown>
             </div>
           </div>
 
@@ -194,6 +262,16 @@ const FinalData = () => {
           )}
         </div>
       </div>
+
+      <DownloadPopup
+        isOpen={showDownloadPopup}
+        onClose={() => setShowDownloadPopup(false)}
+        onDownload={handleDownload}
+        title="Download Current Stock Data"
+        showDateRange={false}
+      />
+
+      {isDownloading && <StatusMessage message="Downloading Excel..." />}
     </div>
   );
 };

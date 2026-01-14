@@ -536,10 +536,31 @@
 
 /* ===========================
    RESPONSIVE MEDIA QUERIES
+   Standard Mobile Breakpoints:
+   - Large Mobile: 769px - 1024px
+   - Standard Mobile: 430px - 768px  
+   - Small Mobile: 375px - 429px
+   - Extra Small: 320px - 374px
    =========================== */
 
-/* Mobile Landscape (768px and below) */
-@media (max-width: 768px) {
+/* Large Mobile (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .am-content {
+    padding: 4rem 1.5rem 1rem 1.5rem;
+  }
+
+  .am-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .am-main-panel {
+    padding: 1.75rem;
+  }
+}
+
+/* Standard Mobile (430px - 768px) */
+@media (max-width: 768px) and (min-width: 430px) {
   .am-content {
     margin-left: 0;
     padding: 0.5rem 10px 0.5rem 10px;
@@ -598,77 +619,75 @@
   }
 
   .am-main-panel {
-    padding: 12px 10px;
+    padding: 1.25rem;
     border-radius: 16px;
-    margin: 0;
-    width: 100%;
-    box-sizing: border-box;
   }
 
   .am-filter-bar {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
     margin-bottom: 1.25rem;
   }
 
   .am-search-box {
+    padding: 0;
     min-width: 100%;
     width: 100%;
   }
 
   .am-search-box input {
-    padding: 11px 14px 11px 2.75rem;
-    font-size: 13px;
-    height: 44px;
+    padding: 12px 14px 12px 44px;
+    font-size: 14px;
+    height: 46px;
   }
 
   .am-search-box svg {
-    left: 0.875rem;
-    width: 16px;
-    height: 16px;
+    left: 14px;
+    width: 18px;
+    height: 18px;
   }
 
   .am-filter-tabs {
     width: 100%;
     justify-content: space-between;
-    padding: 5px;
+    padding: 6px;
   }
 
   .am-tab {
-    padding: 8px 16px;
-    font-size: 13px;
+    padding: 10px 18px;
+    font-size: 14px;
     flex: 1;
     text-align: center;
   }
 
   .am-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 1.25rem;
+    gap: 1.125rem;
+    margin-top: 1rem;
   }
 
   .am-card {
-    padding: 1rem;
+    padding: 1.125rem;
     border-radius: 14px;
-    min-height: auto;
+    max-height: none;
   }
 
   .am-card-header {
-    padding-bottom: 0.75rem;
+    padding-bottom: 0.875rem;
   }
 
   .am-code-badge {
-    font-size: 13px;
-    padding: 6px 12px;
+    font-size: 14px;
+    padding: 7px 14px;
   }
 
   .am-flow-badge {
-    font-size: 11px;
-    padding: 4px 10px;
+    font-size: 12px;
+    padding: 5px 11px;
   }
 
   .am-material-name {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
   }
 
   .am-info-row {
@@ -676,17 +695,17 @@
   }
 
   .am-label {
-    font-size: 0.8125rem;
+    font-size: 14px;
   }
 
   .am-value {
-    font-size: 0.8125rem;
+    font-size: 14px;
   }
 
   .am-restore-btn,
   .am-permanent-delete-btn {
-    padding: 10px 14px;
-    font-size: 13px;
+    padding: 11px 20px;
+    font-size: 14px;
   }
 
   .am-restore-btn svg,
@@ -705,69 +724,115 @@
   }
 
   .am-pagination {
-    gap: 1rem;
-    padding: 1rem 0 0.5rem 0;
+    gap: 1.25rem;
+    padding: 1.25rem 0 0.75rem 0;
   }
 
   .am-pagination-btn {
-    padding: 8px 14px;
-    font-size: 13px;
+    padding: 10px 16px;
+    font-size: 14px;
   }
 }
 
-/* Mobile Portrait (575px and below) */
-@media (max-width: 575px) {
+/* Small Mobile (375px - 429px) */
+@media (max-width: 429px) and (min-width: 375px) {
   .am-content {
-    padding: 4rem 5px 0.5rem 5px;
+    margin-top: 3rem;
+    padding: 1rem 8px 0.5rem 8px;
     box-sizing: border-box;
   }
 
-  .am-header {
-    margin-bottom: 0.625rem;
-    padding: 0.625rem 0;
-  }
-
-  .am-title {
-    font-size: 1.125rem;
-  }
-
-  .am-subtitle {
-    font-size: 0.75rem;
+  .am-container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
   }
 
   .am-main-panel {
-    padding: 10px 8px;
+    padding: 12px 10px;
     width: 100%;
     box-sizing: border-box;
   }
 
+  .am-filter-bar {
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .am-search-box {
+    padding: 0;
+    min-width: 100%;
+    width: 100%;
+  }
+
   .am-search-box input {
-    padding: 10px 13px 10px 2.5rem;
-    font-size: 12px;
-    height: 42px;
+    padding: 11px 13px 11px 40px;
+    font-size: 13px;
+    height: 44px;
+  }
+
+  .am-search-box svg {
+    left: 12px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .am-filter-tabs {
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px;
   }
 
   .am-tab {
-    padding: 7px 12px;
-    font-size: 12px;
+    padding: 8px 14px;
+    font-size: 13px;
+    flex: 1;
+    text-align: center;
   }
 
   .am-grid {
-    gap: 0.875rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
   }
 
   .am-card {
-    padding: 0.875rem;
+    padding: 1rem;
+    border-radius: 12px;
   }
 
   .am-code-badge {
-    font-size: 12px;
-    padding: 5px 10px;
+    font-size: 13px;
+    padding: 6px 12px;
   }
 
   .am-flow-badge {
-    font-size: 10px;
-    padding: 3px 8px;
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .am-material-name {
+    font-size: 1.125rem;
+  }
+
+  .am-label {
+    font-size: 13px;
+  }
+
+  .am-value {
+    font-size: 13px;
+  }
+
+  .am-restore-btn,
+  .am-permanent-delete-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  .am-pagination-btn {
+    padding: 9px 14px;
+    font-size: 13px;
   }
 
   .am-material-name {
@@ -799,101 +864,110 @@
   }
 }
 
-/* Extra Small Mobile (374px and below) */
+/* Extra Small Mobile (320px - 374px) */
 @media (max-width: 374px) {
   .am-content {
-    padding: 0.5rem 5px 0.5rem 5px;
+    margin-top: 3.5rem;
+    padding: 1rem 6px 0.5rem 6px;
     box-sizing: border-box;
   }
 
-  .am-header {
-    padding: 0.5rem 0;
-  }
-
-  .am-title {
-    font-size: 1rem;
-  }
-
-  .am-subtitle {
-    font-size: 0.6875rem;
+  .am-container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
   }
 
   .am-main-panel {
-    padding: 8px 6px;
+    padding: 10px 8px;
     width: 100%;
     box-sizing: border-box;
   }
 
+  .am-filter-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .am-search-box {
+    padding: 0;
+    min-width: 100%;
+    width: 100%;
+  }
+
   .am-search-box input {
-    padding: 9px 12px 9px 2.25rem;
-    font-size: 11px;
-    height: 40px;
+    padding: 10px 12px 10px 36px;
+    font-size: 12px;
+    height: 42px;
   }
 
   .am-search-box svg {
-    left: 0.75rem;
+    left: 10px;
     width: 14px;
     height: 14px;
   }
 
+  .am-filter-tabs {
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px;
+  }
+
   .am-tab {
-    padding: 6px 10px;
-    font-size: 11px;
+    padding: 7px 12px;
+    font-size: 12px;
+    flex: 1;
+    text-align: center;
   }
 
   .am-grid {
-    gap: 0.75rem;
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+    margin-top: 0.875rem;
   }
 
   .am-card {
-    padding: 0.75rem;
+    padding: 0.875rem;
+    border-radius: 12px;
   }
 
   .am-code-badge {
-    font-size: 11px;
-    padding: 4px 8px;
+    font-size: 12px;
+    padding: 5px 10px;
   }
 
   .am-flow-badge {
-    font-size: 9px;
-    padding: 3px 7px;
+    font-size: 10px;
+    padding: 3px 8px;
   }
 
   .am-material-name {
-    font-size: 0.9375rem;
-  }
-
-  .am-info-row {
-    padding: 0.35rem 0;
+    font-size: 1rem;
   }
 
   .am-label {
-    font-size: 0.6875rem;
+    font-size: 12px;
   }
 
   .am-value {
-    font-size: 0.6875rem;
+    font-size: 12px;
   }
 
   .am-restore-btn,
   .am-permanent-delete-btn {
-    padding: 8px 10px;
-    font-size: 11px;
+    padding: 9px 16px;
+    font-size: 12px;
   }
 
-  .am-restore-btn svg,
-  .am-permanent-delete-btn svg {
-    width: 12px;
-    height: 12px;
+  .am-pagination {
+    gap: 0.875rem;
+    padding: 1rem 1rem 3rem 1rem;
   }
 
-  .am-archive-icon-btn {
-    padding: 8px;
-  }
-
-  .am-archive-icon-btn svg {
-    width: 16px;
-    height: 16px;
+  .am-pagination-btn {
+    padding: 8px 12px;
+    font-size: 12px;
   }
 }
 
