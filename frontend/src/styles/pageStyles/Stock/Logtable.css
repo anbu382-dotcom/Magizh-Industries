@@ -178,7 +178,7 @@
 .log-table-container {
   overflow-x: auto;
   overflow-y: auto;
-  max-height: calc(100vh - 340px);
+  max-height: calc(100vh - 280px);
 }
 
 .log-table {
@@ -209,6 +209,11 @@
   max-width: 350px;
 }
 
+.log-table thead th:nth-child(8) {
+  min-width: 200px;
+  white-space: nowrap;
+}
+
 .log-table tbody tr {
   border-bottom: 1px solid #f0f0f0;
   transition: background 0.2s ease;
@@ -230,6 +235,11 @@
   max-width: 350px;
   white-space: normal;
   word-wrap: break-word;
+}
+
+.log-table tbody td:nth-child(8) {
+  min-width: 200px;
+  white-space: nowrap;
 }
 
 .log-table tbody tr:last-child {
@@ -277,7 +287,8 @@
 
 .date-time {
   color: var(--color-text-secondary);
-  font-size: 13px;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
 /* ============================================
@@ -434,7 +445,7 @@
   }
 
   .log-table-container {
-    max-height: calc(100vh - 380px);
+    max-height: calc(100vh - 320px);
   }
 
   .log-table {
@@ -457,6 +468,15 @@
 
   .log-table tbody td:nth-child(3) {
     min-width: 220px;
+  }
+
+  .log-table thead th:nth-child(8),
+  .log-table tbody td:nth-child(8) {
+    min-width: 180px;
+  }
+
+  .date-time {
+    font-size: 13px;
   }
 
   .log-pagination {
@@ -519,6 +539,15 @@
   .log-table thead th:nth-child(3),
   .log-table tbody td:nth-child(3) {
     min-width: 200px;
+  }
+
+  .log-table thead th:nth-child(8),
+  .log-table tbody td:nth-child(8) {
+    min-width: 170px;
+  }
+
+  .date-time {
+    font-size: 12px;
   }
 
   .log-pagination-btn {

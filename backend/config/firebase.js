@@ -23,7 +23,6 @@ if (!admin.apps.length) {
       logger.error('add serviceAccountKey.json to backend/config/');
       process.exit(1);
     }
-    
     const serviceAccount = require(serviceAccountPath);
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
@@ -31,9 +30,6 @@ if (!admin.apps.length) {
     logger.info(`Firebase Connected (Local - ${process.env.NODE_ENV || 'development'} mode)`);
   }
   }
-
-
 const db = admin.firestore();
 const auth = admin.auth();
-
 module.exports = { admin, db, auth };
