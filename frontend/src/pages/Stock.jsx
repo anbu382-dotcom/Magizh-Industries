@@ -80,27 +80,24 @@ const Stock = ({ isAdmin = false }) => {
       <Navbar title="Stock Management" onMenuClick={handleMenuClick} />
 
       <div className="main-content page-with-navbar">
-        <div className="content-wrapper">
-          {/* Stock Modules Grid */}
-          <div className="stock-options-grid">
-            {stockModules.map((module, index) => (
-              <div
-                key={index}
-                className="stock-option-card"
-                onClick={() => navigate(module.path)}
-              >
-                <div className="option-icon">{module.icon}</div>
-                <h3 className="option-title">{module.title}</h3>
-                <p className="option-description">{module.description}</p>
-                <div className="option-arrow">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </div>
+        <div id="content-wrapper-stock">
+          {stockModules.map((module, index) => (
+            <div
+              key={index}
+              className="stock-option-card"
+              onClick={() => navigate(module.path)}
+            >
+              <div className="option-icon">{module.icon}</div>
+              <h3 className="option-title">{module.title}</h3>
+              <p className="option-description">{module.description}</p>
+              <div className="option-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

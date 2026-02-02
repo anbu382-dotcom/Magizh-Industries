@@ -3,10 +3,7 @@ const { sendCredentialsEmail } = require('../utils/mailer');
 const { generateCredentials } = require('../utils/generate');
 const RegistrationService = require('../services/Registration');
 const UserService = require('../services/User');
-
-
 //Approve a registration request and create user
-
 exports.approveUser = async (req, res) => {
   try {
     const requestId = req.params.id || req.body.requestId;

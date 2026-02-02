@@ -241,7 +241,7 @@ const downloadStockLogExcel = async (req, res) => {
 
     // Set response headers for file download
     res.setHeader('Content-Type', 'application/vnd.ms-excel');
-    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(filename)}`);
     res.setHeader('Content-Length', buffer.length);
 
     // Send the file
@@ -300,7 +300,7 @@ const downloadCurrentStockExcel = async (req, res) => {
 
     // Set response headers for file download
     res.setHeader('Content-Type', 'application/vnd.ms-excel');
-    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(filename)}`);
     res.setHeader('Content-Length', buffer.length);
 
     // Send the file

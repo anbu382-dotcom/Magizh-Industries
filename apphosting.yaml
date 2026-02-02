@@ -53,10 +53,10 @@ env:
     value: magizhindustriescbe@gmail.com
   - variable: OTP_VALID_TIME
     availability: [RUNTIME]
-    value: "60"
+    value: "70"
   - variable: OTP_RESEND_TIME
     availability: [RUNTIME]
-    value: "100"
+    value: "70"
 
   # Environment variables (sensitive)
   - variable: JWT_SECRET

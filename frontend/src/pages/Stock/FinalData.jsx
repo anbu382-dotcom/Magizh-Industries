@@ -4,8 +4,10 @@ import Navbar from '../../components/Navbar';
 import DownloadPopup from '../../components/DownloadPopup';
 import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/FinalData.css';
-import { Database, Search, TrendingUp, TrendingDown, Download } from 'lucide-react';
+import { Database, Search, TrendingUp, TrendingDown, Download, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Dropdown } from 'rsuite';
+
+const ITEMS_PER_PAGE = 10;
 
 const FinalData = () => {
   const [stockBalances, setStockBalances] = useState([]);
@@ -15,6 +17,7 @@ const FinalData = () => {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [showDownloadPopup, setShowDownloadPopup] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     fetchStockBalances();
@@ -125,6 +128,16 @@ const FinalData = () => {
     return matchesSearch && matchesClass;
   });
 
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterClass]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredBalances.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedBalances = filteredBalances.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
   const handleDownload = async () => {
     try {
       setIsDownloading(true);
@@ -147,9 +160,16 @@ const FinalData = () => {
         const contentDisposition = response.headers.get('Content-Disposition');
         let filename = 'Current_stock_data.xls';
         if (contentDisposition) {
-          const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
-          if (filenameMatch) {
-            filename = filenameMatch[1];
+          // Try to extract filename from RFC 6266 format first (filename*=UTF-8''...)
+          const filenameStarMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)/);
+          if (filenameStarMatch) {
+            filename = decodeURIComponent(filenameStarMatch[1]);
+          } else {
+            // Fallback to standard format (filename="...")
+            const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?(?:;|$)/);
+            if (filenameMatch) {
+              filename = filenameMatch[1];
+            }
           }
         }
         
@@ -195,71 +215,101 @@ const FinalData = () => {
       
       <div className="final-main-wrapper page-with-navbar">
         <div className="final-content">
-          <div className="final-controls">
-            <div className="search-wrapper">
-              <Search className="search-icon" size={20} />
-              <input
-                type="text"
-                placeholder="Search by material code or name..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-input"
-              />
+          <div className="final-wrapper">
+            <div className="final-controls">
+              <div className="search-wrapper">
+                <Search className="search-icon" size={20} />
+                <input
+                  type="text"
+                  placeholder="Search by material code or name..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                />
+              </div>
+
+              <div className="filter-group">
+                <label>Filter by Class:</label>
+                <Dropdown
+                  title={filterClass === 'all' ? 'All' : filterClass}
+                  onSelect={(value) => setFilterClass(value)}
+                  placement="bottomEnd"
+                >
+                  <Dropdown.Item eventKey="all">All</Dropdown.Item>
+                  <Dropdown.Item eventKey="A">A</Dropdown.Item>
+                  <Dropdown.Item eventKey="B">B</Dropdown.Item>
+                  <Dropdown.Item eventKey="C">C</Dropdown.Item>
+                  <Dropdown.Item eventKey="D">D</Dropdown.Item>
+                  <Dropdown.Item eventKey="F">F</Dropdown.Item>
+                </Dropdown>
+              </div>
             </div>
 
-            <div className="filter-group">
-              <label>Filter by Class:</label>
-              <Dropdown
-                title={filterClass === 'all' ? 'All' : filterClass}
-                onSelect={(value) => setFilterClass(value)}
-                placement="bottomEnd"
-              >
-                <Dropdown.Item eventKey="all">All</Dropdown.Item>
-                <Dropdown.Item eventKey="A">A</Dropdown.Item>
-                <Dropdown.Item eventKey="B">B</Dropdown.Item>
-                <Dropdown.Item eventKey="C">C</Dropdown.Item>
-                <Dropdown.Item eventKey="D">D</Dropdown.Item>
-                <Dropdown.Item eventKey="F">F</Dropdown.Item>
-              </Dropdown>
-            </div>
+            {loading ? (
+              <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p>Loading stock balances...</p>
+              </div>
+            ) : filteredBalances.length === 0 ? (
+              <div className="no-data">
+                <Database size={48} />
+                <p>No stock data found</p>
+              </div>
+            ) : (
+              <>
+                <div className="table-container">
+                  <table className="final-table">
+                    <thead>
+                      <tr>
+                        <th>S.No</th>
+                        <th>Material Code</th>
+                        <th>Material Name</th>
+                        <th>Current Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {paginatedBalances.map((balance, index) => (
+                        <tr key={balance.materialCode}>
+                          <td>{startIndex + index + 1}</td>
+                          <td className="material-code">{balance.materialCode}</td>
+                          <td>{balance.materialName}</td>
+                          <td className="quantity">
+                            {balance.quantity.toFixed(2)} {balance.unit}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {filteredBalances.length > ITEMS_PER_PAGE && (
+                  <div className="final-pagination">
+                    <button
+                      className="final-pagination-btn"
+                      onClick={() => setCurrentPage(prev => prev - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeft size={18} />
+                      Previous
+                    </button>
+                    
+                    <div className="final-page-info">
+                      Page {currentPage} of {totalPages}
+                    </div>
+                    
+                    <button
+                      className="final-pagination-btn"
+                      onClick={() => setCurrentPage(prev => prev + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                      <ChevronRight size={18} />
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
           </div>
-
-          {loading ? (
-            <div className="loading-container">
-              <div className="loading-spinner"></div>
-              <p>Loading stock balances...</p>
-            </div>
-          ) : filteredBalances.length === 0 ? (
-            <div className="no-data">
-              <Database size={48} />
-              <p>No stock data found</p>
-            </div>
-          ) : (
-            <div className="table-container">
-              <table className="final-table">
-                <thead>
-                  <tr>
-                    <th>S.No</th>
-                    <th>Material Code</th>
-                    <th>Material Name</th>
-                    <th>Current Quantity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredBalances.map((balance, index) => (
-                    <tr key={balance.materialCode}>
-                      <td>{index + 1}</td>
-                      <td className="material-code">{balance.materialCode}</td>
-                      <td>{balance.materialName}</td>
-                      <td className="quantity">
-                        {balance.quantity.toFixed(2)} {balance.unit}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
         </div>
       </div>
 

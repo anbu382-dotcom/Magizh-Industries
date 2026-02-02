@@ -39,61 +39,6 @@
   }
 }
 
-/* Header Section */
-.cm-header {
-  margin-bottom: 2rem;
-}
-
-.cm-header-top {
-  position: relative;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.cm-warehouse-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: var(--color-accent);
-  border-radius: 12px;
-  color: white;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.25);
-}
-
-
-.cm-back-btn:hover {
-  background: var(--color-accent);
-  color: white;
-  border-color: var(--color-accent);
-  transform: translateX(-4px);
-}
-
-.cm-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--color-accent);
-  margin: 0;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  text-transform: capitalize;
-  line-height: 1;
-  text-align: center;
-  padding: 0 150px;
-  flex: 1;
-}
-
-.cm-subtitle {
-  font-size: 1rem;
-  color: var(--color-text-muted);
-  margin: 0.5rem 0 0 0;
-  font-weight: 500;
-  text-align: center;
-}
-
 /* Main Panel */
 .cm-main-panel {
   background: var(--color-white);
@@ -952,13 +897,18 @@
   align-items: center;
   gap: 1.5rem;
   padding: 1.5rem 0 0.5rem 0;
+  position: relative;
+  z-index: 10;
 }
 
 .cm-pagination-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 10px 20px;
+  padding: 12px 24px;
+  min-height: 48px;
+  min-width: 120px;
   background: var(--color-white);
   border: 2px solid rgba(91, 123, 154, 0.2);
   border-radius: 10px;
@@ -968,6 +918,9 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'Segoe UI', system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
 }
 
 .cm-pagination-btn:hover:not(:disabled) {
@@ -977,38 +930,32 @@
   transform: translateY(-2px);
 }
 
+.cm-pagination-btn:active:not(:disabled) {
+  background: var(--color-accent);
+  color: var(--color-white);
+  transform: scale(0.98);
+}
+
 .cm-pagination-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* ===========================
    RESPONSIVE MEDIA QUERIES
-   Standard Mobile Breakpoints:
-   - Large Mobile: 769px - 1024px
-   - Standard Mobile: 430px - 768px  
-   - Small Mobile: 375px - 429px
-   - Extra Small: 320px - 374px
    =========================== */
 
-/* Large Mobile (769px - 1024px) */
-@media (max-width: 1024px) and (min-width: 769px) {
-  .cm-content {
-    padding: 4rem 1.5rem 1rem 1.5rem;
-  }
-
+/* Tablets (iPad) */
+@media (max-width: 1024px) {
   .cm-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
   }
-
-  .cm-main-panel {
-    padding: 1.75rem;
-  }
 }
 
-/* Standard Mobile (430px - 768px) */
-@media (max-width: 768px) and (min-width: 430px) {
+/* Mobile Devices */
+@media (max-width: 768px) {
   .cm-content {
     margin-top: 2rem;
     padding: 1rem 12px 0.5rem 12px;
@@ -1107,13 +1054,18 @@
   }
 
   .cm-pagination {
-    gap: 1.25rem;
-    padding: 1.25rem 0 0.75rem 0;
+    gap: 1rem;
+    padding: 2rem 0.5rem 2rem 0.5rem;
+    margin-top: 1rem;
   }
 
   .cm-pagination-btn {
-    padding: 10px 16px;
+    padding: 14px 20px;
     font-size: 14px;
+    min-height: 52px;
+    min-width: 130px;
+    flex: 1;
+    max-width: 180px;
   }
 
   /* Edit Modal Responsive Styles */
@@ -1248,8 +1200,8 @@
   }
 }
 
-/* Small Mobile (375px - 429px) */
-@media (max-width: 429px) and (min-width: 375px) {
+/* iPhone and Small Phones */
+@media (max-width: 430px) {
   .cm-content {
     margin-top: 3rem;
     padding: 1rem 8px 0.5rem 8px;
@@ -1343,9 +1295,18 @@
     font-size: 13px;
   }
 
+  .cm-pagination {
+    gap: 0.875rem;
+    padding: 2rem 0.5rem 2.5rem 0.5rem;
+  }
+
   .cm-pagination-btn {
-    padding: 9px 14px;
+    padding: 12px 18px;
     font-size: 13px;
+    min-height: 50px;
+    min-width: 120px;
+    flex: 1;
+    max-width: 170px;
   }
 
   /* Edit Modal Responsive Styles for Small Screens */
@@ -1446,11 +1407,11 @@
   }
 }
 
-/* Extra Small Mobile (320px - 374px) */
-@media (max-width: 374px) {
+/* Very Small Phones */
+@media (max-width: 375px) {
   .cm-content {
-    margin-top: 3.5rem;
-    padding: 1rem 6px 0.5rem 6px;
+    margin-top: 2rem;
+    padding: 2rem 6px 0.5rem 6px;
     box-sizing: border-box;
   }
 
@@ -1473,7 +1434,6 @@
   }
 
   .cm-search-box {
-    padding: 0;
     min-width: 100%;
     width: 100%;
   }
@@ -1545,13 +1505,17 @@
   }
 
   .cm-pagination {
-    gap: 0.875rem;
-    padding: 1rem 1rem 3rem 1rem;
+    gap: 0.75rem;
+    padding: 2rem 0.5rem 3rem 0.5rem;
   }
 
   .cm-pagination-btn {
-    padding: 8px 12px;
+    padding: 12px 16px;
     font-size: 12px;
+    min-height: 48px;
+    min-width: 110px;
+    flex: 1;
+    max-width: 160px;
   }
 
   /* Edit Modal Responsive Styles for Extra Small Screens */

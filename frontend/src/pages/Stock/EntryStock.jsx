@@ -207,10 +207,19 @@ const EntryStock = () => {
       if (response.ok) {
         setShowSuccessPopup(true);
         
-        // Auto-hide popup after 2.5 seconds and navigate
+        // Reset form after success
+        setFormData({
+          quantity: '',
+          entryType: ''
+        });
+        setOriginalQuantity('');
+        
+        // Refresh current balance
+        fetchCurrentBalance();
+        
+        // Auto-hide popup after 2.5 seconds
         setTimeout(() => {
           setShowSuccessPopup(false);
-          navigate('/stock/entry');
         }, 2500);
       } else {
         console.error('Error response:', result);

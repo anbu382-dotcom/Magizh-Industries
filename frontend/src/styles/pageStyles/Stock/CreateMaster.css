@@ -10,7 +10,7 @@
   display: flex;
   min-height: 100vh;
   background: linear-gradient(135deg, var(--bg-light) 0%, #fff 100%);
-  padding: 7rem 2rem 1rem 2rem;
+  padding: 9rem 2rem 1rem 2rem;
   box-sizing: border-box;
   align-items: flex-start;
   justify-content: center;
@@ -20,7 +20,7 @@
 .form-container {
   background: white;
   border-radius: 16px;
-  padding: 1.75rem 2.5rem 1.5rem;
+  padding: 4rem 4rem 3rem;
   box-shadow: 0 4px 20px rgba(91, 123, 154, 0.1);
   border: 1px solid rgba(91, 123, 154, 0.12);
   width: 100%;
@@ -372,6 +372,25 @@
   .rsuite-dropdown .rs-btn {
     height: 48px !important;
   }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .btn-reset,
+  .btn-submit {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 24px;
+  }
+  
+  .gst-error-message,
+  .primary-error-message,
+  .required-error-message {
+    width: 100%;
+    margin-right: 0;
+  }
 }
 
 @media (max-width: 575px) {
@@ -398,6 +417,19 @@
     padding: 6px 11px !important;
     font-size: 13px !important;
   }
+  
+  .btn-reset,
+  .btn-submit {
+    padding: 11px 20px;
+    font-size: 15px;
+  }
+  
+  .gst-error-message,
+  .primary-error-message,
+  .required-error-message {
+    font-size: 13px;
+    padding: 9px 14px;
+  }
 }
 
 @media (max-width: 374px) {
@@ -423,6 +455,19 @@
   .rs-picker-popup .rs-dropdown-item {
     padding: 5px 10px !important;
     font-size: 12px !important;
+  }
+  
+  .btn-reset,
+  .btn-submit {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+  
+  .gst-error-message,
+  .primary-error-message,
+  .required-error-message {
+    font-size: 12px;
+    padding: 8px 12px;
   }
 }
 

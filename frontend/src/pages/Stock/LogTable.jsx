@@ -4,7 +4,9 @@ import Navbar from '../../components/Navbar';
 import DownloadPopup from '../../components/DownloadPopup';
 import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/Logtable.css';
-import { Database, TrendingUp, TrendingDown, Search, Download } from 'lucide-react';
+import { Database, TrendingUp, TrendingDown, Search, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const ITEMS_PER_PAGE = 15;
 
 const LogTable = () => {
   const [stockEntries, setStockEntries] = useState([]);
@@ -14,6 +16,7 @@ const LogTable = () => {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [showDownloadPopup, setShowDownloadPopup] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     fetchStockEntries();
@@ -87,9 +90,16 @@ const LogTable = () => {
         const contentDisposition = response.headers.get('Content-Disposition');
         let filename = 'Stock_log_entry.xls';
         if (contentDisposition) {
-          const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
-          if (filenameMatch) {
-            filename = filenameMatch[1];
+          // Try to extract filename from RFC 6266 format first (filename*=UTF-8''...)
+          const filenameStarMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)/);
+          if (filenameStarMatch) {
+            filename = decodeURIComponent(filenameStarMatch[1]);
+          } else {
+            // Fallback to standard format (filename="...")
+            const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?(?:;|$)/);
+            if (filenameMatch) {
+              filename = filenameMatch[1];
+            }
           }
         }
         
@@ -126,6 +136,16 @@ const LogTable = () => {
     return matchesSearch && matchesFilter;
   });
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredEntries.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedEntries = filteredEntries.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Reset to page 1 when search or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterType]);
+
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -159,21 +179,21 @@ const LogTable = () => {
         }
       />
       <div className="log-content page-with-navbar">
-        <div className="log-controls">
-          <div className="log-search-wrapper">
-            <Search className="log-search-icon" size={20} />
-            <input
-              type="text"
-              placeholder="Search by material code or name..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="log-search-input"
-            />
-          </div>
+        <div className="log-wrapper">
+          {/* Search and Filter Section */}
+          <div className="log-filter-section">
+            <div className="log-search-wrapper">
+              <Search className="log-search-icon" size={20} />
+              <input
+                type="text"
+                placeholder="Search by material code or name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="log-search-input"
+              />
+            </div>
 
-          <div className="log-filter-group">
-            <label>Filter by Type:</label>
-            <div className="log-filter-buttons">
+            <div className="log-filter-group">
               <button
                 className={`log-filter-btn ${filterType === 'all' ? 'active' : ''}`}
                 onClick={() => setFilterType('all')}
@@ -196,9 +216,9 @@ const LogTable = () => {
               </button>
             </div>
           </div>
-        </div>
 
-        {loading ? (
+          {/* Table Section */}
+          {loading ? (
           <div className="log-loading-container">
             <div className="log-loading-spinner"></div>
             <p>Loading stock entries...</p>
@@ -209,44 +229,72 @@ const LogTable = () => {
             <p>No stock entries found</p>
           </div>
         ) : (
-          <div className="log-table-container">
-            <table className="log-table">
-              <thead>
-                <tr>
-                  <th>S.No</th>
-                  <th>Material Number</th>
-                  <th>Material Name</th>
-                  <th>Quantity</th>
-                  <th>Entry Type</th>
-                  <th>User</th>
-                  <th>Updated time</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredEntries.map((entry, index) => (
-                  <tr key={entry.id || index}>
-                    <td>{index + 1}</td>
-                    <td className="material-code">{entry.materialCode}</td>
-                    <td>{entry.materialName}</td>
-                    <td className="quantity">{entry.quantity} {entry.unit}</td>
-                    <td>
-                      <span className={`entry-badge ${entry.entryType?.toLowerCase()}`}>
-                        {entry.entryType === 'Credit' ? (
-                          <TrendingUp size={14} />
-                        ) : (
-                          <TrendingDown size={14} />
-                        )}
-                        {entry.entryType}
-                      </span>
-                    </td>
-                    <td className="user-id">{entry.userFirstName || 'N/A'}</td>
-                    <td className="date-time">{formatDate(entry.createdAt)}</td>
+          <div className="log-table-wrapper">
+            <div className="log-table-container">
+              <table className="log-table">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Material Number</th>
+                    <th>Material Name</th>
+                    <th>Quantity</th>
+                    <th>Entry Type</th>
+                    <th>User</th>
+                    <th>Updated time</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {paginatedEntries.map((entry, index) => (
+                    <tr key={entry.id || index}>
+                      <td>{startIndex + index + 1}</td>
+                      <td className="material-code">{entry.materialCode}</td>
+                      <td>{entry.materialName}</td>
+                      <td className="quantity">{entry.quantity} {entry.unit}</td>
+                      <td>
+                        <span className={`entry-badge ${entry.entryType?.toLowerCase()}`}>
+                          {entry.entryType === 'Credit' ? (
+                            <TrendingUp size={14} />
+                          ) : (
+                            <TrendingDown size={14} />
+                          )}
+                          {entry.entryType}
+                        </span>
+                      </td>
+                      <td className="user-id">{entry.userFirstName || 'N/A'}</td>
+                      <td className="date-time">{formatDate(entry.createdAt)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="log-pagination">
+                <button
+                  className="log-pagination-btn"
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                >
+                  <ChevronLeft size={18} />
+                  Previous
+                </button>
+                <span className="log-page-info">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button
+                  className="log-pagination-btn"
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            )}
           </div>
         )}
+        </div>
       </div>
 
       <DownloadPopup
