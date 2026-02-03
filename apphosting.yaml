@@ -32,7 +32,16 @@ env:
     value: /api
   - variable: EMAIL_SERVICE
     availability: [RUNTIME]
-    value: gmail
+    value: zoho
+  - variable: EMAIL_HOST
+    availability: [RUNTIME]
+    value: smtp.zoho.com
+  - variable: EMAIL_PORT
+    availability: [RUNTIME]
+    value: "465"
+  - variable: EMAIL_SECURE
+    availability: [RUNTIME]
+    value: "true"
   - variable: CORS_ORIGIN
     availability: [RUNTIME]
     value: https://www.magizhindustries.in,https://magizh-industries0802--magizh-industries-cbe.us-east4.hosted.app

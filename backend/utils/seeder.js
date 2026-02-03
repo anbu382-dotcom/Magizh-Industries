@@ -1,4 +1,5 @@
 // backend/utils/seeder.js
+// npm run seed
 const { db, auth } = require('../config/firebase');
 const { generateCredentials } = require('./generate');
 const bcrypt = require('bcryptjs');
@@ -79,5 +80,18 @@ const seedAdmin = async () => {
     throw error;
   }
 };
+
+// Run the seeder if this file is executed directly
+if (require.main === module) {
+  seedAdmin()
+    .then(() => {
+      console.log('Seeding completed.');
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error('Seeding failed:', error);
+      process.exit(1);
+    });
+}
 
 module.exports = seedAdmin;

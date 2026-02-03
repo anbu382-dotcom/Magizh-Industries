@@ -4,13 +4,24 @@ require('dotenv').config();
 
 // Create transporter for sending emails
 const createTransporter = () => {
-  return nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE || 'gmail',
+  const config = {
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD
     }
-  });
+  };
+
+  // Use custom SMTP settings for Zoho 
+  if (process.env.EMAIL_HOST) {
+    config.host = process.env.EMAIL_HOST;
+    config.port = parseInt(process.env.EMAIL_PORT || '465');
+    config.secure = process.env.EMAIL_SECURE === 'true';
+  } else {
+    // Fallback to service name (gmail, etc.)
+    config.service = process.env.EMAIL_SERVICE || 'gmail';
+  }
+
+  return nodemailer.createTransport(config);
 };
 
 // Send email notification to admin when new registration request is submitted
