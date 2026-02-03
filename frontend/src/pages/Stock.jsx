@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import '../styles/pageStyles/Stock.css';
@@ -8,11 +8,30 @@ const Stock = ({ isAdmin = false }) => {
   const navigate = useNavigate();
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
+  // Handle back button navigation - always redirect to home
+  useEffect(() => {
+    // Mark this page in history
+    const currentState = { page: 'stock', timestamp: Date.now() };
+    window.history.replaceState(currentState, '', window.location.href);
+    
+    const handlePopState = (event) => {
+      // When back button is pressed, navigate to home instead
+      event.preventDefault();
+      navigate('/home', { replace: true });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [navigate]);
+
   const handleMenuClick = () => {
     setSidebarExpanded(!sidebarExpanded);
   };
 
-  const masterModules = [
+  const stockModules = [
     {
       title: 'Material Master',
       description: 'Manage material master data',
@@ -27,12 +46,9 @@ const Stock = ({ isAdmin = false }) => {
           <line x1="12" y1="22.08" x2="12" y2="12"></line>
         </svg>
       )
-    }
-  ];
-
-  const otherModules = [
+    },
     {
-      title: 'Entry',
+      title: 'Stock Entry',
       description: 'Stock entry and inventory updates',
       path: '/stock/entry',
       icon: (
@@ -56,55 +72,32 @@ const Stock = ({ isAdmin = false }) => {
         </svg>
       )
     }
-
   ];
 
   return (
     <div className="stock-container">
       <Sidebar isAdmin={isAdmin} isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Stock Management" onMenuClick={handleMenuClick} showCompanyName={sidebarExpanded} />
+      <Navbar title="Stock Management" onMenuClick={handleMenuClick} />
 
       <div className="main-content page-with-navbar">
-        <div className="content-wrapper">
-          {/* Master Modules Section */}
-          <div className="master-section">
-            {/* Master Card */}
+        <div id="content-wrapper-stock">
+          {stockModules.map((module, index) => (
             <div
-              className="stock-module-card master-card-large"
-              onClick={() => navigate(masterModules[0].path)}
+              key={index}
+              className="stock-option-card"
+              onClick={() => navigate(module.path)}
             >
-              <div className="module-icon">{masterModules[0].icon}</div>
-              <h3 className="module-title">{masterModules[0].title}</h3>
-              <p className="module-description">{masterModules[0].description}</p>
-              <div className="module-arrow">
+              <div className="option-icon">{module.icon}</div>
+              <h3 className="option-title">{module.title}</h3>
+              <p className="option-description">{module.description}</p>
+              <div className="option-arrow">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
               </div>
             </div>
-          </div>
-
-          {/* Other Modules Section */}
-          <div className="stock-modules-grid">
-            {otherModules.map((module, index) => (
-              <div
-                key={index}
-                className="stock-module-card"
-                onClick={() => navigate(module.path)}
-              >
-                <div className="module-icon">{module.icon}</div>
-                <h3 className="module-title">{module.title}</h3>
-                <p className="module-description">{module.description}</p>
-                <div className="module-arrow">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </div>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     </div>

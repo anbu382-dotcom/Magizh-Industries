@@ -1,13 +1,9 @@
 // Handles admin approval of registration requests: generates user credentials, creates user accounts, and sends approval emails.
-
 const { sendCredentialsEmail } = require('../utils/mailer');
 const { generateCredentials } = require('../utils/generate');
 const RegistrationService = require('../services/Registration');
 const UserService = require('../services/User');
-
-/**
- * Approve a registration request and create user
- */
+//Approve a registration request and create user
 exports.approveUser = async (req, res) => {
   try {
     const requestId = req.params.id || req.body.requestId;
@@ -15,21 +11,17 @@ exports.approveUser = async (req, res) => {
     if (!requestId) {
       return res.status(400).json({ message: 'Request ID is required' });
     }
-
     // Get request data
     const request = await RegistrationService.getRequestById(requestId);
-
     if (!request) {
       return res.status(404).json({ message: 'Request not found' });
     }
-
     // Check if already processed
     if (request.status !== 'pending') {
       return res.status(400).json({
         message: `Request has already been ${request.status}`
       });
     }
-
     // Check if user already exists
     const existingUser = await UserService.findByEmail(request.email);
 
@@ -87,9 +79,7 @@ exports.approveUser = async (req, res) => {
   }
 };
 
-/**
- * Reject a registration request
- */
+// Reject a registration request
 exports.rejectUser = async (req, res) => {
   try {
     const requestId = req.params.id || req.body.requestId;

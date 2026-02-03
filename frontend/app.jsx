@@ -52,13 +52,22 @@ function App() {
       setIsAdmin(role === 'admin');
     };
 
+    // Initial check
     checkUserRole();
 
     // Listen for storage changes (login/logout)
     window.addEventListener('storage', checkUserRole);
+    
+    // Also check on focus (when user returns to tab)
+    window.addEventListener('focus', checkUserRole);
+
+    // Set up an interval to periodically check (as a fallback)
+    const interval = setInterval(checkUserRole, 1000);
 
     return () => {
       window.removeEventListener('storage', checkUserRole);
+      window.removeEventListener('focus', checkUserRole);
+      clearInterval(interval);
     };
   }, []);
 

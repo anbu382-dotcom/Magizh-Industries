@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, Package, LogOut, Warehouse } from 'lucide-react';
 import '../styles/componentStyles/Sidebar.css';
@@ -23,13 +22,22 @@ const Sidebar = ({ isAdmin = false, isExpanded, onToggle }) => {
     navigate('/login');
   };
 
+  const handleMouseLeave = () => {
+    if (onToggle && isExpanded) {
+      onToggle(false);
+    }
+  };
+
   return (
     <>
       {/* Overlay */}
       {isExpanded && <div className="sidebar-overlay" onClick={() => onToggle && onToggle(false)}></div>}
 
       {/* Sidebar */}
-      <div className={`sidebar ${isExpanded ? 'expanded' : ''}`}>
+      <div 
+        className={`sidebar ${isExpanded ? 'expanded' : ''}`}
+        onMouseLeave={handleMouseLeave}
+      >
         {/* Company Header */}
         <div className="sidebar-header">
           <Warehouse className="sidebar-logo" size={28} />

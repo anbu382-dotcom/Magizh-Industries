@@ -1,38 +1,19 @@
-/* Color Palette */
-:root {
-  --primary-purple: #7469B6;
-  --primary-light: #AD88C6;
-  --accent-pink: #FFE1FF;
-  --bg-light: #FFF7F1;
-}
-
 /* Master Wrapper */
 .master-wrapper {
   display: flex;
-  min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg-light) 0%, #fff 100%);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 100px;
+  background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-primary) 100%);
 }
 
+/* Master Content */
 .master-content {
   flex: 1;
-  margin-left: 0;
-  padding: 6rem 2rem 2rem;
+  padding: 7rem 2rem 2rem 2rem;
   transition: margin-left 0.3s ease;
+  overflow-y: auto;
   display: flex;
-  align-items: center;
   justify-content: center;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  align-items: flex-start;
 }
 
 /* Master Options Grid */
@@ -41,24 +22,27 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   max-width: 1200px;
+  width: 100%;
+  padding: 2rem 0;
   animation: fadeIn 0.6s ease;
 }
 
+/* Master Option Card */
 .master-option-card {
-  background: white;
-  border-radius: 16px;
-  padding: 32px 24px;
-  box-shadow: 0 8px 32px rgba(116, 105, 182, 0.12);
-  border: 1px solid rgba(116, 105, 182, 0.15);
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: 32px 28px;
+  box-shadow: var(--shadow-lg);
+  border: var(--border-subtle);
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  min-height: 220px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  min-height: 220px;
 }
 
 .master-option-card::before {
@@ -68,7 +52,7 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: var(--card-color);
+  background: var(--card-color, var(--color-accent));
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -80,21 +64,28 @@
 
 .master-option-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 16px 48px rgba(116, 105, 182, 0.25);
-  border-color: var(--card-color);
+  box-shadow: 0 16px 48px rgba(45, 55, 72, 0.15);
+  border-color: var(--card-color, var(--color-accent));
 }
 
 .option-icon {
-  width: 80px;
-  height: 80px;
-  background: var(--card-color);
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, var(--card-color, var(--color-accent)) 0%, var(--color-accent-light) 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--color-white);
   margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
   transition: all 0.3s ease;
+}
+
+.option-icon svg {
+  width: 36px;
+  height: 36px;
 }
 
 .master-option-card:hover .option-icon {
@@ -104,14 +95,14 @@
 .option-title {
   font-size: 22px;
   font-weight: 700;
-  color: var(--primary-purple);
+  color: var(--card-color, var(--color-accent));
   margin: 0 0 12px 0;
 }
 
 .option-description {
   font-size: 15px;
-  color: #666;
-  margin: 0 0 20px 0;
+  color: var(--color-text-muted);
+  margin: 0 0 18px 0;
   line-height: 1.5;
   flex-grow: 1;
 }
@@ -120,15 +111,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--card-color);
+  color: var(--card-color, var(--color-accent-light));
   opacity: 0;
-  transform: translateX(-10px);
+  transform: translateY(-10px);
   transition: all 0.3s ease;
 }
 
 .master-option-card:hover .option-arrow {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
 }
 
 /* Animation */
@@ -147,110 +138,71 @@
    RESPONSIVE MEDIA QUERIES
    =========================== */
 
-/* Mobile Landscape (768px and below) */
-@media (max-width: 768px) {
+/* Mobile Portrait (≤768px) */
+@media screen and (max-width: 768px) {
   .master-content {
-    margin-left: 0;
-    padding: 5rem 10px 0.5rem 10px;
-    box-sizing: border-box;
+    padding: 4rem 1.25rem 1.25rem 1.25rem;
   }
 
   .master-options-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 1.25rem 0;
   }
 
   .master-option-card {
-    padding: 28px 20px;
-    min-height: 200px;
-  }
-
-  .option-icon {
-    width: 72px;
-    height: 72px;
-  }
-
-  .option-title {
-    font-size: 20px;
-  }
-
-  .option-description {
-    font-size: 14px;
-  }
-}
-
-/* Mobile Portrait (575px and below) */
-@media (max-width: 575px) {
-  .master-content {
-    padding: 5rem 5px 0.5rem 5px;
-    box-sizing: border-box;
-  }
-
-  .master-options-grid {
-    grid-template-columns: 1fr !important;
-    gap: 14px;
+    padding: 24px 22px;
+    min-height: 180px;
+    max-width: 500px;
+    margin: 0 auto;
     width: 100%;
-    justify-items: center;
-  }
-
-  .master-option-card {
-    padding: 20px 16px;
-    min-height: 160px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
   }
 
   .option-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
-    margin-bottom: 14px;
+    width: 60px;
+    height: 60px;
   }
 
   .option-icon svg {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
   }
 
   .option-title {
-    font-size: 18px;
-    margin-bottom: 8px;
+    font-size: 19px;
   }
 
   .option-description {
     font-size: 13px;
-    margin-bottom: 14px;
   }
 }
 
-/* Extra Small Mobile (374px and below) */
-@media (max-width: 374px) {
+/* Small Mobile Portrait (≤575px) */
+@media screen and (max-width: 575px) {
   .master-content {
-    padding: 5rem 5px 0.5rem 5px;
-    box-sizing: border-box;
+    padding: 0.2rem 0.75rem 0.75rem 0.75rem;
   }
 
   .master-options-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px;
-    width: 100%;
-    justify-items: center;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 0.75rem 0;
   }
 
   .master-option-card {
-    padding: 18px 14px;
+    margin-top: 1rem;
+    width: 80%;
+    padding: 20px 18px;
     min-height: 150px;
-    border-radius: 11px;
-    width: 90%;
-    max-width: 400px;
+    border-radius: 14px;
   }
+
 
   .option-icon {
     width: 52px;
     height: 52px;
-    border-radius: 11px;
-    margin-bottom: 12px;
+    border-radius: 12px;
+    margin-bottom: 14px;
   }
 
   .option-icon svg {
@@ -260,17 +212,67 @@
 
   .option-title {
     font-size: 17px;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
   }
 
   .option-description {
     font-size: 12px;
+    margin-bottom: 14px;
+  }
+
+  .option-arrow svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Extra Small Mobile (320px - 374px) */
+@media screen and (max-width: 374px) {
+  .master-content {
+    padding: 0.1rem 0.5rem 0.5rem 0.5rem;
+  }
+
+  .master-options-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0.5rem 0;
+  }
+
+  .master-option-card {
+    padding: 18px 16px;
+    min-height: 140px;
+    border-radius: 12px;
+  }
+
+  .master-option-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .option-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+
+  .option-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .option-title {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  .option-description {
+    font-size: 11px;
     margin-bottom: 12px;
     line-height: 1.4;
   }
 
   .option-arrow svg {
-    width: 20px;
-    height: 20px;
+    width: 14px;
+    height: 14px;
   }
 }

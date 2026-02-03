@@ -4,9 +4,7 @@ const { sendEmailToAdmin } = require('../utils/mailer');
 const RegistrationService = require('../services/Registration');
 const UserService = require('../services/User');
 
-/**
- * Submit a new registration request
- */
+// Submit a new registration request
 exports.registerRequest = async (req, res) => {
   try {
     const {
@@ -118,9 +116,7 @@ exports.registerRequest = async (req, res) => {
   }
 };
 
-/**
- * Get all pending registration requests
- */
+// Get all pending registration requests
 exports.getPendingRequests = async (req, res) => {
   try {
     const requests = await RegistrationService.getPendingRequests();
@@ -133,9 +129,7 @@ exports.getPendingRequests = async (req, res) => {
   }
 };
 
-/**
- * Get all registration requests (for admin dashboard)
- */
+// Get all registration requests (for admin dashboard)
 exports.getAllRequests = async (req, res) => {
   try {
     const requests = await RegistrationService.getAllRequests();

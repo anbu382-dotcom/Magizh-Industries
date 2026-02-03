@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Calendar, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import '../styles/componentStyles/datepicker.css';
 
-const DatePicker = ({ value, onChange, required = false }) => {
+const DatePicker = ({ value, onChange, required = false, disabled = false }) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
@@ -122,18 +122,19 @@ const DatePicker = ({ value, onChange, required = false }) => {
 
   return (
     <div className="custom-datepicker" ref={calendarRef}>
-      <div className="datepicker-input" onClick={() => setShowCalendar(!showCalendar)}>
+      <div className={`datepicker-input ${disabled ? 'disabled' : ''}`} onClick={() => !disabled && setShowCalendar(!showCalendar)}>
         <input
           type="text"
           value={formatDate(selectedDate)}
           placeholder="DD/MM/YYYY"
           readOnly
           required={required}
+          disabled={disabled}
         />
         <Calendar size={18} className="calendar-icon" />
       </div>
 
-      {showCalendar && (
+      {showCalendar && !disabled && (
         <div className="calendar-popup">
           <div className="calendar-header">
             <div className="month-year-select">

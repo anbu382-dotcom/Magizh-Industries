@@ -4,7 +4,9 @@ import Navbar from '../../components/Navbar';
 import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/DeleteMaster.css';
 import { useNavigate } from 'react-router-dom';
-import { Archive, IndianRupee, Warehouse } from 'lucide-react';
+import { Archive, IndianRupee, Warehouse, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const ITEMS_PER_PAGE = 6;
 
 const DeleteMaster = () => {
   const navigate = useNavigate();
@@ -16,6 +18,7 @@ const DeleteMaster = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [showArchiveSuccess, setShowArchiveSuccess] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     fetchMaterials();
@@ -53,6 +56,16 @@ const DeleteMaster = () => {
 
     return matchesSearch && matchesFilter;
   });
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredMaterials.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedMaterials = filteredMaterials.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Reset to page 1 when search or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterType]);
 
   const handleDelete = (material) => {
     setSelectedMaterial(material);
@@ -99,7 +112,6 @@ const DeleteMaster = () => {
       <Navbar 
         title="Delete Material Master" 
         onMenuClick={() => setSidebarExpanded(!sidebarExpanded)}
-        showCompanyName={sidebarExpanded}
         rightContent={
           <button className="dm-archive-icon-btn" onClick={() => navigate('/stock/archived-master')} title="View Archived Materials">
             <Archive size={24} />
@@ -161,55 +173,79 @@ const DeleteMaster = () => {
                 <p>{searchTerm ? 'Try adjusting your search criteria' : 'No materials available'}</p>
               </div>
             ) : (
-              <div className="dm-grid">
-                {filteredMaterials.map((material) => (
-                  <div key={material.id} className="dm-card">
-                    <div className="dm-card-header">
-                      <span className="dm-code-badge">{material.materialCode || 'N/A'}</span>
-                      <span className={`dm-flow-badge dm-flow-${material.materialFlow?.toLowerCase()}`}>
-                        {material.materialFlow}
-                      </span>
-                    </div>
+              <>
+                <div className="dm-grid">
+                  {paginatedMaterials.map((material) => (
+                    <div key={material.id} className="dm-card">
+                      <div className="dm-card-header">
+                        <span className="dm-code-badge">{material.materialCode || 'N/A'}</span>
+                        <span className={`dm-flow-badge dm-flow-${material.materialFlow?.toLowerCase()}`}>
+                          {material.materialFlow}
+                        </span>
+                      </div>
 
-                    <div className="dm-card-body">
-                      <h3 className="dm-material-name">{material.materialName}</h3>
+                      <div className="dm-card-body">
+                        <h3 className="dm-material-name">{material.materialName}</h3>
 
-                      <div className="dm-info-list">
-                        <div className="dm-info-row">
-                          <span className="dm-label">Category:</span>
-                          <span className="dm-value">{material.category || '-'}</span>
-                        </div>
-                        <div className="dm-info-row">
-                          <span className="dm-label">HSN Code:</span>
-                          <span className="dm-value">{material.hsnCode || '-'}</span>
-                        </div>
-                        <div className="dm-info-row">
-                          <span className="dm-label">Cost/Item:</span>
-                          <span className="dm-value dm-price">
-                            <IndianRupee size={15} />
-                            {material.costPerItem || '0'}
-                          </span>
+                        <div className="dm-info-list">
+                          <div className="dm-info-row">
+                            <span className="dm-label">Category:</span>
+                            <span className="dm-value">{material.category || '-'}</span>
+                          </div>
+                          <div className="dm-info-row">
+                            <span className="dm-label">HSN Code:</span>
+                            <span className="dm-value">{material.hsnCode || '-'}</span>
+                          </div>
+                          <div className="dm-info-row">
+                            <span className="dm-label">Cost/Item:</span>
+                            <span className="dm-value dm-price">
+                              <IndianRupee size={15} />
+                              {material.costPerItem || '0'}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="dm-card-footer">
+                      <div className="dm-card-footer">
+                        <button
+                          className="dm-delete-btn"
+                          onClick={() => handleDelete(material)}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="m19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                          </svg>
+                          Archive Material
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Pagination Controls - Only Previous/Next */}
+                  {totalPages > 1 && (
+                    <div className="dm-pagination">
                       <button
-                        className="dm-delete-btn"
-                        onClick={() => handleDelete(material)}
+                        className="dm-pagination-btn"
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="3 6 5 6 21 6"></polyline>
-                          <path d="m19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                          <line x1="10" y1="11" x2="10" y2="17"></line>
-                          <line x1="14" y1="11" x2="14" y2="17"></line>
-                        </svg>
-                        Archive Material
+                        <ChevronLeft size={18} />
+                        Previous
+                      </button>
+                      <button
+                        className="dm-pagination-btn"
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                      >
+                        Next
+                        <ChevronRight size={18} />
                       </button>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  )}
+                </div>
+              </>
             )}
           </div>
 

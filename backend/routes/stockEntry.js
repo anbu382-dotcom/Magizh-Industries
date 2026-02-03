@@ -11,7 +11,9 @@ const {
   searchStockEntries,
   updateStockEntry,
   deleteStockEntry,
-  getStockBalance
+  getStockBalance,
+  downloadStockLogExcel,
+  downloadCurrentStockExcel
 } = require('../controllers/stockEntry');
 const authenticate = require('../middleware/auth');
 
@@ -20,6 +22,12 @@ router.post('/entry', authenticate, createStockEntry);
 
 // Get all stock entries
 router.get('/entries', authenticate, getAllStockEntries);
+
+// Download stock log Excel
+router.get('/download/log', authenticate, downloadStockLogExcel);
+
+// Download current stock Excel
+router.get('/download/current', authenticate, downloadCurrentStockExcel);
 
 // Search stock entries with filters
 router.get('/search', authenticate, searchStockEntries);

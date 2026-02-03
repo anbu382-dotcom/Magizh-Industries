@@ -5,10 +5,9 @@ const { generateToken } = require('../utils/jwt');
 const UserService = require('../services/User');
 const loginActivityService = require('../services/loginActivityService');
 const logger = require('../utils/logger');
+const https = require('https');
 
-/**
- * Login user with Firebase Authentication
- */
+// Login user with Firebase Authentication
 exports.login = async (req, res) => {
   try {
     const { userId, password } = req.body;
@@ -22,13 +21,11 @@ exports.login = async (req, res) => {
 
     // Step 1: Find user by userId
     const user = await UserService.findByUserId(userId);
-
     if (!user) {
       return res.status(401).json({
         message: 'Invalid credentials'
       });
     }
-
     // Step 2: Verify user exists in Firebase Auth
     try {
       await auth.getUserByEmail(user.email);
@@ -38,7 +35,6 @@ exports.login = async (req, res) => {
         message: 'Invalid credentials - user not found in authentication system'
       });
     }
-
     // Step 3: Verify password using Firebase REST API
     const firebaseApiKey = process.env.FIREBASE_API_KEY || process.env.REACT_APP_FIREBASE_API_KEY;
 
@@ -50,25 +46,11 @@ exports.login = async (req, res) => {
       });
     }
 
-    const signInResponse = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${firebaseApiKey}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: user.email,
-          password: password,
-          returnSecureToken: true,
-        }),
-      }
-    );
-
-    const signInData = await signInResponse.json();
-
-    if (!signInResponse.ok) {
-      console.error('Firebase sign-in failed:', signInData);
+    // Verify password using Firebase Auth REST API with https module
+    const signInResult = await verifyPasswordWithFirebase(user.email, password, firebaseApiKey);
+    
+    if (!signInResult.success) {
+      console.error('Firebase sign-in failed:', signInResult.error);
       return res.status(401).json({
         message: 'Invalid credentials'
       });
@@ -78,11 +60,21 @@ exports.login = async (req, res) => {
     const token = generateToken(
       user.userId,
       user.email,
-      user.role || 'employee'
+      user.role || 'employee',
+      user.firstName || ''
     );
 
-    // Step 5: Record login activity
-    await loginActivityService.recordLogin(user.userId);
+    // Step 5: Record login activity (non-blocking, ignore errors)
+    try {
+      await loginActivityService.recordLogin(user.userId);
+    } catch (activityError) {
+      // Log the error but don't fail the login
+      console.warn('Failed to record login activity:', activityError.message);
+      logger.warn('Login activity recording failed:', { 
+        userId: user.userId, 
+        error: activityError.message 
+      });
+    }
 
     // Step 6: Return success response
     res.status(200).json({
@@ -99,6 +91,11 @@ exports.login = async (req, res) => {
 
   } catch (error) {
     console.error('Login Error:', error);
+    logger.error('Login Error Details:', { 
+      message: error.message, 
+      stack: error.stack,
+      userId: req.body?.userId
+    });
     res.status(500).json({
       message: 'Login failed. Please try again.',
       error: error.message
@@ -106,9 +103,7 @@ exports.login = async (req, res) => {
   }
 };
 
-/**
- * Get user login sessions (activities)
- */
+// Get user login sessions (activities)
 exports.getUserSessions = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -129,3 +124,53 @@ exports.getUserSessions = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// Helper function acts as a bridge between node.js and Firebase REST API to verify password
+function verifyPasswordWithFirebase(email, password, apiKey) {
+  return new Promise((resolve, reject) => {
+    const postData = JSON.stringify({
+      email: email,
+      password: password,
+      returnSecureToken: true,
+    });
+
+    const options = {
+      hostname: 'identitytoolkit.googleapis.com',
+      path: `/v1/accounts:signInWithPassword?key=${apiKey}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(postData),
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      res.on('end', () => {
+        try {
+          const parsedData = JSON.parse(data);
+          
+          if (res.statusCode === 200) {
+            resolve({ success: true, data: parsedData });
+          } else {
+            resolve({ success: false, error: parsedData });
+          }
+        } catch (error) {
+          reject(new Error(`Failed to parse Firebase response: ${error.message}`));
+        }
+      });
+    });
+
+    req.on('error', (error) => {
+      reject(new Error(`Firebase authentication request failed: ${error.message}`));
+    });
+
+    req.write(postData);
+    req.end();
+  });
+}

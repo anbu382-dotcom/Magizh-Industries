@@ -174,7 +174,63 @@ const sendCredentialsEmail = async ({ email, firstName, userId, password }) => {
   }
 };
 
+// Send OTP email for forgot password
+const sendOtpEmail = async ({ email, firstName, otp }) => {
+  try {
+    // Skip if email is not configured
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+      console.log('Email not configured. Skipping OTP email.');
+      return;
+    }
+
+    const transporter = createTransporter();
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Password Reset OTP - Magizh Industries',
+      html: `
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 650px; margin: 0 auto; background-color: #ffffff;">
+          <!-- Header -->
+          <div style="background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Magizh Industries</h1>
+            <p style="color: rgba(255, 255, 255, 0.9); margin: 10px 0 0 0; font-size: 14px;">Employee Management System</p>
+          </div>
+
+          <!-- Content -->
+          <div style="padding: 40px 30px; background-color: #f8f9fa;">
+            <h2 style="color: #1e3a5f; margin: 0 0 10px 0; font-size: 24px;">Password Reset Request</h2>
+            <p style="color: #6c757d; margin: 0 0 30px 0; font-size: 15px; line-height: 1.6;">
+              Hello${firstName ? ` ${firstName}` : ''},<br>
+              We received a request to reset your password. Use the OTP code below to complete the password reset process.
+            </p>
+
+            <!-- OTP Card -->
+            <div style="background-color: #ffffff; padding: 30px; border-radius: 8px; border-left: 4px solid #f59e0b; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 25px; text-align: center;">
+              <h3 style="color: #1e3a5f; margin: 0 0 20px 0; font-size: 18px;">Your OTP Code</h3>
+              
+              <div style="background-color: #fef3c7; padding: 20px; border-radius: 8px;">
+                <div style="font-size: 36px; font-weight: 700; letter-spacing: 8px; color: #1e3a5f; font-family: 'Courier New', monospace;">
+                  ${otp}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log('OTP email sent successfully to:', email);
+
+  } catch (error) {
+    console.error('Failed to send OTP email:', error.message);
+    throw error;
+  }
+};
+
 module.exports = {
   sendEmailToAdmin,
-  sendCredentialsEmail
+  sendCredentialsEmail,
+  sendOtpEmail
 };

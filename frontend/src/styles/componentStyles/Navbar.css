@@ -1,21 +1,20 @@
 /* Navbar Container */
 .navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  background: rgba(255, 255, 255, 0.8);
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: clamp(3.375rem, 10vw, 4.375rem); /* 54px → 70px */
+  background: var(--navbar-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-block-end: 1px solid var(--navbar-border);
   z-index: 100;
   transition: all 0.3s ease;
 }
 
 .navbar-content {
-  height: 100%;
-  padding: 0 30px;
+  block-size: 100%;
+  padding-inline: clamp(0.625rem, 3vw, 1.875rem); /* 10px → 30px */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,125 +24,88 @@
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: clamp(0.5rem, 2vw, 0.9375rem); /* 8px → 15px */
   position: absolute;
-  left: 10px;
+  inset-inline-start: clamp(0.3125rem, 1.5vw, 0.625rem); /* 5px → 10px */
 }
 
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: clamp(0.5rem, 2vw, 0.9375rem); /* 8px → 15px */
   position: absolute;
-  right: 30px;
+  inset-inline-end: clamp(0.625rem, 3vw, 1.875rem); /* 10px → 30px */
 }
 
+/* Warehouse/Menu Icon - STANDARDIZED SIZE SITE-WIDE */
 .navbar-icon {
-  color: #7469B6;
+  color: var(--navbar-icon);
   stroke-width: 2.5;
   flex-shrink: 0;
-  transition: all 0.3s ease;
-  margin-left: 15px;
+  transition: var(--transition-all);
+  margin-inline-start: var(--spacing-md);
+  inline-size: var(--warehouse-icon-size); /* 24px standard */
+  block-size: var(--warehouse-icon-size);
+  min-inline-size: var(--warehouse-icon-size);
+  min-block-size: var(--warehouse-icon-size);
 }
 
 .navbar-icon:hover {
   transform: scale(1.1);
-  color: #AD88C6;
-}
-
-.company-name {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #7469B6;
-  white-space: nowrap;
-  opacity: 0;
-  max-width: 0;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.company-name.visible {
-  opacity: 1;
-  max-width: 200px;
-  margin-right: 20px;
+  color: var(--navbar-icon-hover);
 }
 
 .navbar-title {
-  font-size: 1.5rem;
+  font-size: clamp(0.9375rem, 2.5vw, 1.5rem); /* 15px → 24px */
   font-weight: 700;
-  color: #1e293b;
+  color: var(--navbar-text);
   margin: 0;
   text-align: center;
   flex: 1;
+  padding-inline: clamp(0.5rem, 2vw, 0.625rem);
 }
-
-/* Archive Button in Navbar */
-.dm-archive-icon-btn {
-  margin: 4px;
-  background: white;
-  border: 2px solid rgba(116, 105, 182, 0.2);
-  border-radius: 10px;
-  color: #7469B6;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 101;
-}
-
-.dm-archive-icon-btn:hover {
-  background: #7469B6;
-  color: white;
-  border-color: #7469B6;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(116, 105, 182, 0.3);
-}
-
 
 /* Adjust page content when navbar is present */
 .page-with-navbar {
-  padding-top: 90px;
+  padding-block-start: clamp(4.0625rem, 12vw, 5.625rem); /* 65px → 90px */
 }
 
-/* Responsive Design */
+/* Download Button in Navbar */
+.navbar-right .download-icon-btn {
+  background: transparent;
+  border: 2px solid var(--color-accent);
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(91, 123, 154, 0.15);
+}
+
+.navbar-right .download-icon-btn:hover {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.4);
+}
+
+.navbar-right .download-icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===========================
+   RESPONSIVE MEDIA QUERIES
+   Modern fluid design with clamp() eliminates most breakpoints
+   =========================== */
+
+/* Optional: Adjust specific layout behaviors only when needed */
 @media (max-width: 768px) {
-  .navbar {
-    left: 0;
-    height: 60px;
-  }
-
-  .navbar-content {
-    padding: 0 15px;
-  }
-
-  .navbar-left {
-    left: 12px;
-  }
-
-  .navbar-icon {
-    width: 24px;
-    height: 24px;
-  }
-
   .navbar-title {
-    font-size: 1.25rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .navbar {
-    height: 55px;
-  }
-
-  .navbar-left {
-    bottom:15px;
-    left: 15px;
-  }
-
-  .navbar-title {
-    font-size: 1.1rem;
-  }
-
-  .navbar-icon {
-    width: 22px;
-    height: 22px;
+    font-size: clamp(0.9375rem, 3vw, 1.25rem); /* Slightly tighter range on mobile */
   }
 }

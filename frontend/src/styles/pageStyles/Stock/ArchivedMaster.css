@@ -1,17 +1,5 @@
 /* ArchivedMaster.css - Professional Purple Theme */
 
-:root {
-  --primary-purple: #7469B6;
-  --primary-light: #AD88C6;
-  --accent-pink: #FFE1FF;
-  --bg-light: #FFF7F1;
-  --success-green: #10b981;
-  --success-green-hover: #059669;
-  --danger-red: #dc3545;
-  --danger-red-hover: #c82333;
-  --warning-orange: #f59e0b;
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -21,7 +9,7 @@
 .am-wrapper {
   display: flex;
   height: 100vh;
-  background: linear-gradient(135deg, #f8f9ff 0%, #fff5f7 100%);
+  background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-primary) 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow: hidden;
 }
@@ -78,10 +66,10 @@
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background: white;
-  border: 2px solid rgba(116, 105, 182, 0.2);
+  background: var(--color-white);
+  border: 2px solid rgba(91, 123, 154, 0.2);
   border-radius: 12px;
-  color: var(--primary-purple);
+  color: var(--color-accent);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -90,9 +78,9 @@
 }
 
 .am-back-btn:hover {
-  background: var(--primary-purple);
-  color: white;
-  border-color: var(--primary-purple);
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
   transform: translateX(-4px);
 }
 
@@ -112,7 +100,7 @@
 .am-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--primary-purple);
+  color: var(--color-accent);
   margin: 0;
   font-family: 'Segoe UI', system-ui, sans-serif;
   text-transform: capitalize;
@@ -121,7 +109,7 @@
 
 .am-subtitle {
   font-size: 1rem;
-  color: #666;
+  color: var(--color-text-muted);
   margin: 0.5rem 0 0 0;
   font-weight: 500;
   text-align: center;
@@ -129,11 +117,11 @@
 
 /* Main Panel */
 .am-main-panel {
-  background: white;
+  background: var(--color-white);
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 0 8px 32px rgba(116, 105, 182, 0.12);
-  border: 1px solid rgba(116, 105, 182, 0.15);
+  box-shadow: 0 8px 32px rgba(91, 123, 154, 0.12);
+  border: 1px solid rgba(91, 123, 154, 0.15);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -168,25 +156,25 @@
 .am-search-box input {
   width: 100%;
   padding: 14px 16px 14px 48px;
-  border: 2px solid rgba(116, 105, 182, 0.15);
+  border: 2px solid rgba(91, 123, 154, 0.15);
   border-radius: 12px;
   font-size: 15px;
   font-family: 'Segoe UI', system-ui, sans-serif;
   transition: all 0.3s ease;
-  background: #fafafa;
+  background: var(--color-bg-light);
 }
 
 .am-search-box input:focus {
   outline: none;
-  border-color: var(--primary-purple);
-  background: white;
-  box-shadow: 0 0 0 4px rgba(116, 105, 182, 0.08);
+  border-color: var(--color-accent);
+  background: var(--color-white);
+  box-shadow: 0 0 0 4px rgba(91, 123, 154, 0.08);
 }
 
 .am-filter-tabs {
   display: flex;
   gap: 0.75rem;
-  background: #f8f9fa;
+  background: var(--color-bg-lightest);
   padding: 6px;
   border-radius: 12px;
 }
@@ -195,7 +183,7 @@
   padding: 10px 24px;
   border: none;
   background: transparent;
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 14px;
   font-weight: 600;
   border-radius: 8px;
@@ -205,14 +193,14 @@
 }
 
 .am-tab:hover {
-  background: rgba(116, 105, 182, 0.1);
-  color: var(--primary-purple);
+  background: rgba(91, 123, 154, 0.1);
+  color: var(--color-accent);
 }
 
 .am-tab-active {
-  background: var(--primary-purple) !important;
-  color: white !important;
-  box-shadow: 0 4px 12px rgba(116, 105, 182, 0.25);
+  background: var(--color-accent) !important;
+  color: var(--color-white) !important;
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.25);
 }
 
 /* Loading State */
@@ -228,8 +216,8 @@
 .am-spinner {
   width: 56px;
   height: 56px;
-  border: 4px solid rgba(116, 105, 182, 0.1);
-  border-top-color: var(--primary-purple);
+  border: 4px solid rgba(91, 123, 154, 0.1);
+  border-top-color: var(--color-accent);
   border-radius: 50%;
   animation: am-spin 0.8s linear infinite;
 }
@@ -241,7 +229,7 @@
 }
 
 .am-loading p {
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 1rem;
   font-weight: 500;
 }
@@ -257,19 +245,19 @@
 }
 
 .am-empty svg {
-  color: rgba(116, 105, 182, 0.2);
+  color: rgba(91, 123, 154, 0.2);
   margin-bottom: 1.5rem;
 }
 
 .am-empty h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--primary-purple);
+  color: var(--color-accent);
   margin: 0 0 0.5rem 0;
 }
 
 .am-empty p {
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 1rem;
   margin: 0;
 }
@@ -288,15 +276,15 @@
 
 /* Card Styles */
 .am-card {
-  background: white;
+  background: var(--color-white);
   border-radius: 16px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border: 1px solid rgba(116, 105, 182, 0.15);
+  border: 1px solid rgba(91, 123, 154, 0.15);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 16px rgba(116, 105, 182, 0.08);
+  box-shadow: 0 4px 16px rgba(91, 123, 154, 0.08);
   position: relative;
   height: fit-content;
   min-height: 400px;
@@ -315,9 +303,8 @@
 }
 
 .am-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(116, 105, 182, 0.18);
-  border-color: var(--primary-purple);
+  box-shadow: 0 12px 32px rgba(91, 123, 154, 0.18);
+  border-color: var(--color-accent);
 }
 
 .am-card-header {
@@ -326,17 +313,17 @@
   align-items: center;
   gap: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f5f5f5;
+  border-bottom: 2px solid var(--color-bg-lighter);
 }
 
 .am-code-badge {
   padding: 8px 16px;
-  background: var(--primary-purple);
-  color: white;
+  background: var(--color-accent);
+  color: var(--color-white);
   border-radius: 10px;
   font-weight: 700;
   font-size: 15px;
-  box-shadow: 0 4px 12px rgba(116, 105, 182, 0.25);
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.25);
   letter-spacing: 0.5px;
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
@@ -450,13 +437,13 @@
 }
 
 .am-restore-btn {
-  background: var(--success-green);
-  color: white;
+  background: #10b981;
+  color: var(--color-white);
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
 }
 
 .am-restore-btn:hover {
-  background: var(--success-green-hover);
+  background: #059669;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
 }
@@ -466,15 +453,15 @@
 }
 
 .am-permanent-delete-btn {
-  background: var(--danger-red);
-  color: white;
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+  background: #dc2626;
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
 }
 
 .am-permanent-delete-btn:hover {
-  background: var(--danger-red-hover);
+  background: #b91c1c;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.35);
+  box-shadow: 0 6px 16px rgba(185, 28, 28, 0.4);
 }
 
 .am-permanent-delete-btn:active {
@@ -507,11 +494,73 @@
 }
 
 /* ===========================
-   RESPONSIVE MEDIA QUERIES
+   PAGINATION STYLES
    =========================== */
 
-/* Mobile Landscape (768px and below) */
-@media (max-width: 768px) {
+.am-pagination {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0 0.5rem 0;
+}
+
+.am-pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 10px 20px;
+  background: var(--color-white);
+  border: 2px solid rgba(91, 123, 154, 0.2);
+  border-radius: 10px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.am-pagination-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.am-pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===========================
+   RESPONSIVE MEDIA QUERIES
+   Standard Mobile Breakpoints:
+   - Large Mobile: 769px - 1024px
+   - Standard Mobile: 430px - 768px  
+   - Small Mobile: 375px - 429px
+   - Extra Small: 320px - 374px
+   =========================== */
+
+/* Large Mobile (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .am-content {
+    padding: 4rem 1.5rem 1rem 1.5rem;
+  }
+
+  .am-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .am-main-panel {
+    padding: 1.75rem;
+  }
+}
+
+/* Standard Mobile (430px - 768px) */
+@media (max-width: 768px) and (min-width: 430px) {
   .am-content {
     margin-left: 0;
     padding: 0.5rem 10px 0.5rem 10px;
@@ -570,77 +619,75 @@
   }
 
   .am-main-panel {
-    padding: 12px 10px;
+    padding: 1.25rem;
     border-radius: 16px;
-    margin: 0;
-    width: 100%;
-    box-sizing: border-box;
   }
 
   .am-filter-bar {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
     margin-bottom: 1.25rem;
   }
 
   .am-search-box {
+    padding: 0;
     min-width: 100%;
     width: 100%;
   }
 
   .am-search-box input {
-    padding: 11px 14px 11px 2.75rem;
-    font-size: 13px;
-    height: 44px;
+    padding: 12px 14px 12px 44px;
+    font-size: 14px;
+    height: 46px;
   }
 
   .am-search-box svg {
-    left: 0.875rem;
-    width: 16px;
-    height: 16px;
+    left: 14px;
+    width: 18px;
+    height: 18px;
   }
 
   .am-filter-tabs {
     width: 100%;
     justify-content: space-between;
-    padding: 5px;
+    padding: 6px;
   }
 
   .am-tab {
-    padding: 8px 16px;
-    font-size: 13px;
+    padding: 10px 18px;
+    font-size: 14px;
     flex: 1;
     text-align: center;
   }
 
   .am-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 1.25rem;
+    gap: 1.125rem;
+    margin-top: 1rem;
   }
 
   .am-card {
-    padding: 1rem;
+    padding: 1.125rem;
     border-radius: 14px;
-    min-height: auto;
+    max-height: none;
   }
 
   .am-card-header {
-    padding-bottom: 0.75rem;
+    padding-bottom: 0.875rem;
   }
 
   .am-code-badge {
-    font-size: 13px;
-    padding: 6px 12px;
+    font-size: 14px;
+    padding: 7px 14px;
   }
 
   .am-flow-badge {
-    font-size: 11px;
-    padding: 4px 10px;
+    font-size: 12px;
+    padding: 5px 11px;
   }
 
   .am-material-name {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
   }
 
   .am-info-row {
@@ -648,17 +695,17 @@
   }
 
   .am-label {
-    font-size: 0.8125rem;
+    font-size: 14px;
   }
 
   .am-value {
-    font-size: 0.8125rem;
+    font-size: 14px;
   }
 
   .am-restore-btn,
   .am-permanent-delete-btn {
-    padding: 10px 14px;
-    font-size: 13px;
+    padding: 11px 20px;
+    font-size: 14px;
   }
 
   .am-restore-btn svg,
@@ -675,61 +722,117 @@
     width: 18px;
     height: 18px;
   }
+
+  .am-pagination {
+    gap: 1.25rem;
+    padding: 1.25rem 0 0.75rem 0;
+  }
+
+  .am-pagination-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
 }
 
-/* Mobile Portrait (575px and below) */
-@media (max-width: 575px) {
+/* Small Mobile (375px - 429px) */
+@media (max-width: 429px) and (min-width: 375px) {
   .am-content {
-    padding: 4rem 5px 0.5rem 5px;
+    margin-top: 3rem;
+    padding: 1rem 8px 0.5rem 8px;
     box-sizing: border-box;
   }
 
-  .am-header {
-    margin-bottom: 0.625rem;
-    padding: 0.625rem 0;
-  }
-
-  .am-title {
-    font-size: 1.125rem;
-  }
-
-  .am-subtitle {
-    font-size: 0.75rem;
+  .am-container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
   }
 
   .am-main-panel {
-    padding: 10px 8px;
+    padding: 12px 10px;
     width: 100%;
     box-sizing: border-box;
   }
 
+  .am-filter-bar {
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .am-search-box {
+    padding: 0;
+    min-width: 100%;
+    width: 100%;
+  }
+
   .am-search-box input {
-    padding: 10px 13px 10px 2.5rem;
-    font-size: 12px;
-    height: 42px;
+    padding: 11px 13px 11px 40px;
+    font-size: 13px;
+    height: 44px;
+  }
+
+  .am-search-box svg {
+    left: 12px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .am-filter-tabs {
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px;
   }
 
   .am-tab {
-    padding: 7px 12px;
-    font-size: 12px;
+    padding: 8px 14px;
+    font-size: 13px;
+    flex: 1;
+    text-align: center;
   }
 
   .am-grid {
-    gap: 0.875rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
   }
 
   .am-card {
-    padding: 0.875rem;
+    padding: 1rem;
+    border-radius: 12px;
   }
 
   .am-code-badge {
-    font-size: 12px;
-    padding: 5px 10px;
+    font-size: 13px;
+    padding: 6px 12px;
   }
 
   .am-flow-badge {
-    font-size: 10px;
-    padding: 3px 8px;
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .am-material-name {
+    font-size: 1.125rem;
+  }
+
+  .am-label {
+    font-size: 13px;
+  }
+
+  .am-value {
+    font-size: 13px;
+  }
+
+  .am-restore-btn,
+  .am-permanent-delete-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  .am-pagination-btn {
+    padding: 9px 14px;
+    font-size: 13px;
   }
 
   .am-material-name {
@@ -761,101 +864,110 @@
   }
 }
 
-/* Extra Small Mobile (374px and below) */
+/* Extra Small Mobile (320px - 374px) */
 @media (max-width: 374px) {
   .am-content {
-    padding: 0.5rem 5px 0.5rem 5px;
+    margin-top: 3.5rem;
+    padding: 1rem 6px 0.5rem 6px;
     box-sizing: border-box;
   }
 
-  .am-header {
-    padding: 0.5rem 0;
-  }
-
-  .am-title {
-    font-size: 1rem;
-  }
-
-  .am-subtitle {
-    font-size: 0.6875rem;
+  .am-container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
   }
 
   .am-main-panel {
-    padding: 8px 6px;
+    padding: 10px 8px;
     width: 100%;
     box-sizing: border-box;
   }
 
+  .am-filter-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .am-search-box {
+    padding: 0;
+    min-width: 100%;
+    width: 100%;
+  }
+
   .am-search-box input {
-    padding: 9px 12px 9px 2.25rem;
-    font-size: 11px;
-    height: 40px;
+    padding: 10px 12px 10px 36px;
+    font-size: 12px;
+    height: 42px;
   }
 
   .am-search-box svg {
-    left: 0.75rem;
+    left: 10px;
     width: 14px;
     height: 14px;
   }
 
+  .am-filter-tabs {
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px;
+  }
+
   .am-tab {
-    padding: 6px 10px;
-    font-size: 11px;
+    padding: 7px 12px;
+    font-size: 12px;
+    flex: 1;
+    text-align: center;
   }
 
   .am-grid {
-    gap: 0.75rem;
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+    margin-top: 0.875rem;
   }
 
   .am-card {
-    padding: 0.75rem;
+    padding: 0.875rem;
+    border-radius: 12px;
   }
 
   .am-code-badge {
-    font-size: 11px;
-    padding: 4px 8px;
+    font-size: 12px;
+    padding: 5px 10px;
   }
 
   .am-flow-badge {
-    font-size: 9px;
-    padding: 3px 7px;
+    font-size: 10px;
+    padding: 3px 8px;
   }
 
   .am-material-name {
-    font-size: 0.9375rem;
-  }
-
-  .am-info-row {
-    padding: 0.35rem 0;
+    font-size: 1rem;
   }
 
   .am-label {
-    font-size: 0.6875rem;
+    font-size: 12px;
   }
 
   .am-value {
-    font-size: 0.6875rem;
+    font-size: 12px;
   }
 
   .am-restore-btn,
   .am-permanent-delete-btn {
-    padding: 8px 10px;
-    font-size: 11px;
+    padding: 9px 16px;
+    font-size: 12px;
   }
 
-  .am-restore-btn svg,
-  .am-permanent-delete-btn svg {
-    width: 12px;
-    height: 12px;
+  .am-pagination {
+    gap: 0.875rem;
+    padding: 1rem 1rem 3rem 1rem;
   }
 
-  .am-archive-icon-btn {
-    padding: 8px;
-  }
-
-  .am-archive-icon-btn svg {
-    width: 16px;
-    height: 16px;
+  .am-pagination-btn {
+    padding: 8px 12px;
+    font-size: 12px;
   }
 }
 
@@ -871,14 +983,28 @@
   margin-top: 0.5rem;
 }
 
+/* Override popup confirm button to be red for delete action */
+.am-wrapper .popup-btn-confirm,
+.am-wrapper .popup-btn-confirm.danger,
+.am-wrapper .popup-btn-confirm.warning {
+  background: #dc2626 !important;
+  color: white !important;
+}
+
+.am-wrapper .popup-btn-confirm:hover,
+.am-wrapper .popup-btn-confirm.danger:hover,
+.am-wrapper .popup-btn-confirm.warning:hover {
+  background: #b91c1c !important;
+}
+
 .am-popup-info-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.875rem 1rem;
-  background: #f8f9fa;
+  background: var(--color-bg-lightest);
   border-radius: 10px;
-  border-left: 4px solid var(--primary-purple);
+  border-left: 4px solid var(--color-accent);
 }
 
 .am-popup-label {

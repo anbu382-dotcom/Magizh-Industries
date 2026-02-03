@@ -4,11 +4,12 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 const JWT_EXPIRES_IN = '7d'; // Token expires in 7 days
 
 // Generate JWT token for user
-const generateToken = (userId, email, role = 'employee') => {
+const generateToken = (userId, email, role = 'employee', firstName = '') => {
   const payload = {
     userId,
     email,
     role,
+    firstName,
     iat: Math.floor(Date.now() / 1000)
   };
 

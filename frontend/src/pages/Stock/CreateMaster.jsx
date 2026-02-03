@@ -279,17 +279,10 @@ const CreateMaster = () => {
   };
 
   return (
-    <div className="stock-container">
+    <div className="create-container">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
       <Navbar title="Create Material" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
-      <div className="main-content page-with-navbar">
-        <div className="content-wrapper">
-          <div className="stock-header">
-            <div className="header-text">
-            </div>
-          </div>
-          
-          <div className="form-container">
+      <div className="form-container">
             <form onSubmit={handleSubmit} className="master-form">
               <div className="form-grid">
                 <div className="form-group">
@@ -509,8 +502,6 @@ const CreateMaster = () => {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
       </div>
       
       {showSuccessPopup && <StatusMessage message={`Material Master Created ${generatedMaterialCode}`} />}

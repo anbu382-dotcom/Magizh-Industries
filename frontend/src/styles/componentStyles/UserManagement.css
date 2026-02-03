@@ -1,168 +1,161 @@
-/* Color Palette - Matching the app theme */
-:root {
-  --primary-purple: #7469B6;
-  --primary-light: #AD88C6;
-  --accent-pink: #FFE1FF;
-  --bg-light: #FFF7F1;
-}
+/* ============================================
+   USER MANAGEMENT - Modern Responsive Design
+   Using CSS Grid, clamp(), and minimal media queries
+   Targets: Mobile (375px-480px), Tablet (768px-1024px), Desktop (1280px+)
+   ============================================ */
 
-/* Main Container */
+/* Main Container - Fluid padding using logical properties */
 .um-container {
   width: 100%;
+  padding-inline: clamp(0.5rem, 2vw, 2rem); /* Responsive horizontal padding */
+  padding-block: clamp(1rem, 3vw, 2rem); /* Responsive vertical padding */
   animation: fadeIn 0.6s ease;
+  box-sizing: border-box;
 }
 
 .um-card {
-  background: white;
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(116, 105, 182, 0.12);
-  border: 1px solid rgba(116, 105, 182, 0.15);
+  background: var(--color-white);
+  border-radius: clamp(0.75rem, 2vw, 1.5rem); /* Fluid border radius */
+  box-shadow: var(--shadow-lg);
+  border: var(--border-subtle);
   overflow: hidden;
   animation: slideUp 0.6s ease;
+  max-width: 100%;
 }
 
-/* Header & Tabs */
+/* Header & Tabs - Fluid typography and spacing */
 .um-header {
-  padding: 2rem 2rem 1rem;
-  background: linear-gradient(135deg, rgba(116, 105, 182, 0.03) 0%, rgba(173, 136, 198, 0.03) 100%);
+  padding-inline: clamp(1rem, 3vw, 2rem);
+  padding-block: clamp(1rem, 2vw, 2rem) clamp(0.5rem, 1vw, 1rem);
+  background: linear-gradient(135deg, rgba(91, 123, 154, 0.03) 0%, rgba(124, 154, 182, 0.03) 100%);
 }
 
 .um-header-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-}
-
-.um-title {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--primary-purple);
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  line-height: 1;
-}
-
-.um-icon-btn {
-  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-  border: none;
-  padding: 10px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
-  flex-shrink: 0;
-  height: fit-content;
-}
-
-.um-icon-btn:hover {
-  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-}
-
-.um-icon-btn:active {
-  transform: translateY(0);
-}
-
-.um-tabs {
-  display: flex;
+  margin-block-end: clamp(1rem, 2vw, 2rem);
   gap: 1rem;
 }
 
+/* Fluid typography using clamp() - scales from mobile to desktop */
+.um-title {
+  margin: 0;
+  font-size: clamp(1.25rem, 4vw, 2rem); /* Scales: 20px @ mobile to 32px @ desktop */
+  font-weight: 700;
+  color: var(--color-accent);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.2;
+}
+
+/* Tabs - Responsive layout using flex with automatic wrapping */
+.um-tabs {
+  display: flex;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
 .um-tab {
-  background: rgba(116, 105, 182, 0.05);
+  background: rgba(91, 123, 154, 0.05);
   border: none;
-  padding: 1.125rem 2.25rem;
-  font-size: 1.05rem;
+  padding: clamp(0.625rem, 1.5vw, 1.125rem) clamp(1rem, 3vw, 2.25rem);
+  font-size: clamp(0.8125rem, 1.8vw, 1.05rem); /* Fluid font size */
   font-weight: 600;
   color: #666;
   cursor: pointer;
   position: relative;
   transition: all 0.3s ease;
-  border-radius: 12px;
+  border-radius: clamp(0.5rem, 1.5vw, 0.75rem);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: clamp(0.375rem, 1vw, 0.75rem);
+  min-height: 2.75rem; /* Touch target: 44px minimum for accessibility */
+  flex: 1 1 auto; /* Allow tabs to grow/shrink */
+  justify-content: center;
 }
 
 .um-tab:hover {
-  color: var(--primary-purple);
-  background: rgba(116, 105, 182, 0.1);
+  color: var(--color-accent);
+  background: rgba(91, 123, 154, 0.1);
   transform: translateY(-2px);
 }
 
 .um-tab.active {
   color: white;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-light) 100%);
-  box-shadow: 0 4px 12px rgba(116, 105, 182, 0.3);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.3);
 }
 
 .um-tab svg {
   flex-shrink: 0;
+  width: clamp(1rem, 2.5vw, 1.25rem);
+  height: clamp(1rem, 2.5vw, 1.25rem);
 }
 
 .tab-count {
-  display: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding-inline: 0.375rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
 }
 
-/* Content Area */
+/* Content Area - Responsive overflow handling */
 .um-content {
   padding: 0;
-  min-height: 400px;
+  min-height: clamp(15rem, 40vh, 25rem); /* Fluid minimum height */
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .um-content::-webkit-scrollbar {
-  height: 8px;
+  height: 0.5rem;
 }
 
 .um-content::-webkit-scrollbar-track {
-  background: rgba(116, 105, 182, 0.05);
-  border-radius: 4px;
+  background: rgba(91, 123, 154, 0.05);
+  border-radius: 0.25rem;
 }
 
 .um-content::-webkit-scrollbar-thumb {
-  background: rgba(116, 105, 182, 0.3);
-  border-radius: 4px;
+  background: rgba(91, 123, 154, 0.3);
+  border-radius: 0.25rem;
 }
 
 .um-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(116, 105, 182, 0.5);
+  background: rgba(91, 123, 154, 0.5);
 }
 
-/* Table Styling */
+/* Table Styling - Responsive with minimum width for horizontal scroll */
 .um-table {
   width: 100%;
-  min-width: 600px;
+  min-width: 37.5rem; /* 600px - ensures table doesn't break on mobile */
   border-collapse: collapse;
   text-align: left;
 }
 
 .um-table th {
-  background: linear-gradient(135deg, rgba(116, 105, 182, 0.08) 0%, rgba(173, 136, 198, 0.08) 100%);
-  padding: 1.5rem 2.5rem;
-  font-size: 0.9rem;
+  background: linear-gradient(135deg, rgba(91, 123, 154, 0.08) 0%, rgba(124, 154, 182, 0.08) 100%);
+  padding: clamp(0.875rem, 2vw, 1.5rem) clamp(1rem, 3vw, 2.5rem);
+  font-size: clamp(0.75rem, 1.5vw, 0.9rem); /* Fluid font size */
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--primary-purple);
+  color: var(--color-accent);
   font-weight: 700;
-  border-bottom: 2px solid rgba(116, 105, 182, 0.15);
+  border-bottom: 2px solid rgba(91, 123, 154, 0.15);
 }
 
 .um-table td {
-  padding: 1.75rem 2.5rem;
-  border-bottom: 1px solid rgba(116, 105, 182, 0.08);
+  padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1rem, 3vw, 2.5rem);
+  border-bottom: 1px solid rgba(91, 123, 154, 0.08);
   vertical-align: middle;
   color: #333;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
 }
 
 .um-table td:last-child {
@@ -172,7 +165,7 @@
 .um-table td:last-child .action-buttons-container {
   display: flex !important;
   flex-direction: row !important;
-  gap: 8px !important;
+  gap: 0.5rem !important;
 }
 
 .um-table tr:last-child td {
@@ -184,64 +177,68 @@
 }
 
 .um-table tbody tr:hover {
-  background: linear-gradient(135deg, rgba(116, 105, 182, 0.02) 0%, rgba(173, 136, 198, 0.02) 100%);
+  background: linear-gradient(135deg, rgba(91, 123, 154, 0.02) 0%, rgba(124, 154, 182, 0.02) 100%);
 }
 
-/* User Info Column */
+/* User Info Column - Fluid typography */
 .user-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.25rem;
 }
 
 .user-name {
   font-weight: 700;
-  font-size: 1.125rem;
-  color: var(--primary-purple);
+  font-size: clamp(0.9375rem, 2vw, 1.125rem); /* 15px to 18px */
+  color: var(--color-accent);
+  line-height: 1.4;
 }
 
 .user-email {
-  font-size: 0.95rem;
+  font-size: clamp(0.8125rem, 1.5vw, 0.9375rem); /* 13px to 15px */
   color: #666;
+  line-height: 1.4;
 }
 
 .user-id-badge {
   display: inline-block;
-  padding: 4px 12px;
-  background: linear-gradient(135deg, rgba(116, 105, 182, 0.1) 0%, rgba(173, 136, 198, 0.1) 100%);
-  border: 1px solid rgba(116, 105, 182, 0.2);
-  border-radius: 8px;
+  padding: 0.25rem 0.75rem;
+  background: linear-gradient(135deg, rgba(91, 123, 154, 0.1) 0%, rgba(124, 154, 182, 0.1) 100%);
+  border: 1px solid rgba(91, 123, 154, 0.2);
+  border-radius: clamp(0.375rem, 1vw, 0.5rem);
   font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--primary-purple);
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+  color: var(--color-accent);
+  line-height: 1;
 }
 
-/* Date Column */
+/* Date Column - Fluid typography */
 .login-date {
   font-variant-numeric: tabular-nums;
   color: #666;
-  font-size: 0.9rem;
+  font-size: clamp(0.8125rem, 1.5vw, 0.9rem);
   font-weight: 500;
 }
 
-/* Actions */
+/* Action Buttons - Touch-friendly sizing */
 .action-btn {
   background: white;
-  border: 2px solid var(--primary-purple);
-  border-radius: 10px;
-  padding: 10px 16px;
+  border: 2px solid var(--color-accent);
+  border-radius: clamp(0.5rem, 1.5vw, 0.625rem);
+  padding: clamp(0.5rem, 1.5vw, 0.625rem) clamp(0.75rem, 2vw, 1rem);
   cursor: pointer;
-  color: var(--primary-purple);
+  color: var(--color-accent);
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0.5rem;
   position: relative;
   overflow: hidden;
-  font-size: 0.9rem;
+  font-size: clamp(0.8125rem, 1.5vw, 0.9rem);
   font-weight: 600;
   font-family: inherit;
+  min-height: 2.75rem; /* 44px touch target */
 }
 
 .action-btn::before {
@@ -251,7 +248,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-light) 100%);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
   transition: left 0.3s ease;
   z-index: 0;
 }
@@ -262,9 +259,9 @@
 
 .action-btn:hover {
   color: white;
-  border-color: var(--primary-light);
+  border-color: var(--color-accent-light);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(116, 105, 182, 0.3);
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.3);
 }
 
 .action-btn:active {
@@ -277,30 +274,29 @@
   z-index: 1;
 }
 
-/* Modal Overlay */
+/* Modal Overlay - Fluid with modern backdrop */
 .um-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(116, 105, 182, 0.4);
+  inset: 0; /* Shorthand for top/right/bottom/left: 0 */
+  background-color: rgba(45, 55, 72, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   backdrop-filter: blur(8px);
   animation: fadeIn 0.3s ease;
+  padding: clamp(0.5rem, 2vw, 1rem); /* Safe area padding */
 }
 
+/* Modal - Responsive sizing with clamp() */
 .um-modal {
   background: white;
-  padding: 2.5rem;
-  border-radius: 24px;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: clamp(1rem, 3vw, 1.5rem);
   width: 100%;
-  max-width: 480px;
-  box-shadow: 0 20px 60px rgba(116, 105, 182, 0.3);
-  border: 1px solid rgba(116, 105, 182, 0.2);
+  max-width: min(30rem, 90vw); /* Responsive max-width: 480px or 90% viewport */
+  box-shadow: 0 1.25rem 3.75rem rgba(45, 55, 72, 0.2);
+  border: var(--border-subtle);
   animation: modalSlideIn 0.3s ease;
 }
 
@@ -308,83 +304,91 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid rgba(116, 105, 182, 0.1);
+  margin-block-end: clamp(1rem, 2vw, 1.5rem);
+  padding-block-end: clamp(0.75rem, 1.5vw, 1rem);
+  border-bottom: 2px solid rgba(91, 123, 154, 0.1);
+  gap: 1rem;
 }
 
 .modal-title {
-  font-size: 1.5rem;
+  font-size: clamp(1.125rem, 3vw, 1.5rem); /* 18px to 24px */
   font-weight: 700;
-  color: var(--primary-purple);
+  color: var(--color-accent);
+  line-height: 1.3;
 }
 
 .close-btn {
-  background: rgba(116, 105, 182, 0.1);
+  background: rgba(91, 123, 154, 0.1);
   border: none;
   cursor: pointer;
-  color: var(--primary-purple);
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  color: var(--color-accent);
+  width: clamp(2rem, 5vw, 2.25rem); /* 32px to 36px */
+  height: clamp(2rem, 5vw, 2.25rem);
+  border-radius: clamp(0.5rem, 1.5vw, 0.625rem);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  flex-shrink: 0;
+  min-width: 2.75rem; /* Touch target */
+  min-height: 2.75rem;
 }
 
 .close-btn:hover {
-  background: var(--primary-purple);
+  background: var(--color-accent);
   color: white;
   transform: rotate(90deg);
 }
 
+/* Form Elements - Fluid spacing */
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-block-end: clamp(1rem, 2vw, 1.5rem);
 }
 
 .form-group label {
   display: block;
-  font-size: 0.95rem;
+  font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
   font-weight: 600;
-  color: var(--primary-purple);
-  margin-bottom: 0.75rem;
+  color: var(--color-accent);
+  margin-block-end: clamp(0.5rem, 1vw, 0.75rem);
 }
 
 .form-input {
   width: 100%;
-  padding: 14px 16px;
-  border: 2px solid rgba(116, 105, 182, 0.2);
-  border-radius: 12px;
-  font-size: 0.95rem;
+  padding: clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2vw, 1rem);
+  border: 2px solid rgba(91, 123, 154, 0.2);
+  border-radius: clamp(0.625rem, 1.5vw, 0.75rem);
+  font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
   outline: none;
   transition: all 0.3s ease;
   box-sizing: border-box;
   font-family: inherit;
+  min-height: 2.75rem; /* Touch target */
 }
 
 .form-input:focus {
-  border-color: var(--primary-purple);
-  box-shadow: 0 0 0 4px rgba(116, 105, 182, 0.1);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px rgba(91, 123, 154, 0.1);
 }
 
 .form-input::placeholder {
   color: #999;
 }
 
+/* Modal Actions - Responsive button layout */
 .modal-actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 2px solid rgba(116, 105, 182, 0.1);
+  gap: clamp(0.75rem, 2vw, 1rem);
+  margin-block-start: clamp(1.5rem, 3vw, 2rem);
+  padding-block-start: clamp(1rem, 2vw, 1.5rem);
+  border-top: 2px solid rgba(91, 123, 154, 0.1);
 }
 
 .btn {
   flex: 1;
-  padding: 14px 24px;
-  border-radius: 12px;
-  font-size: 1rem;
+  padding: clamp(0.75rem, 2vw, 0.875rem) clamp(1rem, 3vw, 1.5rem);
+  border-radius: clamp(0.625rem, 1.5vw, 0.75rem);
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
   font-weight: 600;
   cursor: pointer;
   border: none;
@@ -393,18 +397,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0.5rem;
+  min-height: 2.75rem; /* Touch target */
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-light) 100%);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(116, 105, 182, 0.3);
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(116, 105, 182, 0.4);
+  box-shadow: 0 6px 20px rgba(91, 123, 154, 0.4);
 }
 
 .btn-primary:active {
@@ -413,13 +418,13 @@
 
 .btn-secondary {
   background: white;
-  border: 2px solid rgba(116, 105, 182, 0.3);
-  color: var(--primary-purple);
+  border: 2px solid rgba(91, 123, 154, 0.3);
+  color: var(--color-accent);
 }
 
 .btn-secondary:hover {
-  background: rgba(116, 105, 182, 0.05);
-  border-color: var(--primary-purple);
+  background: rgba(91, 123, 154, 0.05);
+  border-color: var(--color-accent);
   transform: translateY(-2px);
 }
 
@@ -427,65 +432,66 @@
   transform: translateY(0);
 }
 
-/* Empty State */
+/* Empty State - Responsive padding and sizing */
 .empty-state {
-  padding: 5rem 2rem;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 3vw, 2rem);
   text-align: center;
   color: #666;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
 }
 
 .empty-state svg {
-  color: var(--primary-light);
+  color: var(--color-accent-light);
   opacity: 0.3;
+  width: clamp(2.5rem, 8vw, 4rem);
+  height: clamp(2.5rem, 8vw, 4rem);
 }
 
 .empty-state h2,
 .empty-state h3 {
-  color: var(--primary-purple);
+  color: var(--color-accent);
   font-weight: 700;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  line-height: 1.3;
 }
 
 .empty-state p {
   color: #666;
   margin: 0;
-  font-size: 1rem;
-  max-width: 400px;
+  font-size: clamp(0.875rem, 1.8vw, 1rem);
+  max-width: 25rem;
+  line-height: 1.6;
 }
 
 /* Spinner for Loading State */
 .spinner {
-  width: 56px;
-  height: 56px;
-  border: 4px solid rgba(116, 105, 182, 0.2);
-  border-top-color: var(--primary-purple);
+  width: clamp(3rem, 8vw, 3.5rem);
+  height: clamp(3rem, 8vw, 3.5rem);
+  border: 4px solid rgba(91, 123, 154, 0.2);
+  border-top-color: var(--color-accent);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto;
 }
 
+/* Animations */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(1.875rem);
   }
   to {
     opacity: 1;
@@ -496,79 +502,19 @@
 @keyframes modalSlideIn {
   from {
     opacity: 0;
-    transform: scale(0.9) translateY(20px);
+    transform: scale(0.9) translateY(1.25rem);
   }
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
   }
 }
-  .action-btn-change-password {
-    width: 36px;
-    height: 36px;
-  }
 
-  .action-btn-change-password svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .action-btn-delete {
-    padding: 0.45rem;
-    min-width: 32px;
-  }
-
-  .action-btn-edit svg,
-  .action-btn-delete svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .um-modal {
-    margin: 0.75rem;
-    padding: 1.25rem;
-    max-width: calc(100% - 1.5rem);
-    border-radius: 16px;
-  }
-
-  .modal-title {
-    font-size: 1.1rem;
-  }
-
-  .form-input {
-    padding: 10px 12px;
-    font-size: 0.875rem;
-  }
-
-  .btn {
-    padding: 10px 18px;
-    font-size: 0.875rem;
-  }
-
-  .empty-state {
-    padding: 2rem 0.875rem;
-  }
-
-  .empty-state h2,
-  .empty-state h3 {
-    font-size: 1.1rem;
-  }
-
-  .empty-state svg {
-    width: 40px;
-    height: 40px;
-  }
-
-  .empty-state p {
-    font-size: 0.875rem;
-  }
-
-
-/* Action Buttons Container */
+/* Action Buttons Container - Flex layout with proper spacing */
 .action-buttons-container {
   display: flex !important;
   flex-direction: row !important;
-  gap: 8px !important;
+  gap: clamp(0.375rem, 1vw, 0.5rem) !important;
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap !important;
@@ -576,56 +522,16 @@
   margin: 0 auto;
 }
 
-/* Action Button - Change Password (Icon Button - Blue) */
-.action-btn-change-password {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  border: none;
-  border-radius: 10px;
-  padding: 0;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  color: white;
-  transition: all 0.3s ease;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  font-family: inherit;
-  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.25);
-  flex-shrink: 0;
-}
-
-.action-btn-change-password svg {
-  width: 18px;
-  height: 18px;
-  stroke-width: 2.5;
-  flex-shrink: 0;
-  color: white;
-}
-
-.action-btn-change-password:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-  transform: translateY(-1px);
-}
-
-.action-btn-change-password:hover svg {
-  color: white;
-}
-
-.action-btn-change-password:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
-}
-
-/* Action Button - Edit (kept for approve/reject requests) */
+/* Individual Action Buttons - Touch-friendly sizing */
 .action-btn-edit {
-  background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-light) 100%);
-  border: 2px solid rgba(116, 105, 182, 0.3);
-  border-radius: 10px;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  border: 2px solid rgba(91, 123, 154, 0.3);
+  border-radius: clamp(0.5rem, 1.5vw, 0.625rem);
   padding: 0;
-  width: 36px;
-  height: 36px;
+  width: clamp(2rem, 5vw, 2.25rem); /* 32px to 36px */
+  height: clamp(2rem, 5vw, 2.25rem);
+  min-width: 2.75rem; /* 44px touch target */
+  min-height: 2.75rem;
   cursor: pointer;
   color: white;
   transition: all 0.3s ease;
@@ -633,13 +539,13 @@
   align-items: center;
   justify-content: center;
   font-family: inherit;
-  box-shadow: 0 2px 6px rgba(116, 105, 182, 0.25);
+  box-shadow: 0 2px 6px rgba(91, 123, 154, 0.25);
   flex-shrink: 0;
 }
 
 .action-btn-edit:hover {
-  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-purple) 100%);
-  box-shadow: 0 4px 12px rgba(116, 105, 182, 0.4);
+  background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 100%);
+  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.4);
   transform: translateY(-1px);
 }
 
@@ -647,14 +553,15 @@
   transform: translateY(0);
 }
 
-/* Action Button - Delete (Red) */
 .action-btn-delete {
   background: #ef4444;
   border: none;
-  border-radius: 10px;
+  border-radius: clamp(0.5rem, 1.5vw, 0.625rem);
   padding: 0;
-  width: 36px;
-  height: 36px;
+  width: clamp(2rem, 5vw, 2.25rem);
+  height: clamp(2rem, 5vw, 2.25rem);
+  min-width: 2.75rem; /* 44px touch target */
+  min-height: 2.75rem;
   cursor: pointer;
   color: white;
   transition: all 0.3s ease;
@@ -669,167 +576,34 @@
 .action-btn-delete:hover {
   background: #dc2626;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  transform: translateY(-1px);
 }
 
 .action-btn-delete:active {
   transform: translateY(0);
 }
 
-/* Password Change Popup Styles */
-.password-change-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 0;
-}
-
-.password-user-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.25rem;
-  background: white;
-  border-radius: 12px;
-  border: 2px solid rgba(116, 105, 182, 0.15);
-}
-
-.password-user-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-light) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(116, 105, 182, 0.25);
-}
-
-.password-user-details {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.password-user-name {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #2d3748;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-}
-
-.password-user-id {
-  font-size: 0.875rem;
-  color: #718096;
-  font-weight: 500;
-}
-
-.password-form-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.password-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.password-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--primary-purple);
-}
-
-.password-label svg {
-  color: var(--primary-purple);
-}
-
-.password-input-wrapper {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.password-input {
-  width: 100%;
-  padding: 0.875rem 3rem 0.875rem 1rem;
-  border: 2px solid rgba(116, 105, 182, 0.2);
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-family: inherit;
-  transition: all 0.3s ease;
-  background: white;
-  box-sizing: border-box;
-}
-
-.password-toggle-btn {
-  position: absolute;
-  right: 0.75rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #999;
-  transition: all 0.2s ease;
-  border-radius: 6px;
-}
-
-.password-toggle-btn:hover {
-  color: var(--primary-purple);
-  background: rgba(116, 105, 182, 0.08);
-}
-
-.password-toggle-btn:active {
-  transform: scale(0.95);
-}
-
-.password-input:focus {
-  outline: none;
-  border-color: var(--primary-purple);
-  box-shadow: 0 0 0 4px rgba(116, 105, 182, 0.1);
-  background: white;
-}
-
-.password-input::placeholder {
-  color: #cbd5e0;
-}
-
-.password-input:hover {
-  border-color: rgba(116, 105, 182, 0.4);
-}
-
-/* Delete User Popup Styles */
+/* Delete User Popup - Responsive padding */
 .delete-user-container {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: clamp(0.875rem, 2vw, 1.25rem);
   padding: 0;
 }
 
 .delete-user-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1.25rem;
+  gap: clamp(0.75rem, 2vw, 1rem);
+  padding: clamp(1rem, 2.5vw, 1.25rem);
   background: white;
-  border-radius: 12px;
+  border-radius: clamp(0.625rem, 1.5vw, 0.75rem);
   border: 2px solid rgba(239, 68, 68, 0.2);
 }
 
 .delete-user-avatar {
-  width: 56px;
-  height: 56px;
+  width: clamp(3rem, 8vw, 3.5rem);
+  height: clamp(3rem, 8vw, 3.5rem);
   border-radius: 50%;
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   display: flex;
@@ -848,25 +622,27 @@
 }
 
 .delete-user-name {
-  font-size: 1.125rem;
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
   font-weight: 700;
   color: #2d3748;
   font-family: 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.3;
 }
 
 .delete-user-id {
-  font-size: 0.875rem;
+  font-size: clamp(0.8125rem, 1.5vw, 0.875rem);
   color: #718096;
   font-weight: 500;
+  line-height: 1.4;
 }
 
 .delete-warning-message {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  padding: 1rem;
+  gap: clamp(0.625rem, 1.5vw, 0.75rem);
+  padding: clamp(0.875rem, 2vw, 1rem);
   background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border-radius: 10px;
+  border-radius: clamp(0.5rem, 1.5vw, 0.625rem);
   border: 2px solid #fecaca;
 }
 
@@ -874,441 +650,69 @@
   color: #ef4444;
   flex-shrink: 0;
   margin-top: 0.125rem;
+  width: clamp(1rem, 2.5vw, 1.125rem);
+  height: clamp(1rem, 2.5vw, 1.125rem);
 }
 
 .delete-warning-message span {
-  font-size: 0.9rem;
+  font-size: clamp(0.8125rem, 1.5vw, 0.9rem);
   color: #991b1b;
   font-weight: 500;
   line-height: 1.5;
 }
 
-/* ===========================
+/* Popup User Info - Shared styles for various popups */
+.popup-user-info {
+  padding: clamp(0.875rem, 2vw, 1rem);
+  background: rgba(91, 123, 154, 0.05);
+  border-radius: clamp(0.5rem, 1.5vw, 0.625rem);
+  margin-block-end: clamp(0.75rem, 1.5vw, 1rem);
+}
+
+.popup-user-name {
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-block-end: 0.25rem;
+  line-height: 1.3;
+}
+
+.popup-user-id {
+  font-size: clamp(0.8125rem, 1.5vw, 0.875rem);
+  color: #666;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ============================================
    RESPONSIVE MEDIA QUERIES
-   =========================== */
+   Minimal queries for specific layout changes
+   ============================================ */
 
-/* Tablet Landscape (768px - 1024px) */
-@media screen and (max-width: 1024px) {
-  .um-header {
-    padding: 2rem 2.5rem 1.25rem;
-  }
-
-  .um-header-top {
-    margin-bottom: 1.75rem;
-  }
-
-  .um-title {
-    font-size: 2.25rem;
-  }
-
-  .um-icon-btn {
-    padding: 9px 11px;
-  }
-
-  .um-tab {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-  }
-
-  .um-table th {
-    padding: 1.25rem 2rem;
-    font-size: 0.85rem;
-  }
-
-  .um-table td {
-    padding: 1.5rem 2rem;
-  }
-}
-
-/* Tablet Portrait (600px - 768px) */
-@media screen and (max-width: 768px) {
-  .um-card {
-    border-radius: 20px;
-  }
-
-  .um-header {
-    padding: 1.75rem 1.5rem 1rem;
-  }
-
-  .um-header-top {
-    margin-bottom: 1.5rem;
-  }
-
-  .um-title {
-    font-size: 2rem;
-  }
-
-  .um-icon-btn {
-    padding: 8px 10px;
-  }
-
-  .um-icon-btn svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .um-tabs {
-    gap: 0.75rem;
-  }
-
-  .um-tab {
-    padding: 0.875rem 1.5rem;
-    font-size: 0.95rem;
-    gap: 6px;
-  }
-
-  .um-tab svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .um-content {
-    min-height: 350px;
-  }
-
-  .um-table {
-    min-width: 550px;
-  }
-
-  .um-table th {
-    padding: 1rem 1.5rem;
-    font-size: 0.8rem;
-  }
-
-  .um-table td {
-    padding: 1.25rem 1.5rem;
-  }
-
-  .user-name {
-    font-size: 1rem;
-  }
-
-  .user-email {
-    font-size: 0.875rem;
-  }
-
-  .user-id-badge {
-    font-size: 0.8rem;
-    padding: 3px 10px;
-  }
-}
-
-/* Mobile Landscape (480px - 600px) */
-@media screen and (max-width: 600px) {
-  .um-card {
-    border-radius: 16px;
-  }
-
-  .um-header {
-    padding: 1.5rem 1.25rem 0.875rem;
-  }
-
-  .um-header-top {
-    margin-bottom: 1.25rem;
-  }
-
-  .um-title {
-    font-size: 1.5rem;
-  }
-
-  .um-icon-btn {
-    padding: 7px 9px;
-  }
-
-  .um-icon-btn svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .um-tabs {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .um-tab {
-    padding: 0.75rem 1.25rem;
-    font-size: 0.875rem;
-    gap: 4px;
-    border-radius: 10px;
-  }
-
-  .um-tab svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .um-content {
-    min-height: 300px;
-  }
-
-  .um-table {
-    min-width: 100%;
-  }
-
-  .um-table th {
-    padding: 0.875rem 1rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-  }
-
-  .um-table td {
-    padding: 1rem;
-  }
-
-  .user-name {
-    font-size: 0.95rem;
-  }
-
-  .user-email {
-    font-size: 0.8rem;
-  }
-
-  .user-id-badge {
-    font-size: 0.75rem;
-    padding: 3px 8px;
-    border-radius: 6px;
-  }
-
-  .login-date {
-    font-size: 0.8rem;
-  }
-
-  .action-buttons-container {
-    gap: 6px !important;
-  }
-
-  .action-btn-change-password,
-  .action-btn-edit,
-  .action-btn-delete {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-  }
-
-  .action-btn-change-password svg,
-  .action-btn-edit svg,
-  .action-btn-delete svg {
-    width: 16px;
-    height: 16px;
-  }
-}
-
-/* Mobile Portrait (320px - 480px) */
+/* Mobile Portrait: Stack tabs vertically for better touch access */
 @media screen and (max-width: 480px) {
-  .um-card {
-    border-radius: 14px;
-  }
-
-  .um-header {
-    padding: 1.25rem 1rem 0.75rem;
-  }
-
-  .um-header-top {
-    margin-bottom: 1rem;
-    gap: 0.5rem;
-  }
-
-  .um-title {
-    font-size: 1.35rem;
-  }
-
-  .um-icon-btn {
-    padding: 6px 8px;
-  }
-
-  .um-icon-btn svg {
-    width: 16px;
-    height: 16px;
-  }
-
   .um-tabs {
-    gap: 0.5rem;
     flex-direction: column;
   }
-
+  
   .um-tab {
-    padding: 0.65rem 1rem;
-    font-size: 0.8rem;
-    gap: 3px;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
   }
-
-  .um-tab svg {
-    width: 14px;
-    height: 14px;
+  
+  /* Stack modal action buttons on very small screens */
+  .modal-actions {
+    flex-direction: column;
   }
-
-  .um-content {
-    min-height: 250px;
-  }
-
-  .um-table th {
-    padding: 0.75rem 0.75rem;
-    font-size: 0.7rem;
-  }
-
-  .um-table td {
-    padding: 0.875rem 0.75rem;
-  }
-
-  .user-name {
-    font-size: 0.875rem;
-  }
-
-  .user-email {
-    font-size: 0.75rem;
-  }
-
-  .user-id-badge {
-    font-size: 0.7rem;
-    padding: 2px 7px;
-    border-radius: 5px;
-  }
-
-  .login-date {
-    font-size: 0.75rem;
-  }
-
-  .action-buttons-container {
-    gap: 5px !important;
-  }
-
-  .action-btn-change-password,
-  .action-btn-edit,
-  .action-btn-delete {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-  }
-
-  .action-btn-change-password svg,
-  .action-btn-edit svg,
-  .action-btn-delete svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  /* Modal adjustments for mobile */
-  .um-modal {
-    max-width: 95%;
-    padding: 1.5rem;
-    border-radius: 16px;
-  }
-
-  .modal-title {
-    font-size: 1.25rem;
-  }
-
-  .close-btn {
-    width: 32px;
-    height: 32px;
-  }
-
-  .password-user-card,
-  .delete-user-card {
-    padding: 1rem;
-    gap: 0.75rem;
-  }
-
-  .password-user-avatar,
-  .delete-user-avatar {
-    width: 48px;
-    height: 48px;
-  }
-
-  .password-user-name,
-  .delete-user-name {
-    font-size: 1rem;
-  }
-
-  .password-user-id,
-  .delete-user-id {
-    font-size: 0.8rem;
-  }
-
-  .empty-state {
-    padding: 2rem 1rem;
-  }
-
-  .empty-state svg {
-    width: 40px;
-    height: 40px;
-  }
-
-  .empty-state p {
-    font-size: 0.875rem;
+  
+  .btn {
+    width: 100%;
   }
 }
 
-/* Extra Small Mobile (320px - 374px) */
-@media screen and (max-width: 374px) {
-  .um-header {
-    padding: 1rem 0.875rem 0.65rem;
-  }
-
-  .um-header-top {
-    margin-bottom: 0.875rem;
-    gap: 0.375rem;
-  }
-
-  .um-title {
-    font-size: 1.15rem;
-  }
-
-  .um-icon-btn {
-    padding: 5px 7px;
-  }
-
-  .um-icon-btn svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .um-tab {
-    padding: 0.6rem 0.875rem;
-    font-size: 0.75rem;
-    gap: 3px;
-  }
-
-  .um-table th {
-    padding: 0.65rem 0.5rem;
-    font-size: 0.65rem;
-  }
-
-  .um-table td {
-    padding: 0.75rem 0.5rem;
-  }
-
-  .user-name {
-    font-size: 0.8rem;
-  }
-
-  .user-email {
-    font-size: 0.7rem;
-  }
-
-  .user-id-badge {
-    font-size: 0.65rem;
-    padding: 2px 6px;
-  }
-
-  .login-date {
-    font-size: 0.7rem;
-  }
-
-  .action-btn-change-password,
-  .action-btn-edit,
-  .action-btn-delete {
-    width: 26px;
-    height: 26px;
-  }
-
-  .action-btn-change-password svg,
-  .action-btn-edit svg,
-  .action-btn-delete svg {
-    width: 12px;
-    height: 12px;
+/* Tablet: Optimize table display */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .um-table {
+    min-width: 45rem; /* Slightly wider for tablet */
   }
 }
-

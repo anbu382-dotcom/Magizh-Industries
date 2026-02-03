@@ -3,9 +3,11 @@ import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/ChangeMaster.css';
-import { IndianRupee, Warehouse } from 'lucide-react';
+import { IndianRupee, Warehouse, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Dropdown } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
+
+const ITEMS_PER_PAGE = 6;
 
 const ChangeMaster = () => {
   const [materials, setMaterials] = useState([]);
@@ -15,6 +17,7 @@ const ChangeMaster = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState({
     materialFlow: '',
     class: '',
@@ -79,6 +82,16 @@ const ChangeMaster = () => {
 
     return matchesSearch && matchesFilter;
   });
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredMaterials.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedMaterials = filteredMaterials.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Reset to page 1 when search or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterType]);
 
   const handleEdit = (material) => {
     setSelectedMaterial(material);
@@ -279,7 +292,7 @@ const ChangeMaster = () => {
   return (
     <div className="cm-wrapper">
       <Sidebar isExpanded={sidebarExpanded} onToggle={setSidebarExpanded} />
-      <Navbar title="Change Material Master" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} showCompanyName={sidebarExpanded} />
+      <Navbar title="Change Material Master" onMenuClick={() => setSidebarExpanded(!sidebarExpanded)} />
       <div className="cm-content page-with-navbar">
         <div className="cm-container">
           <div className="cm-main-panel">
@@ -335,53 +348,77 @@ const ChangeMaster = () => {
                 <p>{searchTerm ? 'Try adjusting your search criteria' : 'No materials available'}</p>
               </div>
             ) : (
-              <div className="cm-grid">
-                {filteredMaterials.map((material) => (
-                  <div key={material.id} className="cm-card">
-                    <div className="cm-card-header">
-                      <span className="cm-code-badge">{material.materialCode || 'N/A'}</span>
-                      <span className={`cm-flow-badge cm-flow-${material.materialFlow?.toLowerCase()}`}>
-                        {material.materialFlow}
-                      </span>
-                    </div>
+              <>
+                <div className="cm-grid">
+                  {paginatedMaterials.map((material) => (
+                    <div key={material.id} className="cm-card">
+                      <div className="cm-card-header">
+                        <span className="cm-code-badge">{material.materialCode || 'N/A'}</span>
+                        <span className={`cm-flow-badge cm-flow-${material.materialFlow?.toLowerCase()}`}>
+                          {material.materialFlow}
+                        </span>
+                      </div>
 
-                    <div className="cm-card-body">
-                      <h3 className="cm-material-name">{material.materialName}</h3>
+                      <div className="cm-card-body">
+                        <h3 className="cm-material-name">{material.materialName}</h3>
 
-                      <div className="cm-info-list">
-                        <div className="cm-info-row">
-                          <span className="cm-label">Category:</span>
-                          <span className="cm-value">{material.category || '-'}</span>
-                        </div>
-                        <div className="cm-info-row">
-                          <span className="cm-label">HSN Code:</span>
-                          <span className="cm-value">{material.hsnCode || '-'}</span>
-                        </div>
-                        <div className="cm-info-row">
-                          <span className="cm-label">Cost/Item:</span>
-                          <span className="cm-value cm-price">
-                            <IndianRupee size={15}/>
-                            {material.costPerItem || '0'}
-                          </span>
+                        <div className="cm-info-list">
+                          <div className="cm-info-row">
+                            <span className="cm-label">Category:</span>
+                            <span className="cm-value">{material.category || '-'}</span>
+                          </div>
+                          <div className="cm-info-row">
+                            <span className="cm-label">HSN Code:</span>
+                            <span className="cm-value">{material.hsnCode || '-'}</span>
+                          </div>
+                          <div className="cm-info-row">
+                            <span className="cm-label">Cost/Item:</span>
+                            <span className="cm-value cm-price">
+                              <IndianRupee size={15}/>
+                              {material.costPerItem || '0'}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="cm-card-footer">
+                      <div className="cm-card-footer">
+                        <button
+                          className="cm-edit-btn"
+                          onClick={() => handleEdit(material)}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                          </svg>
+                          Edit Material
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Pagination Controls - Only Previous/Next */}
+                  {totalPages > 1 && (
+                    <div className="cm-pagination">
                       <button
-                        className="cm-edit-btn"
-                        onClick={() => handleEdit(material)}
+                        className="cm-pagination-btn"
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                        Edit Material
+                        <ChevronLeft size={18} />
+                        Previous
+                      </button>
+                      <button
+                        className="cm-pagination-btn"
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                      >
+                        Next
+                        <ChevronRight size={18} />
                       </button>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  )}
+                </div>
+              </>
             )}
           </div>
 

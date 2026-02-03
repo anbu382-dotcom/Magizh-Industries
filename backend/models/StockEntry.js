@@ -7,6 +7,7 @@ const StockEntrySchema = {
   unit: '',
   entryType: '',
   createdBy: '',
+  userFirstName: '',
   createdAt: new Date().toISOString(),
   updatedAt: null
 };

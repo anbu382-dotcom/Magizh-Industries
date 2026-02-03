@@ -1,12 +1,14 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Warehouse } from 'lucide-react';
 import '../styles/componentStyles/Navbar.css';
 
-const Navbar = ({ title = 'Stock Management', onMenuClick, showCompanyName = false, rightContent, backPath }) => {
-  const navigate = useNavigate();
-
+const Navbar = ({ title = 'Stock Management', onMenuClick, rightContent }) => {
   const handleIconClick = () => {
+    if (onMenuClick) {
+      onMenuClick();
+    }
+  };
+
+  const handleIconHover = () => {
     if (onMenuClick) {
       onMenuClick();
     }
@@ -20,6 +22,7 @@ const Navbar = ({ title = 'Stock Management', onMenuClick, showCompanyName = fal
             className="navbar-icon" 
             size={28} 
             onClick={handleIconClick}
+            onMouseEnter={handleIconHover}
             style={{ cursor: 'pointer' }}
           />
         </div>

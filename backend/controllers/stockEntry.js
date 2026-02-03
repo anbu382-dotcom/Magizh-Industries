@@ -1,4 +1,5 @@
 const stockEntryService = require('../services/stockEntryService');
+const { generateStockLogExcel, generateCurrentStockExcel } = require('../utils/excelGenerator');
 
 const createStockEntry = async (req, res) => {
   try {
@@ -19,7 +20,8 @@ const createStockEntry = async (req, res) => {
       quantity: parseFloat(req.body.quantity),
       unit: req.body.unit,
       entryType: req.body.entryType,
-      createdBy: req.user?.email || 'system'
+      createdBy: req.user?.email || 'system',
+      userFirstName: req.user?.firstName || 'Unknown'
     };
 
     const newEntry = await stockEntryService.create(entryData);
@@ -215,6 +217,104 @@ const getStockBalance = async (req, res) => {
   }
 };
 
+const downloadStockLogExcel = async (req, res) => {
+  try {
+    const { fromDate, toDate } = req.query;
+
+    // Get all entries
+    let entries = await stockEntryService.getAll();
+
+    // Filter by date range if provided
+    if (fromDate && toDate) {
+      const from = new Date(fromDate);
+      const to = new Date(toDate);
+      to.setHours(23, 59, 59, 999); // Include entire end date
+
+      entries = entries.filter(entry => {
+        const entryDate = new Date(entry.createdAt);
+        return entryDate >= from && entryDate <= to;
+      });
+    }
+
+    // Generate Excel file
+    const { buffer, filename } = generateStockLogExcel(entries);
+
+    // Set response headers for file download
+    res.setHeader('Content-Type', 'application/vnd.ms-excel');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(filename)}`);
+    res.setHeader('Content-Length', buffer.length);
+
+    // Send the file
+    res.send(buffer);
+  } catch (error) {
+    console.error('Error downloading stock log Excel:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to download stock log Excel',
+      error: error.message
+    });
+  }
+};
+
+const downloadCurrentStockExcel = async (req, res) => {
+  try {
+    // Get all entries
+    const entries = await stockEntryService.getAll();
+
+    // Calculate current stock balances
+    const balanceMap = {};
+    
+    entries.forEach(entry => {
+      const key = entry.materialCode;
+      
+      if (!balanceMap[key]) {
+        balanceMap[key] = {
+          materialCode: entry.materialCode,
+          materialName: entry.materialName,
+          unit: entry.unit,
+          currentQuantity: 0,
+          updatedAt: entry.createdAt
+        };
+      }
+      
+      // Add for Credit, subtract for Debit
+      if (entry.entryType === 'Credit') {
+        balanceMap[key].currentQuantity += parseFloat(entry.quantity || 0);
+      } else if (entry.entryType === 'Debit') {
+        balanceMap[key].currentQuantity -= parseFloat(entry.quantity || 0);
+      }
+      
+      // Update the latest updatedAt
+      if (new Date(entry.createdAt) > new Date(balanceMap[key].updatedAt)) {
+        balanceMap[key].updatedAt = entry.createdAt;
+      }
+    });
+    
+    // Convert to array
+    const currentStock = Object.values(balanceMap).sort((a, b) => 
+      a.materialCode.localeCompare(b.materialCode)
+    );
+
+    // Generate Excel file
+    const { buffer, filename } = generateCurrentStockExcel(currentStock);
+
+    // Set response headers for file download
+    res.setHeader('Content-Type', 'application/vnd.ms-excel');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(filename)}`);
+    res.setHeader('Content-Length', buffer.length);
+
+    // Send the file
+    res.send(buffer);
+  } catch (error) {
+    console.error('Error downloading current stock Excel:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to download current stock Excel',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   createStockEntry,
   getAllStockEntries,
@@ -224,5 +324,7 @@ module.exports = {
   searchStockEntries,
   updateStockEntry,
   deleteStockEntry,
-  getStockBalance
+  getStockBalance,
+  downloadStockLogExcel,
+  downloadCurrentStockExcel
 };

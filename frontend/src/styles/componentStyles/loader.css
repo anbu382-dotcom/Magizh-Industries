@@ -1,19 +1,18 @@
 .loader-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
+  inset: 0;
+  inline-size: 100vw;
+  block-size: 100vh;
+  background: #F1F0E9;
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
-  animation: fadeIn 0.3s ease;
+  z-index: 99999;
+  animation: fadeInLoader 0.2s ease-out forwards;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInLoader {
   from {
     opacity: 0;
   }
@@ -23,9 +22,9 @@
 }
 
 .loader {
-  font-size: 30px;
+  font-size: clamp(1.5rem, 4vw, 1.875rem); /* 24px → 30px */
   display: flex;
-  gap: 10px;
+  gap: clamp(0.5rem, 2vw, 0.625rem); /* 8px → 10px */
   justify-content: center;
   align-items: center;
 }
@@ -37,12 +36,12 @@
   justify-content: center;
   font-family: 'Segoe UI', sans-serif;
   font-weight: bold;
-  color: #7469B6;
-  background-color: #FFE1FF;
-  border-radius: 8px;
-  min-width: 40px;
-  min-height: 40px;
-  padding: 8px;
+  color: var(--color-accent);
+  background-color: rgba(91, 123, 154, 0.1);
+  border-radius: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
+  min-inline-size: clamp(2.25rem, 5vw, 2.5rem); /* 36px → 40px */
+  min-block-size: clamp(2.25rem, 5vw, 2.5rem);
+  padding: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
   animation: peek 1s both infinite;
   animation-delay: var(--d);
 }
@@ -53,7 +52,7 @@
   }
   50% {
     transform: translateY(-22px) rotate(3deg) scale(1.1);
-    color: #AD88C6;
-    background-color: #FFF7F1;
+    color: var(--color-accent-light);
+    background-color: var(--color-bg-primary);
   }
 }
