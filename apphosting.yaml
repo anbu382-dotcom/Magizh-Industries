@@ -35,7 +35,7 @@ env:
     value: gmail
   - variable: CORS_ORIGIN
     availability: [RUNTIME]
-    value: https://www.magizhindustries.in/
+    value: https://www.magizhindustries.in
   - variable: ADMIN_FIRSTNAME
     availability: [RUNTIME]
     value: Arulmani
