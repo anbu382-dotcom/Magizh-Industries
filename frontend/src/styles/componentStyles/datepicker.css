@@ -1,12 +1,12 @@
-/* Custom Compact DatePicker */
+/* DatePicker Container */
 .custom-datepicker {
   position: relative;
-  inline-size: 100%;
+  width: 100%;
 }
 
 .datepicker-input {
   position: relative;
-  inline-size: 100%;
+  width: 100%;
   cursor: pointer;
 }
 
@@ -16,19 +16,16 @@
 }
 
 .datepicker-input input {
-  inline-size: 100%;
-  padding-block: clamp(0.625rem, 2vw, 0.75rem); /* 10px → 12px */
-  padding-inline-start: clamp(0.875rem, 2vw, 1rem); /* 14px → 16px */
-  padding-inline-end: clamp(2.25rem, 5vw, 2.5rem); /* 36px → 40px */
+  width: 100%;
+  padding: 10px 40px 10px 12px;
   border: 2px solid #e2e8f0;
-  border-radius: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
-  font-size: clamp(0.875rem, 2vw, 0.9375rem); /* 14px → 15px */
+  border-radius: 8px;
+  font-size: 14px;
   color: #1e293b;
   background-color: #f8fafc;
   cursor: pointer;
   font-family: 'Segoe UI', sans-serif;
-  transition: all 0.3s ease;
-  min-block-size: 2.75rem; /* 44px touch target */
+  transition: all 0.2s;
 }
 
 .datepicker-input input:disabled {
@@ -50,47 +47,43 @@
 
 .calendar-icon {
   position: absolute;
-  inset-inline-end: clamp(0.75rem, 2vw, 0.875rem); /* 12px → 14px */
-  inset-block-start: 50%;
+  right: 12px;
+  top: 50%;
   transform: translateY(-50%);
   color: #64748b;
   pointer-events: none;
 }
 
+/* Calendar Popup - Opens downward by default */
 .calendar-popup {
   position: absolute;
-  inset-block-end: calc(100% + 0.375rem); /* 6px */
-  inset-inline-start: 0;
+  top: calc(100% + 8px);
+  left: 0;
   background: white;
-  border-radius: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.12);
-  z-index: 1000;
-  inline-size: clamp(12.5rem, 30vw, 13.75rem); /* 200px → 220px */
-  padding: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
-  animation: slideUp 0.2s ease;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 10000;
+  width: min(280px, 90vw);
+  padding: 10px;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Opens upward when space is limited (inside popups) */
+.calendar-popup.open-upward {
+  top: auto;
+  bottom: calc(100% + 8px);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .calendar-header {
-  margin-block-end: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
-  padding: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
+  margin-bottom: 10px;
+  padding: 10px;
   background: linear-gradient(135deg, #4A70A9, #8FABD4);
-  border-radius: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
+  border-radius: 8px;
 }
 
 .month-year-select {
   display: flex;
-  gap: clamp(0.375rem, 1vw, 0.5rem); /* 6px → 8px */
+  gap: 8px;
   align-items: center;
   justify-content: center;
 }
@@ -98,19 +91,18 @@
 .select-wrapper {
   position: relative;
   flex: 1;
+  min-width: 0;
 }
 
 .month-select,
 .year-select {
-  inline-size: 100%;
-  padding-block: clamp(0.3125rem, 1vw, 0.4375rem); /* 5px → 7px */
-  padding-inline-start: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
-  padding-inline-end: clamp(1.375rem, 3vw, 1.5rem); /* 22px → 24px */
+  width: 100%;
+  padding: 6px 24px 6px 8px;
   border: none;
-  border-radius: clamp(0.375rem, 1vw, 0.5rem); /* 6px → 8px */
+  border-radius: 6px;
   background: white;
   color: #1e293b;
-  font-size: clamp(0.75rem, 1.5vw, 0.875rem); /* 12px → 14px */
+  font-size: clamp(11px, 3vw, 13px);
   font-weight: 600;
   cursor: pointer;
   appearance: none;
@@ -119,14 +111,13 @@
 }
 
 .year-input {
-  inline-size: 100%;
-  padding-block: clamp(0.375rem, 1vw, 0.5rem); /* 6px → 8px */
-  padding-inline: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
+  width: 100%;
+  padding: 6px 8px;
   border: none;
-  border-radius: clamp(0.375rem, 1vw, 0.5rem); /* 6px → 8px */
+  border-radius: 6px;
   background: white;
   color: #1e293b;
-  font-size: clamp(0.75rem, 1.5vw, 0.8125rem); /* 12px → 13px */
+  font-size: clamp(11px, 3vw, 13px);
   font-weight: 600;
   font-family: 'Segoe UI', sans-serif;
   transition: all 0.2s;
@@ -265,11 +256,11 @@
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 3px;
+  gap: 4px;
 }
 
 .day-name {
-  font-size: 10px;
+  font-size: clamp(9px, 2.5vw, 11px);
   font-weight: 600;
   color: #64748b;
   text-align: center;
@@ -280,8 +271,8 @@
   aspect-ratio: 1;
   border: none;
   background: transparent;
-  border-radius: 5px;
-  font-size: 12px;
+  border-radius: 6px;
+  font-size: clamp(11px, 3vw, 13px);
   font-weight: 500;
   color: #1e293b;
   cursor: pointer;
@@ -289,6 +280,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 32px;
 }
 
 .day-cell:hover:not(.disabled):not(.empty) {
@@ -321,4 +313,31 @@
   color: #cbd5e1;
   cursor: not-allowed;
   opacity: 0.4;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .calendar-popup {
+    width: min(300px, 95vw);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .calendar-popup.open-upward {
+    transform: translateX(-50%);
+  }
+  
+  .datepicker-input input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .month-select,
+  .year-select,
+  .year-input {
+    font-size: 12px;
+  }
+  
+  .day-cell {
+    min-height: 36px;
+  }
 }

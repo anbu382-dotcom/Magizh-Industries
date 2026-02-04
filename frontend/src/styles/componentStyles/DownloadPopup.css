@@ -1,4 +1,4 @@
-/* Download Popup Overlay */
+/* Overlay */
 .download-popup-overlay {
   position: fixed;
   inset: 0;
@@ -7,241 +7,183 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  animation: fadeIn 0.2s ease;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Download Popup Content */
+/* Popup Container */
 .download-popup-content {
-  background: var(--color-white);
-  border-radius: clamp(0.875rem, 2vw, 1rem); /* 14px → 16px */
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  inline-size: min(31.25rem, 90vw); /* 500px max */
-  animation: slideUp 0.3s ease;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  width: min(500px, 90vw);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Download Popup Header */
+/* Header */
 .download-popup-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding-block: clamp(1rem, 2.5vw, 1.25rem); /* 16px → 20px */
-  padding-inline: clamp(1.25rem, 3vw, 1.5rem); /* 20px → 24px */
-  border-block-end: 2px solid var(--color-border-lighter);
+  justify-content: center;
+  padding: 20px;
 }
 
 .download-popup-header h3 {
   margin: 0;
-  font-size: clamp(1.125rem, 2.5vw, 1.5rem); /* 18px → 24px */
-  font-weight: 700;
-  color: var(--color-accent);
+  font-size: clamp(18px, 4vw, 22px);
+  font-weight: 600;
+  color: var(--color-accent, #5b7b9a);
 }
 
 .download-popup-close {
   background: none;
   border: none;
-  color: var(--color-text-secondary);
+  font-size: 24px;
+  color: #666;
   cursor: pointer;
-  padding: clamp(0.25rem, 1vw, 0.375rem); /* 4px → 6px */
-  border-radius: clamp(0.375rem, 1vw, 0.5rem); /* 6px → 8px */
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-block-size: 2.75rem; /* 44px touch target */
-  min-inline-size: 2.75rem;
+  padding: 5px;
+  line-height: 1;
+  transition: color 0.2s;
 }
 
 .download-popup-close:hover {
-  background: var(--color-bg-lightest);
-  color: var(--color-accent);
+  color: var(--color-accent, #5b7b9a);
 }
 
-/* Download Popup Body */
+/* Body */
 .download-popup-body {
-  padding: clamp(1.25rem, 3vw, 1.5rem); /* 20px → 24px */
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: clamp(1rem, 2.5vw, 1.25rem); /* 16px → 20px */
+  gap: 20px;
 }
 
-.download-date-group {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
-}
-
-.download-date-group label {
-  font-weight: 600;
-  color: var(--color-text-dark);
-  font-size: clamp(0.875rem, 2vw, 0.95rem); /* 14px → 15.2px */
-}
-
-/* Download Format Group */
+.download-date-group,
 .download-format-group {
   display: flex;
   flex-direction: column;
-  gap: clamp(0.625rem, 1.5vw, 0.75rem); /* 10px → 12px */
+  gap: 10px;
 }
 
+.download-date-group label,
 .download-format-group > label {
   font-weight: 600;
-  color: var(--color-text-dark);
-  font-size: clamp(0.875rem, 2vw, 0.95rem); /* 14px → 15.2px */
+  font-size: 14px;
+  color: #333;
 }
 
+/* Radio Group */
 .download-radio-group {
   display: flex;
-  gap: clamp(0.75rem, 2vw, 1.25rem); /* 12px → 20px */
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .download-radio-label {
   display: flex;
   align-items: center;
-  gap: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
+  gap: 8px;
   cursor: pointer;
-  padding-block: clamp(0.625rem, 1.5vw, 0.75rem); /* 10px → 12px */
-  padding-inline: clamp(0.875rem, 2vw, 1rem); /* 14px → 16px */
-  border: 2px solid var(--color-border-lighter);
-  border-radius: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
-  transition: all 0.3s ease;
-  background: var(--color-white);
-  min-block-size: 2.75rem; /* 44px touch target */
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  background: #f5f5f5;
 }
 
 .download-radio-label:hover {
-  border-color: var(--color-accent);
-  background: var(--color-bg-lightest);
+  background: #e5e5e5;
 }
 
 .download-radio-label input[type="radio"] {
-  inline-size: clamp(1rem, 2.5vw, 1.125rem); /* 16px → 18px */
-  block-size: clamp(1rem, 2.5vw, 1.125rem);
+  width: 18px;
+  height: 18px;
   cursor: pointer;
-  accent-color: var(--color-accent);
+  accent-color: var(--color-accent, #5b7b9a);
 }
 
 .download-radio-label input[type="radio"]:checked + span {
-  color: var(--color-accent);
+  color: var(--color-accent, #5b7b9a);
   font-weight: 600;
 }
 
 .download-radio-label span {
-  font-size: clamp(0.875rem, 2vw, 0.95rem); /* 14px → 15.2px */
-  color: var(--color-text-dark);
-  transition: all 0.2s ease;
+  font-size: 14px;
+  color: #333;
 }
 
-/* Download Popup Footer */
+/* Footer */
 .download-popup-footer {
-  padding-block: clamp(0.875rem, 2vw, 1rem); /* 14px → 16px */
-  padding-inline: clamp(1.25rem, 3vw, 1.5rem); /* 20px → 24px */
-  border-block-start: 2px solid var(--color-border-lighter);
+  padding: 20px;
   display: flex;
-  gap: clamp(0.625rem, 1.5vw, 0.75rem); /* 10px → 12px */
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
 }
 
 .download-cancel-btn,
 .download-submit-btn {
-  padding-block: clamp(0.625rem, 2vw, 0.75rem); /* 10px → 12px */
-  padding-inline: clamp(1.25rem, 3vw, 1.5rem); /* 20px → 24px */
-  border-radius: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
-  font-size: clamp(0.9375rem, 2vw, 1rem); /* 15px → 16px */
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s;
   border: none;
-  min-block-size: 2.75rem; /* 44px touch target */
+  min-width: 100px;
 }
 
 .download-cancel-btn {
-  background: #fee2e2;
-  border: 2px solid #fecaca;
-  color: #991b1b;
+  background: #f5f5f5;
+  color: #666;
 }
 
 .download-cancel-btn:hover {
-  background: #fecaca;
-  border-color: #ef4444;
-  color: #991b1b;
+  background: #e5e5e5;
 }
 
 .download-submit-btn {
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
-  color: var(--color-white);
-  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.3);
+  background: var(--color-accent, #5b7b9a);
+  color: white;
 }
 
 .download-submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(91, 123, 154, 0.4);
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-/* Download Icon Button in Navbar */
+/* Download Icon Button */
 .download-icon-btn {
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  background: var(--color-accent, #5b7b9a);
   border: none;
-  border-radius: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
-  padding-block: clamp(0.5rem, 1.5vw, 0.625rem); /* 8px → 10px */
-  padding-inline: clamp(0.625rem, 1.5vw, 0.75rem); /* 10px → 12px */
+  border-radius: 8px;
+  padding: 10px 12px;
   cursor: pointer;
-  color: var(--color-white);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(91, 123, 154, 0.3);
-  min-block-size: 2.75rem; /* 44px touch target */
+  transition: all 0.2s;
 }
 
 .download-icon-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(91, 123, 154, 0.4);
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-/* ===========================
-   RESPONSIVE MEDIA QUERIES
-   Modern fluid design with minimal breakpoints
-   =========================== */
-
-/* Mobile: Stack buttons vertically */
+/* Mobile Responsive */
 @media (max-width: 768px) {
+  .download-popup-content {
+    width: 95vw;
+  }
+  
   .download-popup-footer {
     flex-direction: column;
   }
   
   .download-cancel-btn,
   .download-submit-btn {
-    inline-size: 100%;
-  }
-  
-  .download-radio-group {
-    flex-direction: column;
+    width: 100%;
   }
   
   .download-radio-label {
-    inline-size: 100%;
+    flex: 1 1 100%;
   }
 }

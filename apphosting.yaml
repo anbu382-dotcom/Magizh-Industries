@@ -45,18 +45,6 @@ env:
   - variable: CORS_ORIGIN
     availability: [RUNTIME]
     value: https://magizh-industries0802--magizh-industries-cbe.us-east4.hosted.app
-  # - variable: ADMIN_FIRSTNAME
-  #   availability: [RUNTIME]
-  #   value: Arulmani
-  # - variable: ADMIN_LASTNAME
-  #   availability: [RUNTIME]
-  #   value: Arunachalam
-  # - variable: ADMIN_FATHERNAME
-  #   availability: [RUNTIME]
-  #   value: Arunachalam
-  # - variable: ADMIN_DOB
-  #   availability: [RUNTIME] 
-  #   value: 1990-01-01
   - variable: ADMIN_EMAIL
     availability: [RUNTIME]
     value: arul@magizhindustries.in

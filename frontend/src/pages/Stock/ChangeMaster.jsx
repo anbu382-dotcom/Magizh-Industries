@@ -3,7 +3,7 @@ import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import { StatusMessage } from '../../components/popup';
 import '../../styles/pageStyles/Stock/ChangeMaster.css';
-import { IndianRupee, Warehouse, ChevronLeft, ChevronRight } from 'lucide-react';
+import { IndianRupee, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Dropdown } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 
@@ -63,8 +63,6 @@ const ChangeMaster = () => {
       if (response.ok) {
         const data = await response.json();
         setMaterials(data.masters || []);
-      } else {
-        console.error('Failed to fetch materials');
       }
     } catch (error) {
       console.error('Error fetching materials:', error);
@@ -77,18 +75,14 @@ const ChangeMaster = () => {
     const matchesSearch =
       material.materialCode?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       material.materialName?.toLowerCase().includes(searchTerm.toLowerCase());
-
     const matchesFilter = filterType === 'all' || material.materialFlow === filterType;
-
     return matchesSearch && matchesFilter;
   });
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredMaterials.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedMaterials = filteredMaterials.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  // Reset to page 1 when search or filter changes
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, filterType]);
@@ -304,7 +298,7 @@ const ChangeMaster = () => {
                 </svg>
                 <input
                   type="text"
-                  placeholder="Search by Material Code or Mat"
+                  placeholder="Search by Material Code or Name"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -395,29 +389,28 @@ const ChangeMaster = () => {
                       </div>
                     </div>
                   ))}
-
-                  {/* Pagination Controls - Only Previous/Next */}
-                  {totalPages > 1 && (
-                    <div className="cm-pagination">
-                      <button
-                        className="cm-pagination-btn"
-                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                        disabled={currentPage === 1}
-                      >
-                        <ChevronLeft size={18} />
-                        Previous
-                      </button>
-                      <button
-                        className="cm-pagination-btn"
-                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                        disabled={currentPage === totalPages}
-                      >
-                        Next
-                        <ChevronRight size={18} />
-                      </button>
-                    </div>
-                  )}
                 </div>
+
+                {totalPages > 1 && (
+                  <div className="cm-pagination">
+                    <button
+                      className="cm-pagination-btn"
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeft size={18} />
+                      Previous
+                    </button>
+                    <button
+                      className="cm-pagination-btn"
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                      <ChevronRight size={18} />
+                    </button>
+                  </div>
+                )}
               </>
             )}
           </div>

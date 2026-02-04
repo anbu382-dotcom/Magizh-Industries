@@ -9,7 +9,9 @@ const DatePicker = ({ value, onChange, required = false, disabled = false }) => 
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [showYearPicker, setShowYearPicker] = useState(false);
   const [yearRangeStart, setYearRangeStart] = useState(Math.floor(new Date().getFullYear() / 9) * 9);
+  const [openUpward, setOpenUpward] = useState(false);
   const calendarRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (value) {
@@ -30,6 +32,19 @@ const DatePicker = ({ value, onChange, required = false, disabled = false }) => 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Smart positioning: Check if calendar should open upward or downward
+  useEffect(() => {
+    if (showCalendar && inputRef.current) {
+      const rect = inputRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      const calendarHeight = 350; // Approximate calendar height
+      
+      // If not enough space below and more space above, open upward
+      setOpenUpward(spaceBelow < calendarHeight && spaceAbove > spaceBelow);
+    }
+  }, [showCalendar]);
 
   const formatDate = (date) => {
     if (!date) return '';
@@ -122,7 +137,11 @@ const DatePicker = ({ value, onChange, required = false, disabled = false }) => 
 
   return (
     <div className="custom-datepicker" ref={calendarRef}>
-      <div className={`datepicker-input ${disabled ? 'disabled' : ''}`} onClick={() => !disabled && setShowCalendar(!showCalendar)}>
+      <div 
+        ref={inputRef}
+        className={`datepicker-input ${disabled ? 'disabled' : ''}`} 
+        onClick={() => !disabled && setShowCalendar(!showCalendar)}
+      >
         <input
           type="text"
           value={formatDate(selectedDate)}
@@ -135,7 +154,7 @@ const DatePicker = ({ value, onChange, required = false, disabled = false }) => 
       </div>
 
       {showCalendar && !disabled && (
-        <div className="calendar-popup">
+        <div className={`calendar-popup ${openUpward ? 'open-upward' : ''}`}>
           <div className="calendar-header">
             <div className="month-year-select">
               <div className="select-wrapper">

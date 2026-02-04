@@ -129,7 +129,7 @@ const DeleteMaster = () => {
                 </svg>
                 <input
                   type="text"
-                  placeholder="Search by Material Code or Mat"
+                  placeholder="Search by Material Code or Name"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -222,29 +222,28 @@ const DeleteMaster = () => {
                       </div>
                     </div>
                   ))}
-
-                  {/* Pagination Controls - Only Previous/Next */}
-                  {totalPages > 1 && (
-                    <div className="dm-pagination">
-                      <button
-                        className="dm-pagination-btn"
-                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                        disabled={currentPage === 1}
-                      >
-                        <ChevronLeft size={18} />
-                        Previous
-                      </button>
-                      <button
-                        className="dm-pagination-btn"
-                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                        disabled={currentPage === totalPages}
-                      >
-                        Next
-                        <ChevronRight size={18} />
-                      </button>
-                    </div>
-                  )}
                 </div>
+
+                {totalPages > 1 && (
+                  <div className="dm-pagination">
+                    <button
+                      className="dm-pagination-btn"
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeft size={18} />
+                      Previous
+                    </button>
+                    <button
+                      className="dm-pagination-btn"
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                      <ChevronRight size={18} />
+                    </button>
+                  </div>
+                )}
               </>
             )}
           </div>

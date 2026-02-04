@@ -85,17 +85,15 @@
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  gap: 12px;
+  align-items: stretch;
+  justify-content: space-between;
 }
 
 .search-wrapper {
   position: relative;
   flex: 1;
-  min-width: 250px;
-  max-width: 500px;
+  min-width: 0;
 }
 
 .search-icon {
@@ -126,18 +124,9 @@
   box-shadow: 0 0 0 3px rgba(91, 123, 154, 0.1);
 }
 
-/* Filter Group */
-.filter-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.filter-group label {
-  font-weight: 600;
-  color: var(--color-text-dark);
-  font-size: 14px;
-  white-space: nowrap;
+/* Filter Dropdown */
+.filter-dropdown {
+  flex-shrink: 0;
 }
 
 /* RSuite Dropdown Styles */
@@ -428,19 +417,18 @@
 
   .final-controls {
     padding: 16px;
-    flex-direction: column;
-    gap: 12px;
+    gap: 10px;
+    flex-direction: row;
+    align-items: stretch;
   }
 
   .search-wrapper {
-    width: 100%;
+    flex: 1;
     min-width: 0;
-    max-width: 100%;
   }
 
-  .filter-group {
-    width: 100%;
-    justify-content: center;
+  .filter-dropdown {
+    flex-shrink: 0;
   }
 
   .table-container {
@@ -498,7 +486,8 @@
 
   .final-controls {
     padding: 12px;
-    gap: 10px;
+    gap: 8px;
+    flex-direction: row;
   }
 
   .search-input {
@@ -513,13 +502,10 @@
     left: 12px;
   }
 
-  .filter-group label {
-    font-size: 13px;
-  }
-
   .rs-dropdown-toggle {
-    height: 42px !important;
+    height: 44px !important;
     font-size: 13px !important;
+    min-width: 70px !important;
   }
 
   .final-table {
@@ -553,6 +539,8 @@
 
   .final-controls {
     padding: 10px;
+    gap: 8px;
+    flex-direction: row;
   }
 
   .search-input {
@@ -560,8 +548,10 @@
     font-size: 13px;
   }
 
-  .filter-group label {
-    font-size: 12px;
+  .rs-dropdown-toggle {
+    height: 42px !important;
+    font-size: 12px !important;
+    min-width: 65px !important;
   }
 
   .final-table {
@@ -589,6 +579,15 @@
 
   .final-controls {
     padding: 8px;
+    gap: 6px;
+    flex-direction: row;
+  }
+
+  .rs-dropdown-toggle {
+    height: 42px !important;
+    font-size: 12px !important;
+    min-width: 60px !important;
+    padding: 10px 30px 10px 12px !important;
   }
 
   .final-table {

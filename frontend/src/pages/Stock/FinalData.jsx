@@ -228,21 +228,19 @@ const FinalData = () => {
                 />
               </div>
 
-              <div className="filter-group">
-                <label>Filter by Class:</label>
-                <Dropdown
-                  title={filterClass === 'all' ? 'All' : filterClass}
-                  onSelect={(value) => setFilterClass(value)}
-                  placement="bottomEnd"
-                >
-                  <Dropdown.Item eventKey="all">All</Dropdown.Item>
-                  <Dropdown.Item eventKey="A">A</Dropdown.Item>
-                  <Dropdown.Item eventKey="B">B</Dropdown.Item>
-                  <Dropdown.Item eventKey="C">C</Dropdown.Item>
-                  <Dropdown.Item eventKey="D">D</Dropdown.Item>
-                  <Dropdown.Item eventKey="F">F</Dropdown.Item>
-                </Dropdown>
-              </div>
+              <Dropdown
+                title={filterClass === 'all' ? 'All' : filterClass}
+                onSelect={(value) => setFilterClass(value)}
+                placement="bottomEnd"
+                className="filter-dropdown"
+              >
+                <Dropdown.Item eventKey="all">All</Dropdown.Item>
+                <Dropdown.Item eventKey="A">A</Dropdown.Item>
+                <Dropdown.Item eventKey="B">B</Dropdown.Item>
+                <Dropdown.Item eventKey="C">C</Dropdown.Item>
+                <Dropdown.Item eventKey="D">D</Dropdown.Item>
+                <Dropdown.Item eventKey="F">F</Dropdown.Item>
+              </Dropdown>
             </div>
 
             {loading ? (

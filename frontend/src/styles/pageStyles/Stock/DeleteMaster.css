@@ -837,13 +837,18 @@
   align-items: center;
   gap: 1.5rem;
   padding: 1.5rem 0 0.5rem 0;
+  position: relative;
+  z-index: 10;
 }
 
 .dm-pagination-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 10px 20px;
+  padding: 12px 24px;
+  min-height: 48px;
+  min-width: 120px;
   background: var(--color-white);
   border: 2px solid rgba(91, 123, 154, 0.2);
   border-radius: 10px;
@@ -853,6 +858,9 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'Segoe UI', system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
 }
 
 .dm-pagination-btn:hover:not(:disabled) {
@@ -862,9 +870,16 @@
   transform: translateY(-2px);
 }
 
+.dm-pagination-btn:active:not(:disabled) {
+  background: var(--color-accent);
+  color: var(--color-white);
+  transform: scale(0.98);
+}
+
 .dm-pagination-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* ===========================
@@ -1261,7 +1276,7 @@
   .dm-archive-icon-btn {
     width: 36px;
     height: 36px;
-    margin: -8px;
+    margin-right: -2px ;
     border-radius: 8px;
   }
 
@@ -1269,8 +1284,6 @@
     width: 18px;
     height: 18px;
   }
-
-  /* Archive Modal - Extra Small Mobile */
   .dm-archive-modal {
     width: 98vw;
     height: 92vh;
