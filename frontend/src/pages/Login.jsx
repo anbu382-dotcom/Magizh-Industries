@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Package, BarChart3, Shield, Users } from 'lucide-react';
 import DatePicker from '../components/datepicker';
 import Loader from '../components/loader';
-import { StatusMessage } from '../components/popup';
+import Popup, { StatusMessage } from '../components/popup';
 import '../styles/pageStyles/login.css';
 
 const AuthPage = () => {
@@ -28,6 +28,8 @@ const AuthPage = () => {
   const [canResendOtp, setCanResendOtp] = useState(false);
   const [forgotPasswordError, setForgotPasswordError] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
+  const [showRejectedPopup, setShowRejectedPopup] = useState(false);
+  const [rejectedMessage, setRejectedMessage] = useState('');
 
   const features = [
     {
@@ -387,7 +389,8 @@ const AuthPage = () => {
                 // Optionally switch to login view
                 setTimeout(() => setIsLogin(true), 2000);
               } else if (data.status === 'rejected') {
-                alert('Previous Request Rejected\n\n' + data.message);
+                setRejectedMessage(data.message);
+                setShowRejectedPopup(true);
               } else {
                 alert(data.message || 'Failed to send registration request. Please try again.');
               }
@@ -411,6 +414,16 @@ const AuthPage = () => {
     <>
       {isLoading && <Loader />}
       {statusMessage && <StatusMessage message={statusMessage} />}
+      <Popup
+        isOpen={showRejectedPopup}
+        onClose={() => setShowRejectedPopup(false)}
+        onConfirm={() => setShowRejectedPopup(false)}
+        title="Previous Request Rejected"
+        message={rejectedMessage || "Your previous registration request was rejected by admin."}
+        type="danger"
+        confirmText="OK"
+        cancelText=""
+      />
       <div className="auth-container">
         {/* Left Content Section */}
         <div className="content-section">

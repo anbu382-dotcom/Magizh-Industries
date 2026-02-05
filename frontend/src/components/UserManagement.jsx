@@ -240,8 +240,6 @@ const UserManagement = () => {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to reject request');
       }
-
-      alert('Request rejected successfully!');
       setRejectLoading(false);
       closeRejectPopup();
       fetchRequests();

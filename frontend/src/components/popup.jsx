@@ -46,12 +46,14 @@ const Popup = ({
         </div>
 
         <div className="popup-actions">
-          <button
-            className="popup-btn popup-btn-cancel"
-            onClick={onClose}
-          >
-            {cancelText}
-          </button>
+          {cancelText && (
+            <button
+              className="popup-btn popup-btn-cancel"
+              onClick={onClose}
+            >
+              {cancelText}
+            </button>
+          )}
           <button
             className={`popup-btn popup-btn-confirm ${type}`}
             onClick={onConfirm}

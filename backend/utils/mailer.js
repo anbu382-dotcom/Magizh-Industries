@@ -11,17 +11,39 @@ const createTransporter = () => {
     }
   };
 
-  // Use custom SMTP settings for Zoho 
+  // Use custom SMTP settings for Zoho or other services
   if (process.env.EMAIL_HOST) {
     config.host = process.env.EMAIL_HOST;
     config.port = parseInt(process.env.EMAIL_PORT || '465');
     config.secure = process.env.EMAIL_SECURE === 'true';
+    
+    // Add authentication and TLS configuration for better compatibility
+    config.requireTLS = true;
+    config.tls = {
+      rejectUnauthorized: true,
+      minVersion: 'TLSv1.2'
+    };
+    
+    // Add debug logging
+    config.logger = false;
+    config.debug = false;
   } else {
     // Fallback to service name (gmail, etc.)
     config.service = process.env.EMAIL_SERVICE || 'gmail';
   }
 
-  return nodemailer.createTransport(config);
+  const transporter = nodemailer.createTransport(config);
+  
+  // Verify connection configuration
+  transporter.verify(function(error, success) {
+    if (error) {
+      console.error('SMTP Connection Error:', error);
+    } else {
+      console.log('SMTP Server is ready to send emails');
+    }
+  });
+
+  return transporter;
 };
 
 // Send email notification to admin when new registration request is submitted
