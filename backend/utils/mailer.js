@@ -89,18 +89,20 @@ const sendEmailToAdmin = async ({ requestId, firstName, lastName, email }) => {
     const transporter = createTransporter();
     const adminEmail = process.env.ADMIN_EMAIL;
 
-    // Get current date and time
+    // Get current date and time in Indian Standard Time (IST)
     const now = new Date();
-    const requestDate = now.toLocaleDateString('en-US', {
+    const requestDate = now.toLocaleDateString('en-IN', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
+      timeZone: 'Asia/Kolkata'
     });
-    const requestTime = now.toLocaleTimeString('en-US', {
+    const requestTime = now.toLocaleTimeString('en-IN', {
       hour: '2-digit',
       minute: '2-digit',
-      hour12: true
+      hour12: true,
+      timeZone: 'Asia/Kolkata'
     });
 
     const mailOptions = {
