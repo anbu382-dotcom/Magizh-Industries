@@ -13,6 +13,8 @@ const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState(false);
+  const [userIdError, setUserIdError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [activeFeature, setActiveFeature] = useState(0);
   
   // Forgot Password States
@@ -30,6 +32,12 @@ const AuthPage = () => {
   const [statusMessage, setStatusMessage] = useState('');
   const [showRejectedPopup, setShowRejectedPopup] = useState(false);
   const [rejectedMessage, setRejectedMessage] = useState('');
+  const [showAlreadyRequestedPopup, setShowAlreadyRequestedPopup] = useState(false);
+  const [alreadyRequestedMessage, setAlreadyRequestedMessage] = useState('');
+  const [showAlreadyExistsPopup, setShowAlreadyExistsPopup] = useState(false);
+  const [alreadyExistsMessage, setAlreadyExistsMessage] = useState('');
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const features = [
     {
@@ -99,14 +107,19 @@ const AuthPage = () => {
 
   // Handlers
   const handleLoginChange = (e) => {
-    setLoginData({...loginData, [e.target.name]: e.target.value});
+    const { name, value } = e.target;
+    setLoginData({...loginData, [name]: value});
     if (loginError) setLoginError(false);
+    if (name === 'userId') setUserIdError('');
+    if (name === 'password') setPasswordError('');
   };
   const handleRegChange = (e) => setRegData({...regData, [e.target.name]: e.target.value});
 
   const handleToggleMode = () => {
     setIsLogin(!isLogin);
     setLoginError(false);
+    setUserIdError('');
+    setPasswordError('');
     setShowForgotPassword(false);
     setForgotPasswordStep(1);
     setForgotEmail('');
@@ -325,6 +338,24 @@ const AuthPage = () => {
             setTimeout(() => {
               setIsLoading(false);
               setLoginError(true);
+              
+              // Determine error type from message
+              const errorMsg = (data.message || '').toLowerCase();
+              if (errorMsg.includes('user') && errorMsg.includes('not found')) {
+                setUserIdError('Invalid User ID');
+              } else if (errorMsg.includes('password') || errorMsg.includes('incorrect')) {
+                setPasswordError('Invalid Password');
+              } else {
+                // Default: show error on both fields
+                setUserIdError('Invalid User ID');
+                setPasswordError('Invalid Password');
+              }
+              
+              // Auto-clear errors after 2 seconds
+              setTimeout(() => {
+                setUserIdError('');
+                setPasswordError('');
+              }, 2000);
             }, remainingTime);
           }
         } catch (error) {
@@ -335,7 +366,15 @@ const AuthPage = () => {
           setTimeout(() => {
             setIsLoading(false);
             setLoginError(true);
+            setUserIdError('Invalid User ID');
+            setPasswordError('Invalid Password');
             console.error('Login error:', error);
+            
+            // Auto-clear errors after 2 seconds
+            setTimeout(() => {
+              setUserIdError('');
+              setPasswordError('');
+            }, 2000);
           }, remainingTime);
         }
     } else {
@@ -383,16 +422,17 @@ const AuthPage = () => {
 
               // Handle specific error cases
               if (data.status === 'already_requested') {
-                alert(' Request Already Submitted\n\n' + data.message);
+                setAlreadyRequestedMessage(data.message);
+                setShowAlreadyRequestedPopup(true);
               } else if (data.status === 'already_exists') {
-                alert('Account Already Exists\n\n' + data.message);
-                // Optionally switch to login view
-                setTimeout(() => setIsLogin(true), 2000);
+                setAlreadyExistsMessage(data.message);
+                setShowAlreadyExistsPopup(true);
               } else if (data.status === 'rejected') {
                 setRejectedMessage(data.message);
                 setShowRejectedPopup(true);
               } else {
-                alert(data.message || 'Failed to send registration request. Please try again.');
+                setErrorMessage(data.message || 'Failed to send registration request. Please try again.');
+                setShowErrorPopup(true);
               }
             }, remainingTime);
           }
@@ -404,7 +444,8 @@ const AuthPage = () => {
           setTimeout(() => {
             setIsLoading(false);
             console.error('Registration error:', error);
-            alert('Failed to send registration request. Please check your connection and try again.');
+            setErrorMessage('Failed to send registration request. Please check your connection and try again.');
+            setShowErrorPopup(true);
           }, remainingTime);
         }
     }
@@ -420,6 +461,42 @@ const AuthPage = () => {
         onConfirm={() => setShowRejectedPopup(false)}
         title="Previous Request Rejected"
         message={rejectedMessage || "Your previous registration request was rejected by admin."}
+        type="danger"
+        confirmText="OK"
+        cancelText=""
+      />
+      <Popup
+        isOpen={showAlreadyRequestedPopup}
+        onClose={() => setShowAlreadyRequestedPopup(false)}
+        onConfirm={() => setShowAlreadyRequestedPopup(false)}
+        title="Request Already Submitted"
+        message={alreadyRequestedMessage || "Your registration request is already pending approval."}
+        type="warning"
+        confirmText="OK"
+        cancelText=""
+      />
+      <Popup
+        isOpen={showAlreadyExistsPopup}
+        onClose={() => {
+          setShowAlreadyExistsPopup(false);
+          setTimeout(() => setIsLogin(true), 500);
+        }}
+        onConfirm={() => {
+          setShowAlreadyExistsPopup(false);
+          setTimeout(() => setIsLogin(true), 500);
+        }}
+        title="Account Already Exists"
+        message={alreadyExistsMessage || "An account with this email already exists. Please login."}
+        type="info"
+        confirmText="Go to Login"
+        cancelText=""
+      />
+      <Popup
+        isOpen={showErrorPopup}
+        onClose={() => setShowErrorPopup(false)}
+        onConfirm={() => setShowErrorPopup(false)}
+        title="Registration Error"
+        message={errorMessage}
         type="danger"
         confirmText="OK"
         cancelText=""
@@ -599,7 +676,10 @@ const AuthPage = () => {
                 // --- LOGIN FIELDS ---
                 <>
                   <div className="input-group">
-                    <label htmlFor="userId">User ID <span className="required">*</span></label>
+                    <label htmlFor="userId">
+                      User ID <span className="required">*</span>
+                      {userIdError && <span style={{ color: '#ef4444', fontSize: '13px', marginLeft: '8px', fontWeight: '500' }}>{userIdError}</span>}
+                    </label>
                     <input
                       type="text"
                       id="userId"
@@ -607,13 +687,16 @@ const AuthPage = () => {
                       placeholder="Enter your employee ID"
                       value={loginData.userId}
                       onChange={handleLoginChange}
-                      className={loginError ? 'input-error' : ''}
+                      className={userIdError ? 'input-error' : ''}
                       required
                     />
                   </div>
 
                   <div className="input-group password-group">
-                    <label htmlFor="password">Password <span className="required">*</span></label>
+                    <label htmlFor="password">
+                      Password <span className="required">*</span>
+                      {passwordError && <span style={{ color: '#ef4444', fontSize: '13px', marginLeft: '8px', fontWeight: '500' }}>{passwordError}</span>}
+                    </label>
                     <div className="password-input-wrapper">
                       <input
                         type={showPassword ? 'text' : 'password'}
@@ -622,7 +705,7 @@ const AuthPage = () => {
                         placeholder="••••••••••••"
                         value={loginData.password}
                         onChange={handleLoginChange}
-                        className={loginError ? 'input-error' : ''}
+                        className={passwordError ? 'input-error' : ''}
                         required
                       />
                       <button

@@ -32,22 +32,25 @@ env:
     value: /api
   - variable: EMAIL_SERVICE
     availability: [RUNTIME]
-    value: gmail
+    value: zoho
   - variable: EMAIL_HOST
     availability: [RUNTIME]
-    value: smtp.zoho.com
+    value: smtp.zoho.in
   - variable: EMAIL_PORT
     availability: [RUNTIME]
     value: "465"
   - variable: EMAIL_SECURE
     availability: [RUNTIME]
     value: "true"
+  - variable: OTP_VALID_TIME
+    availability: [RUNTIME]
+    value: "300"
+  - variable: OTP_RESEND_TIME
+    availability: [RUNTIME]
+    value: "60"
   - variable: CORS_ORIGIN
     availability: [RUNTIME]
     value: https://magizh-industries0802--magizh-industries-cbe.us-east4.hosted.app
-  - variable: ADMIN_EMAIL
-    availability: [RUNTIME]
-    value: arul@magizhindustries.in
   - variable: OTP_VALID_TIME
     availability: [RUNTIME]
     value: "70"

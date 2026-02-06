@@ -217,6 +217,13 @@ const sendOtpEmail = async ({ email, firstName, otp }) => {
     }
 
     const transporter = createTransporter();
+    
+    // Get OTP validity time from environment (in seconds, default 120s = 2 minutes)
+    const otpValiditySeconds = parseInt(process.env.OTP_VALID_TIME);
+    const otpValidityMinutes = Math.floor(otpValiditySeconds / 60);
+    const otpValidityText = otpValidityMinutes >= 1 
+      ? `${otpValidityMinutes} minute${otpValidityMinutes > 1 ? 's' : ''}`
+      : `${otpValiditySeconds} seconds`;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -227,7 +234,6 @@ const sendOtpEmail = async ({ email, firstName, otp }) => {
           <!-- Header -->
           <div style="background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
             <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Magizh Industries</h1>
-            <p style="color: rgba(255, 255, 255, 0.9); margin: 10px 0 0 0; font-size: 14px;">Employee Management System</p>
           </div>
 
           <!-- Content -->
@@ -239,14 +245,14 @@ const sendOtpEmail = async ({ email, firstName, otp }) => {
             </p>
 
             <!-- OTP Card -->
-            <div style="background-color: #ffffff; padding: 30px; border-radius: 8px; border-left: 4px solid #f59e0b; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 25px; text-align: center;">
-              <h3 style="color: #1e3a5f; margin: 0 0 20px 0; font-size: 18px;">Your OTP Code</h3>
+            <div style="background: linear-gradient(135deg, #2c5282 0%, #1e3a5f 100%); padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 25px; text-align: center;">
+              <p style="color: rgba(255, 255, 255, 0.9); margin: 0 0 15px 0; font-size: 14px;">Your verification code is</p>
               
-              <div style="background-color: #fef3c7; padding: 20px; border-radius: 8px;">
-                <div style="font-size: 36px; font-weight: 700; letter-spacing: 8px; color: #1e3a5f; font-family: 'Courier New', monospace;">
-                  ${otp}
-                </div>
+              <div style="margin: 20px 0;">
+                <span style="color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: 8px; font-family: 'Courier New', monospace;">${otp}</span>
               </div>
+              
+              <p style="color: rgba(255, 255, 255, 0.8); margin: 15px 0 0 0; font-size: 13px;">Valid for ${otpValidityText}</p>
             </div>
           </div>
         </div>
