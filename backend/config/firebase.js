@@ -3,8 +3,6 @@ const path = require('path');
 const fs = require('fs');
 const logger = require('../utils/logger');
 require('dotenv').config();
-
-// Detect environment
 const isAppHosting = process.env.K_SERVICE !== undefined || process.env.FIREBASE_CONFIG !== undefined;
 
 // Initialize Firebase Admin

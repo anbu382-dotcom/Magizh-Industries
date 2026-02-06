@@ -42,21 +42,17 @@ env:
   - variable: EMAIL_SECURE
     availability: [RUNTIME]
     value: "true"
-  - variable: OTP_VALID_TIME
-    availability: [RUNTIME]
-    value: "300"
-  - variable: OTP_RESEND_TIME
-    availability: [RUNTIME]
-    value: "60"
+  - variable: ADMIN_EMAIL
+    secret: projects/773055492466/secrets/ADMIN_EMAIL
   - variable: CORS_ORIGIN
     availability: [RUNTIME]
     value: https://magizh-industries0802--magizh-industries-cbe.us-east4.hosted.app
   - variable: OTP_VALID_TIME
     availability: [RUNTIME]
-    value: "70"
+    value: "120"
   - variable: OTP_RESEND_TIME
     availability: [RUNTIME]
-    value: "70"
+    value: "120"
 
   # Environment variables (sensitive)
   - variable: JWT_SECRET
@@ -64,6 +60,6 @@ env:
   - variable: EMAIL_USER
     secret: projects/773055492466/secrets/EMAIL_USER
   - variable: EMAIL_PASSWORD
-    secret: projects/773055492466/secrets/EMAIL_PASSWORD
+    secret: projects/773055492466/secrets/EMAIL_PASSWORD/versions/2
   - variable: FIREBASE_API_KEY
     secret: projects/773055492466/secrets/FIREBASE_API_KEY
