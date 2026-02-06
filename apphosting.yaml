@@ -35,7 +35,7 @@ env:
     value: zoho
   - variable: EMAIL_HOST
     availability: [RUNTIME]
-    value: smtp.zoho.in
+    value: smtppro.zoho.in
   - variable: EMAIL_PORT
     availability: [RUNTIME]
     value: "465"
@@ -58,6 +58,6 @@ env:
   - variable: EMAIL_USER
     secret: projects/773055492466/secrets/EMAIL_USER
   - variable: EMAIL_PASSWORD
-    secret: projects/773055492466/secrets/EMAIL_PASSWORD/versions/2
+    secret: projects/773055492466/secrets/EMAIL_PASSWORD
   - variable: FIREBASE_API_KEY
     secret: projects/773055492466/secrets/FIREBASE_API_KEY

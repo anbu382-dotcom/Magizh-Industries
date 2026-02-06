@@ -4,6 +4,16 @@ require('dotenv').config();
 
 // Create transporter for sending emails
 const createTransporter = () => {
+  // Log environment check (mask password)
+  console.log('Email Configuration Check:', {
+    EMAIL_USER: process.env.EMAIL_USER ? `${process.env.EMAIL_USER.substring(0, 3)}***` : 'NOT SET',
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD ? '***SET***' : 'NOT SET',
+    EMAIL_HOST: process.env.EMAIL_HOST || 'NOT SET',
+    EMAIL_PORT: process.env.EMAIL_PORT || 'NOT SET',
+    EMAIL_SECURE: process.env.EMAIL_SECURE || 'NOT SET',
+    NODE_ENV: process.env.NODE_ENV
+  });
+
   const config = {
     auth: {
       user: process.env.EMAIL_USER,
@@ -24,20 +34,32 @@ const createTransporter = () => {
       minVersion: 'TLSv1.2'
     };
     
-    // Add debug logging
-    config.logger = false;
-    config.debug = false;
+    // Enable debug logging in production to diagnose issues
+    config.logger = process.env.NODE_ENV === 'production';
+    config.debug = process.env.NODE_ENV === 'production';
   } else {
     // Fallback to service name (gmail, etc.)
     config.service = process.env.EMAIL_SERVICE || 'gmail';
   }
+
+  console.log('Creating SMTP transporter with config:', {
+    host: config.host,
+    port: config.port,
+    secure: config.secure,
+    user: config.auth.user
+  });
 
   const transporter = nodemailer.createTransport(config);
   
   // Verify connection configuration
   transporter.verify(function(error, success) {
     if (error) {
-      console.error('SMTP Connection Error:', error);
+      console.error('SMTP Connection Error Details:', {
+        message: error.message,
+        code: error.code,
+        command: error.command,
+        stack: error.stack
+      });
     } else {
       console.log('SMTP Server is ready to send emails');
     }
@@ -135,7 +157,14 @@ const sendEmailToAdmin = async ({ requestId, firstName, lastName, email }) => {
     console.log('Admin notification email sent successfully');
 
   } catch (error) {
-    console.error('Failed to send admin email:', error.message);
+    console.error('Failed to send admin email - Detailed Error:', {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response,
+      responseCode: error.responseCode,
+      stack: error.stack
+    });
     throw error;
   }
 };
@@ -202,7 +231,14 @@ const sendCredentialsEmail = async ({ email, firstName, userId, password }) => {
     console.log('Credentials email sent successfully to:', email);
 
   } catch (error) {
-    console.error('Failed to send credentials email:', error.message);
+    console.error('Failed to send credentials email - Detailed Error:', {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response,
+      responseCode: error.responseCode,
+      stack: error.stack
+    });
     throw error;
   }
 };
@@ -263,7 +299,14 @@ const sendOtpEmail = async ({ email, firstName, otp }) => {
     console.log('OTP email sent successfully to:', email);
 
   } catch (error) {
-    console.error('Failed to send OTP email:', error.message);
+    console.error('Failed to send OTP email - Detailed Error:', {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response,
+      responseCode: error.responseCode,
+      stack: error.stack
+    });
     throw error;
   }
 };
