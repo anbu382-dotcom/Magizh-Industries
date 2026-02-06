@@ -27,12 +27,16 @@ const createTransporter = () => {
     config.port = parseInt(process.env.EMAIL_PORT || '465');
     config.secure = process.env.EMAIL_SECURE === 'true';
     
-    // Add authentication and TLS configuration for better compatibility
-    config.requireTLS = true;
+    // Simplified TLS configuration for better Zoho compatibility
     config.tls = {
-      rejectUnauthorized: true,
-      minVersion: 'TLSv1.2'
+      ciphers: 'SSLv3',
+      rejectUnauthorized: false  // Allow self-signed certificates in production
     };
+    
+    // Connection timeout settings
+    config.connectionTimeout = 10000; // 10 seconds
+    config.greetingTimeout = 5000; // 5 seconds
+    config.socketTimeout = 10000; // 10 seconds
     
     // Enable debug logging in production to diagnose issues
     config.logger = process.env.NODE_ENV === 'production';
@@ -73,7 +77,12 @@ const sendEmailToAdmin = async ({ requestId, firstName, lastName, email }) => {
   try {
     // Skip if email is not configured
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-      console.log('Email not configured. Skipping email notification.');
+      console.error('Email credentials not configured. EMAIL_USER and EMAIL_PASSWORD must be set.');
+      return;
+    }
+
+    if (!process.env.ADMIN_EMAIL) {
+      console.error('ADMIN_EMAIL not configured. Cannot send notification - no recipient address.');
       return;
     }
 
