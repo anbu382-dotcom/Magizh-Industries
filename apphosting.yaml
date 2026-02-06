@@ -44,7 +44,7 @@ env:
     value: "true"
   - variable: CORS_ORIGIN
     availability: [RUNTIME]
-    value: https://www.magizhindustries.in
+    value: https://magizh-devsystem0802--magizh-industries-cbe.us-east4.hosted.app
   - variable: ADMIN_EMAIL
     availability: [RUNTIME]
     value: arul@magizhindustries.in
