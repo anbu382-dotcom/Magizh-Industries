@@ -42,8 +42,6 @@ env:
   - variable: EMAIL_SECURE
     availability: [RUNTIME]
     value: "true"
-  - variable: ADMIN_EMAIL
-    secret: projects/773055492466/secrets/ADMIN_EMAIL
   - variable: CORS_ORIGIN
     availability: [RUNTIME]
     value: https://magizh-industries0802--magizh-industries-cbe.us-east4.hosted.app
