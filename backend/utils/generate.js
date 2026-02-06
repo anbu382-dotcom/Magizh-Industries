@@ -5,9 +5,9 @@ const generateCredentials = (firstName, lastName, fatherName, dob) => {
     const dadName = fatherName ? fatherName.toString() : "";
     
     // --- 1. Generate User ID ---
-    // Logic: First 4 chars of Firstname + First 1 char of Lastname (All Small)
-    const part1 = fName.trim().substring(0, 4).toLowerCase();
-    const part2 = lName.trim().substring(0, 1).toLowerCase();
+    // Logic: First 1 char of Fathername + Firstname (All Small)
+    const part1 = dadName.trim().substring(0, 1).toLowerCase();
+    const part2 = fName.trim().toLowerCase();
     const generatedUserId = `${part1}${part2}`;
 
     // --- 2. Generate Password ---
