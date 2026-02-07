@@ -1,4 +1,4 @@
-import { X, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { X, AlertTriangle, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react';
 import '../styles/componentStyles/popup.css';
 // Delete Master popup component
 const Popup = ({
@@ -82,5 +82,51 @@ const StatusMessage = ({ message }) => {
   );
 };
 
-export { StatusMessage };
+// Reusable Pagination component
+const Pagination = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  className = ''
+}) => {
+  if (totalPages <= 1) return null;
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  return (
+    <div className={`popup-pagination ${className}`}>
+      <button
+        className="popup-pagination-btn"
+        onClick={handlePrevious}
+        disabled={currentPage === 1}
+        aria-label="Previous page"
+      >
+        <ChevronLeft size={18} />
+      </button>
+      <span className="popup-pagination-info">
+        Page {currentPage} of {totalPages}
+      </span>
+      <button
+        className="popup-pagination-btn"
+        onClick={handleNext}
+        disabled={currentPage === totalPages}
+        aria-label="Next page"
+      >
+        <ChevronRight size={18} />
+      </button>
+    </div>
+  );
+};
+
+export { StatusMessage, Pagination };
 export default Popup;

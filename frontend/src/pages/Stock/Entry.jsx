@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
+import { Pagination } from '../../components/popup';
 import '../../styles/pageStyles/Stock/Entry.css';
 import { useNavigate } from 'react-router-dom';
-import { IndianRupee, ChevronLeft, ChevronRight } from 'lucide-react';
+import { IndianRupee } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -150,26 +151,12 @@ const Entry = () => {
                   ))}
                 </div>
 
-                {totalPages > 1 && (
-                  <div className="en-pagination">
-                    <button
-                      className="en-pagination-btn"
-                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                      disabled={currentPage === 1}
-                    >
-                      <ChevronLeft size={18} />
-                      Previous
-                    </button>
-                    <button
-                      className="en-pagination-btn"
-                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                      disabled={currentPage === totalPages}
-                    >
-                      Next
-                      <ChevronRight size={18} />
-                    </button>
-                  </div>
-                )}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                  className="en-pagination"
+                />
               </>
             )}
           </div>

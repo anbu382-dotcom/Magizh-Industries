@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
-import { StatusMessage } from '../../components/popup';
+import { StatusMessage, Pagination } from '../../components/popup';
 import '../../styles/pageStyles/Stock/DeleteMaster.css';
 import { useNavigate } from 'react-router-dom';
-import { Archive, IndianRupee, Warehouse, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Archive, IndianRupee, Warehouse } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -224,26 +224,12 @@ const DeleteMaster = () => {
                   ))}
                 </div>
 
-                {totalPages > 1 && (
-                  <div className="dm-pagination">
-                    <button
-                      className="dm-pagination-btn"
-                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                      disabled={currentPage === 1}
-                    >
-                      <ChevronLeft size={18} />
-                      Previous
-                    </button>
-                    <button
-                      className="dm-pagination-btn"
-                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                      disabled={currentPage === totalPages}
-                    >
-                      Next
-                      <ChevronRight size={18} />
-                    </button>
-                  </div>
-                )}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                  className="dm-pagination"
+                />
               </>
             )}
           </div>

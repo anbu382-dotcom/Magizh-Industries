@@ -421,3 +421,116 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
+
+/* ===========================
+   PAGINATION STYLES
+   =========================== */
+
+.popup-pagination {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.25rem 0 0.125rem 0;
+  position: relative;
+  z-index: 10;
+}
+
+.popup-pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  min-height: 36px;
+  min-width: 36px;
+  background: var(--color-white, white);
+  border: 2px solid rgba(91, 123, 154, 0.2);
+  border-radius: 8px;
+  color: var(--color-accent, #5B7B9A);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.popup-pagination-btn:hover:not(:disabled) {
+  background: var(--color-accent, #5B7B9A);
+  color: var(--color-white, white);
+  border-color: var(--color-accent, #5B7B9A);
+  transform: translateY(-2px);
+}
+
+.popup-pagination-btn:active:not(:disabled) {
+  background: var(--color-accent, #5B7B9A);
+  color: var(--color-white, white);
+  transform: scale(0.98);
+}
+
+.popup-pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.popup-pagination-info {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  white-space: nowrap;
+  padding: 0 0.5rem;
+}
+
+/* Responsive adjustments for pagination */
+@media (max-width: 768px) and (min-width: 430px) {
+  .popup-pagination {
+    gap: 0.5rem;
+    padding: 0.125rem 0 0.0625rem 0;
+  }
+
+  .popup-pagination-btn {
+    padding: 6px;
+    min-height: 32px;
+    min-width: 32px;
+  }
+
+  .popup-pagination-info {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 429px) and (min-width: 375px) {
+  .popup-pagination {
+    gap: 0.4rem;
+    padding: 0.0625rem 0 0.0625rem 0;
+  }
+
+  .popup-pagination-btn {
+    padding: 5px;
+    min-height: 28px;
+    min-width: 28px;
+  }
+
+  .popup-pagination-info {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 374px) {
+  .popup-pagination {
+    gap: 0.375rem;
+    padding: 0.0625rem 0 0.0625rem 0;
+  }
+
+  .popup-pagination-btn {
+    padding: 4px;
+    min-height: 26px;
+    min-width: 26px;
+  }
+
+  .popup-pagination-info {
+    font-size: 10px;
+  }
+}

@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import DownloadPopup from '../../components/DownloadPopup';
-import { StatusMessage } from '../../components/popup';
+import { StatusMessage, Pagination } from '../../components/popup';
 import '../../styles/pageStyles/Stock/FinalData.css';
-import { Database, Search, TrendingUp, TrendingDown, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Database, Search, TrendingUp, TrendingDown, Download } from 'lucide-react';
 import { Dropdown } from 'rsuite';
 
 const ITEMS_PER_PAGE = 10;
@@ -280,31 +280,12 @@ const FinalData = () => {
                   </table>
                 </div>
 
-                {filteredBalances.length > ITEMS_PER_PAGE && (
-                  <div className="final-pagination">
-                    <button
-                      className="final-pagination-btn"
-                      onClick={() => setCurrentPage(prev => prev - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      <ChevronLeft size={18} />
-                      Previous
-                    </button>
-                    
-                    <div className="final-page-info">
-                      Page {currentPage} of {totalPages}
-                    </div>
-                    
-                    <button
-                      className="final-pagination-btn"
-                      onClick={() => setCurrentPage(prev => prev + 1)}
-                      disabled={currentPage === totalPages}
-                    >
-                      Next
-                      <ChevronRight size={18} />
-                    </button>
-                  </div>
-                )}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                  className="final-pagination"
+                />
               </>
             )}
           </div>

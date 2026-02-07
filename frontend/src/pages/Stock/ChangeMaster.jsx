@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
-import { StatusMessage } from '../../components/popup';
+import { StatusMessage, Pagination } from '../../components/popup';
 import '../../styles/pageStyles/Stock/ChangeMaster.css';
-import { IndianRupee, ChevronLeft, ChevronRight } from 'lucide-react';
+import { IndianRupee } from 'lucide-react';
 import { Dropdown } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 
@@ -391,26 +391,12 @@ const ChangeMaster = () => {
                   ))}
                 </div>
 
-                {totalPages > 1 && (
-                  <div className="cm-pagination">
-                    <button
-                      className="cm-pagination-btn"
-                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                      disabled={currentPage === 1}
-                    >
-                      <ChevronLeft size={18} />
-                      Previous
-                    </button>
-                    <button
-                      className="cm-pagination-btn"
-                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                      disabled={currentPage === totalPages}
-                    >
-                      Next
-                      <ChevronRight size={18} />
-                    </button>
-                  </div>
-                )}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                  className="cm-pagination"
+                />
               </>
             )}
           </div>

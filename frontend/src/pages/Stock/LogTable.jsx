@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Navbar from '../../components/Navbar';
 import DownloadPopup from '../../components/DownloadPopup';
-import { StatusMessage } from '../../components/popup';
+import { StatusMessage, Pagination } from '../../components/popup';
 import '../../styles/pageStyles/Stock/Logtable.css';
-import { Database, TrendingUp, TrendingDown, Search, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Database, TrendingUp, TrendingDown, Search, Download } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 15;
 
@@ -268,30 +268,12 @@ const LogTable = () => {
               </table>
             </div>
 
-            {/* Pagination Controls */}
-            {totalPages > 1 && (
-              <div className="log-pagination">
-                <button
-                  className="log-pagination-btn"
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                >
-                  <ChevronLeft size={18} />
-                  Previous
-                </button>
-                <span className="log-page-info">
-                  Page {currentPage} of {totalPages}
-                </span>
-                <button
-                  className="log-pagination-btn"
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                  disabled={currentPage === totalPages}
-                >
-                  Next
-                  <ChevronRight size={18} />
-                </button>
-              </div>
-            )}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              className="log-pagination"
+            />
           </div>
         )}
         </div>

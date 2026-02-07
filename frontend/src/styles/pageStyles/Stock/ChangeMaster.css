@@ -132,8 +132,8 @@
 }
 
 .cm-tab-active {
-  background: var(--color-accent);
-  color: var(--color-white);
+  background: var(--color-accent) !important;
+  color: var(--color-white) !important;
   box-shadow: 0 4px 12px rgba(91, 123, 154, 0.3);
 }
 
